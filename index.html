@@ -2461,6 +2461,37 @@
         </div>
 
         <div class="planner-field">
+          <label class="planner-label">Team experience level</label>
+          <p class="planner-sublabel">This shapes how meetings are structured and how independently students are expected to work.</p>
+          <div class="popt-row" id="opt-experience">
+            <button class="popt active" data-val="beginner" onclick="setExperience(this,'beginner')">Beginner</button>
+            <button class="popt" data-val="intermediate" onclick="setExperience(this,'intermediate')">Intermediate</button>
+            <button class="popt" data-val="experienced" onclick="setExperience(this,'experienced')">Experienced</button>
+          </div>
+          <div id="exp-desc" style="font-size:.8rem;color:var(--text-muted);margin-top:.4rem;line-height:1.55">
+            <span id="exp-desc-beginner">Whole-group tasks, step-by-step guidance, one focus at a time.</span>
+            <span id="exp-desc-intermediate" style="display:none">Some parallel work and sub-group splits. Students take more ownership each meeting.</span>
+            <span id="exp-desc-experienced" style="display:none">Heavy multitasking. Students run parallel workstreams largely on their own. Experts lead small groups so others learn from them.</span>
+          </div>
+        </div>
+
+        <div class="planner-field">
+          <label class="planner-label">How many mentors does your team have?</label>
+          <p class="planner-sublabel">Mentors are adults who help guide the team. Having multiple mentors enables parallel workstreams even for beginner teams.</p>
+          <div class="popt-row" id="opt-mentorcount">
+            <button class="popt active" data-val="0" onclick="setMentorCount(this,0)">0</button>
+            <button class="popt" data-val="1" onclick="setMentorCount(this,1)">1</button>
+            <button class="popt" data-val="2" onclick="setMentorCount(this,2)">2</button>
+            <button class="popt" data-val="3" onclick="setMentorCount(this,3)">3</button>
+            <button class="popt" data-val="4" onclick="setMentorCount(this,4)">4+</button>
+          </div>
+          <div id="mentor-details-section" style="display:none;margin-top:.75rem">
+            <div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.6rem">Add details about each mentor so the curriculum can assign them to specific workstreams.</div>
+            <div id="mentor-cards-grid" style="display:flex;flex-direction:column;gap:.65rem"></div>
+          </div>
+        </div>
+
+        <div class="planner-field">
           <div class="toggle-row">
             <div>
               <label class="planner-label" style="margin-bottom:0">Add individual student info</label>
@@ -2568,7 +2599,8 @@
 
   /* ── SEASON PLANNER ── */
 
-  const plannerState = { perweek: 1, hours: 1.5, teamsize: 4 };
+  const plannerState = { perweek: 1, hours: 1.5, teamsize: 4, experience: 'beginner', mentorCount: 0 };
+  let mentorData = []; // [{ name, area, availability }]
   const teamGoals = new Set();
 
   // ── MEMBER DATA ──
@@ -2594,7 +2626,7 @@
   };
   const memberData = [];
 
-  function makeMember() { return { name:'', exp:{robot:'new',project:'new',cv:'new'}, skills:new Set(), grade:6 }; }
+  function makeMember() { return { name:'', exp:{robot:'new',project:'new',cv:'new'}, skills:new Set(), grade:6, attendance:'always' }; }
 
   function ensureMemberData(n) {
     while (memberData.length < n) memberData.push(makeMember());
@@ -2648,6 +2680,16 @@
         + '<div class="member-exp-row">' + expRows + '</div>'
         + '<div class="member-section-lbl">Skills to build</div>'
         + '<div class="member-skills-row">' + chips + '</div>'
+        + '<div class="member-section-lbl" style="margin-top:.6rem">Attendance</div>'
+        + '<div style="display:flex;gap:.4rem;flex-wrap:wrap">'
+        + ['always','most','occasional'].map((v,vi) => {
+            const lbl = ['Every meeting','Most meetings','Occasional'][vi];
+            const active = d.attendance === v;
+            const bg = active ? (v==='always' ? 'var(--teal)' : v==='most' ? 'var(--blue)' : 'var(--gold)') : 'var(--bg-mid)';
+            const col = active ? (v==='always' ? '#000' : '#fff') : 'var(--text-muted)';
+            return '<button style="font-size:.75rem;padding:.25rem .7rem;border-radius:20px;border:1px solid var(--border);background:'+bg+';color:'+col+';cursor:pointer;font-family:inherit;font-weight:700" data-mi="'+i+'" data-av="'+v+'" onclick="setAttendance(this)">'+lbl+'</button>';
+          }).join('')
+        + '</div>'
         + '</div></div>';
     }
   }
@@ -2813,29 +2855,253 @@
       });
     }
 
-    // Render
-    const rows = slots.map((slot, i) => {
-      if (!slot) return '';
-      const name = getMemberName(i);
-      const bgColor = slot.area === 'robot'
-        ? 'rgba(59,158,255,.13)' : slot.area === 'project'
-        ? 'rgba(0,212,180,.11)' : 'rgba(167,139,250,.12)';
-      const taskText = slot.tasks.slice(0, 2).join(' / ');
-      return '<div class="student-row">'
-        + '<span class="student-name" title="' + name + '">' + name + '</span>'
-        + '<span class="student-role-badge" style="background:' + bgColor + ';color:' + slot.color + '">' + slot.role + '</span>'
-        + '<span class="student-task-text">' + taskText + '</span>'
-        + '</div>';
-    }).join('');
+    // Render - experience-aware layout
+    const expMode = plannerState.experience || 'beginner';
 
-    const headNote = membersDetailed ? 'Who does what' : 'Suggested split (add student details above for skill-based assignments)';
+    // Classify students by attendance reliability
+    const coreStudents   = [];  // always
+    const likelyStudents = [];  // most
+    const spotStudents   = [];  // occasional
+    for (let i = 0; i < n; i++) {
+      const att = (memberData[i] && memberData[i].attendance) || 'always';
+      if (att === 'always') coreStudents.push(i);
+      else if (att === 'most') likelyStudents.push(i);
+      else spotStudents.push(i);
+    }
+    const hasVariableAttendance = likelyStudents.length > 0 || spotStudents.length > 0;
+    // Force parallel streams for large teams or multiple mentors
+    const mentorCount = plannerState.mentorCount || 0;
+    const forceParallel = mentorCount > 1 || n >= 7;
+    const effectiveMode = (forceParallel && expMode === 'beginner') ? 'intermediate' : expMode;
+
+    // Helper: is this student an "expert" in their assigned area?
+    function isExpertIn(studentIdx, area) {
+      const d = memberData[studentIdx];
+      return d && d.exp && d.exp[area] === 'exp';
+    }
+
+    if (effectiveMode === 'beginner') {
+      // Simple linear list
+      const rows = slots.map((slot, i) => {
+        if (!slot) return '';
+        const name = getMemberName(i);
+        const bgColor = slot.area==='robot' ? 'rgba(59,158,255,.13)' : slot.area==='project' ? 'rgba(0,212,180,.11)' : 'rgba(167,139,250,.12)';
+        const taskText = slot.tasks.slice(0,2).join(' / ');
+        return '<div class="student-row">'
+          +'<span class="student-name">'+name+'</span>'
+          +'<span class="student-role-badge" style="background:'+bgColor+';color:'+slot.color+'">'+slot.role+'</span>'
+          +'<span class="student-task-text">'+taskText+'</span>'
+          +'</div>';
+      }).join('');
+      const headNote = membersDetailed ? 'Who does what' : 'Suggested split (add student details above for personalized assignments)';
+      let attNote = '';
+      if (hasVariableAttendance) {
+        const spotNames = spotStudents.map(i => getMemberName(i));
+        const likelyNames = likelyStudents.map(i => getMemberName(i));
+        const parts = [];
+        if (spotNames.length) parts.push('<strong style="color:var(--gold)">' + spotNames.join(', ') + '</strong> — occasional');
+        if (likelyNames.length) parts.push('<strong style="color:var(--blue)">' + likelyNames.join(', ') + '</strong> — most meetings');
+        attNote = '<div style="font-size:.76rem;color:var(--text-muted);margin-top:.4rem;padding:.4rem .6rem;background:rgba(240,192,64,.06);border-radius:var(--radius-sm);border-left:2px solid rgba(240,192,64,.3)">'
+          + 'Variable attendance: ' + parts.join(' / ')
+          + '. Core plan is built around always-present students. If extras show up, assign overflow tasks.</div>';
+      }
+      return '<div class="student-breakdown">'
+        +'<div class="student-breakdown-head">'+headNote+'</div>'
+        +rows+attNote+'</div>';
+    }
+
+    // Intermediate / Experienced: group into parallel workstreams by area
+    const streamAreas = ['robot','project','cv'];
+    const AREA_LABEL_LOCAL = { robot:'Robot Game', project:'Innovation Project', cv:'Core Values' };
+    const AREA_BG  = { robot:'rgba(59,158,255,.1)', project:'rgba(0,212,180,.09)', cv:'rgba(167,139,250,.1)' };
+    const AREA_COL = { robot:'var(--blue)', project:'var(--teal)', cv:'var(--purple,#9b7fd4)' };
+
+    // Group students by area
+    const streams = {};
+    streamAreas.forEach(a => { streams[a] = []; });
+    slots.forEach((slot, i) => { if (slot && streams[slot.area]) streams[slot.area].push({ i, slot }); });
+
+    let html = '';
+    let streamCount = 0;
+    streamAreas.forEach(area => {
+      const members = streams[area];
+      if (!members.length) return;
+      streamCount++;
+
+      // Sort: experts first, then by role priority
+      members.sort((a,b) => {
+        const aExp = isExpertIn(a.i, area) ? 0 : 1;
+        const bExp = isExpertIn(b.i, area) ? 0 : 1;
+        return aExp - bExp;
+      });
+
+      const leadIdx = members[0];
+      const isLead = isExpertIn(leadIdx.i, area);
+      const leadName = getMemberName(leadIdx.i);
+      const leadBadge = isLead ? ' <span style="font-size:.68rem;background:rgba(240,192,64,.15);color:var(--gold);padding:.1rem .45rem;border-radius:10px;font-weight:700">expert lead</span>' : '';
+      const taskText = leadIdx.slot.tasks.slice(0,2).join('; ');
+
+      let memberRows = '<div style="font-weight:700;font-size:.83rem;color:'+AREA_COL[area]+';margin-bottom:.3rem">'
+        + leadName + leadBadge + '</div>'
+        + '<div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.4rem">' + taskText + '</div>';
+
+      // Additional members in this stream (learning from lead)
+      if (members.length > 1) {
+        const learners = members.slice(1).map(m => getMemberName(m.i)).join(', ');
+        const learnerLabel = expMode==='experienced' ? 'working alongside' : 'paired with lead';
+        memberRows += '<div style="font-size:.77rem;color:var(--text-dim);font-style:italic">'+learnerLabel+': '+learners+'</div>';
+      }
+
+      html += '<div style="background:'+AREA_BG[area]+';border:1px solid rgba(128,128,128,.12);border-radius:var(--radius-sm);padding:.6rem .85rem;margin-bottom:.5rem">'
+        + '<div style="font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:'+AREA_COL[area]+';margin-bottom:.4rem">'+AREA_LABEL_LOCAL[area]+'</div>'
+        + memberRows + '</div>';
+    });
+
+    const parallelNote = effectiveMode === 'experienced'
+      ? 'These workstreams run simultaneously. Students manage their own time and check in at the end.'
+      : 'Teams split into these groups for part of the meeting, then reconvene to share.';
+
+    const headLabel = effectiveMode === 'experienced' ? 'Parallel workstreams' : 'Split focus groups';
+
+    // Mentor oversight section
+    let mentorHtml2 = '';
+    const mc = plannerState.mentorCount || 0;
+    if (mc > 0) {
+      const AREA_LABEL_M = { all:'All areas', robot:'Robot Game', project:'Innovation Project', cv:'Core Values' };
+      const AREA_COL_M   = { all:'var(--text-muted)', robot:'var(--blue)', project:'var(--teal)', cv:'var(--purple,#9b7fd4)' };
+      const presentMentors = [], occasionalMentors = [];
+      for (let mi = 0; mi < mc; mi++) {
+        const md = mentorData[mi] || { name:'', area:'all', availability:'always' };
+        const name = getMentorName(mi);
+        const areaLabel = AREA_LABEL_M[md.area] || 'All areas';
+        const areaCol   = AREA_COL_M[md.area]   || 'var(--text-muted)';
+        const badge = md.availability === 'occasional'
+          ? '<span style="font-size:.67rem;background:rgba(240,192,64,.12);color:var(--gold);padding:.1rem .45rem;border-radius:10px;font-weight:700;margin-left:.3rem">occasional</span>'
+          : md.availability === 'most'
+          ? '<span style="font-size:.67rem;background:rgba(59,158,255,.1);color:var(--blue);padding:.1rem .45rem;border-radius:10px;font-weight:700;margin-left:.3rem">most meetings</span>'
+          : '';
+        const row = '<div style="display:flex;align-items:center;gap:.5rem;padding:.3rem 0">'
+          + '<span style="font-size:.83rem;font-weight:700;color:var(--text)">'+name+'</span>'
+          + badge
+          + '<span style="font-size:.78rem;color:var(--text-dim)">overseeing</span>'
+          + '<span style="font-size:.78rem;font-weight:700;color:'+areaCol+'">'+areaLabel+'</span>'
+          + (md.availability === 'occasional' ? '<span style="font-size:.72rem;color:var(--text-dim);margin-left:.25rem">— confirm attendance</span>' : '')
+          + '</div>';
+        if (md.availability === 'occasional') occasionalMentors.push(row);
+        else presentMentors.push(row);
+      }
+      mentorHtml2 = '<div style="margin-top:.5rem;padding:.55rem .75rem;background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.15);border-radius:var(--radius-sm)">'
+        + '<div style="font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--purple,#9b7fd4);margin-bottom:.35rem">Mentor oversight</div>'
+        + presentMentors.join('') + occasionalMentors.join('')
+        + '</div>';
+    }
+
+    // Build day-of flex guide if variable attendance exists
+    let flexGuide = '';
+    if (hasVariableAttendance && membersDetailed) {
+      const coreNames  = coreStudents.map(i => getMemberName(i));
+      const likelyN    = likelyStudents.map(i => getMemberName(i));
+      const spotN      = spotStudents.map(i => getMemberName(i));
+      const mc3        = plannerState.mentorCount || 0;
+      const mentorList = Array.from({length:mc3}, (_,mi) => getMentorName(mi));
+
+      let rows2 = '';
+      if (coreNames.length) rows2 += '<div style="margin-bottom:.35rem"><span style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--teal)">Always here</span> <span style="font-size:.81rem;color:var(--text)">' + coreNames.join(', ') + '</span> <span style="font-size:.76rem;color:var(--text-dim)">— plan around these students</span></div>';
+      if (likelyN.length) rows2 += '<div style="margin-bottom:.35rem"><span style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--blue)">Usually here</span> <span style="font-size:.81rem;color:var(--text)">' + likelyN.join(', ') + '</span> <span style="font-size:.76rem;color:var(--text-dim)">— assign to workstream, but plan for absence</span></div>';
+      if (spotN.length) rows2 += '<div style="margin-bottom:.35rem"><span style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--gold)">Occasional</span> <span style="font-size:.81rem;color:var(--text)">' + spotN.join(', ') + '</span> <span style="font-size:.76rem;color:var(--text-dim)">— bonus hands if present; do not depend on them for core tasks</span></div>';
+
+      // Scenario guidance
+      const totalCore = coreStudents.length;
+      const totalAll  = n;
+      rows2 += '<div style="margin-top:.5rem;padding-top:.45rem;border-top:1px solid var(--border)">'
+        + '<div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:.3rem">Day-of scenarios</div>'
+        + '<div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.25rem"><strong style="color:var(--text)">Core group only ('+totalCore+' students):</strong> Merge workstreams if needed. Prioritize core tasks and skip ext-tier items.</div>'
+        + '<div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.25rem"><strong style="color:var(--text)">Full team ('+totalAll+' students):</strong> Run the planned parallel streams as shown above.</div>'
+        + (mc3 > 1 ? '<div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.25rem"><strong style="color:var(--text)">Surprise extras:</strong> Each mentor absorbs extra students into their oversight stream. No re-planning needed.</div>' : '')
+        + (mc3 === 1 && totalAll >= 6 ? '<div style="font-size:.8rem;color:var(--text-muted)"><strong style="color:var(--text)">Surprise extras:</strong> Point them to the group with fewest students. Assign the journal or documentation role as a quick entry point.</div>' : '')
+        + '</div>';
+
+      flexGuide = '<div style="margin-top:.55rem;padding:.6rem .8rem;background:rgba(0,212,180,.06);border:1px solid rgba(0,212,180,.15);border-radius:var(--radius-sm)">'
+        + '<div style="font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin-bottom:.4rem">Attendance flex guide</div>'
+        + rows2 + '</div>';
+    } else if (hasVariableAttendance) {
+      // No member details but variable attendance flagged — minimal note
+      const spotCount = spotStudents.length + likelyStudents.length;
+      flexGuide = '<div style="font-size:.76rem;color:var(--text-muted);margin-top:.4rem;padding:.4rem .6rem;background:rgba(240,192,64,.06);border-radius:var(--radius-sm);border-left:2px solid rgba(240,192,64,.3)">'
+        + spotCount + ' student' + (spotCount===1?'':' s') + ' have variable attendance. Add student details above for a day-of flex guide.</div>';
+    }
 
     return '<div class="student-breakdown">'
-      + '<div class="student-breakdown-head">' + headNote + '</div>'
-      + rows
-      + '</div>';
+      + '<div class="student-breakdown-head">'+headLabel+' <span style="font-size:.73rem;color:var(--text-dim);font-weight:400">('+parallelNote+')</span></div>'
+      + html + flexGuide + mentorHtml2 + '</div>';
   }
 
+
+  function setMentorCount(btn, n) {
+    document.querySelectorAll('#opt-mentorcount .popt').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    plannerState.mentorCount = n;
+    const section = document.getElementById('mentor-details-section');
+    if (section) section.style.display = n > 0 ? 'block' : 'none';
+    if (n > 0) renderMentorCards(n);
+  }
+
+  function renderMentorCards(n) {
+    // Preserve existing data
+    while (mentorData.length < n) mentorData.push({ name: '', area: 'all', availability: 'always' });
+    mentorData = mentorData.slice(0, n);
+    const grid = document.getElementById('mentor-cards-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    for (let i = 0; i < n; i++) {
+      const d = mentorData[i];
+      const areaOpts = ['all','robot','project','cv']
+        .map(a => '<option value="'+a+'"'+(d.area===a?' selected':'')+'>'+({'all':'All areas','robot':'Robot Game','project':'Innovation Project','cv':'Core Values'}[a])+'</option>')
+        .join('');
+      const availOpts = [['always','Every meeting'],['most','Most meetings'],['occasional','Occasional']]
+        .map(([v,l]) => '<option value="'+v+'"'+(d.availability===v?' selected':'')+'>'+l+'</option>')
+        .join('');
+      grid.innerHTML += '<div style="background:var(--bg-card2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.7rem .9rem;display:grid;grid-template-columns:1fr auto auto;gap:.6rem;align-items:center">'
+        + '<input class="oc-input" placeholder="Mentor '+(i+1)+' name (optional)" value="'+d.name+'"'
+          +' oninput="mentorData['+i+'].name=this.value" style="font-size:.84rem">'
+        + '<select style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:inherit;font-size:.82rem;padding:.4rem .6rem" onchange="mentorData['+i+'].area=this.value">'
+          + areaOpts + '</select>'
+        + '<select style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:inherit;font-size:.82rem;padding:.4rem .6rem" onchange="mentorData['+i+'].availability=this.value">'
+          + availOpts + '</select>'
+        + '</div>';
+    }
+  }
+
+  function setAttendance(btn) {
+    const mi = parseInt(btn.dataset.mi);
+    const av = btn.dataset.av;
+    memberData[mi].attendance = av;
+    // Re-render just this card's attendance buttons
+    const allBtns = btn.closest('div').querySelectorAll('button');
+    allBtns.forEach(b => {
+      const v = b.dataset.av;
+      const active = v === av;
+      const bg = active ? (v==='always' ? 'var(--teal)' : v==='most' ? 'var(--blue)' : 'var(--gold)') : 'var(--bg-mid)';
+      const col = active ? (v==='always' ? '#000' : '#fff') : 'var(--text-muted)';
+      b.style.background = bg;
+      b.style.color = col;
+    });
+  }
+
+  function getMentorName(i) {
+    const d = mentorData[i];
+    return (d && d.name && d.name.trim()) ? d.name.trim() : 'Mentor ' + (i + 1);
+  }
+
+  function setExperience(btn, level) {
+    document.querySelectorAll('#opt-experience .popt').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    plannerState.experience = level;
+    ['beginner','intermediate','experienced'].forEach(l => {
+      const el = document.getElementById('exp-desc-' + l);
+      if (el) el.style.display = l === level ? '' : 'none';
+    });
+  }
 
   function setPOpt(btn, field) {
     document.querySelectorAll('#opt-'+field+' .popt').forEach(b => b.classList.remove('active'));
@@ -3336,19 +3602,28 @@
     const totalMins=Math.round(hours*60-5);
     const budgets={ robot:Math.round(totalMins*weights.robot), project:Math.round(totalMins*weights.project), cv:Math.round(totalMins*weights.cv) };
     const tierOrder={core:0,std:1,ext:2};
+    const exp = plannerState.experience || 'beginner';
+    const budgetMult = exp === 'experienced' ? 1.4 : exp === 'intermediate' ? 1.15 : 1.0;
     const tasks=[];
     ['robot','project','cv'].forEach(area => {
       let used=0;
       const areaTasks=bp.tasks.filter(t=>t.area===area).sort((a,b)=>tierOrder[a.tier]-tierOrder[b.tier]);
       for (const t of areaTasks) {
         if (t.tier==='core') { tasks.push(t); used+=t.mins; }
-        else if (used+t.mins<=budgets[area]) { tasks.push(t); used+=t.mins; }
+        else if (used+t.mins<=budgets[area]*budgetMult) { tasks.push(t); used+=t.mins; }
       }
     });
 
     const areas=[...new Set(tasks.map(t=>t.area))];
     let areaTags=areas.map(a=>'<span class="curr-tag curr-tag-'+a+'">'+AREA_LABEL[a]+'</span>').join('');
     areaTags+=' <span class="curr-tag curr-tag-phase" style="'+pc.chip+'">'+PHASE_LABELS[phase]+'</span>';
+    const expLevel = plannerState.experience || 'beginner';
+    const mentorCt = plannerState.mentorCount || 0;
+    const teamSz   = plannerState.teamsize || 4;
+    const showParallel = expLevel === 'experienced' || mentorCt > 1 || teamSz >= 7;
+    const showSplit    = !showParallel && expLevel === 'intermediate';
+    if (showParallel) areaTags += ' <span class="curr-tag" style="background:rgba(240,192,64,.12);color:var(--gold);border:1px solid rgba(240,192,64,.3)">Parallel workstreams</span>';
+    else if (showSplit) areaTags += ' <span class="curr-tag" style="background:rgba(240,192,64,.07);color:var(--gold);border:1px solid rgba(240,192,64,.2)">Split focus</span>';
 
     const taskRows=tasks.map(t=>
       '<li class="curr-task"><div class="curr-task-dot curr-task-dot-'+t.area+'"></div><span>'+t.text+'</span><span class="curr-task-time">'+t.mins+' min</span></li>'
@@ -3359,6 +3634,22 @@
     const bufferNote=bufferMins>0?'<div class="curr-note">+'+bufferMins+' min buffer, use for extra practice runs, journal catch-up, or questions.</div>':'';
     const roleNote=buildStudentAssignments(tasks);
 
+    const expTips = {
+      intermediate: {
+        foundation:'Split into two groups this meeting: half focus on the robot game guide, half brainstorm the project problem. Share back with the full team at the end.',
+        build:'Run two workstreams today. Robot group: build and test one attachment. Project group: conduct an expert interview or draft research. Reconvene last 10 minutes.',
+        develop:'Students should own their area and drive decisions. Coach should be observing, not directing. Catch up as a team at the start and end of each meeting.',
+        refine:'Project group polishes the presentation. Robot group runs consistency drills. Come together for a full mock judging walkthrough.',
+        prep:'Each group self-leads their final prep. Full team mock judging session to close.',
+      },
+      experienced: {
+        foundation:'From day one: three parallel workstreams. Robot group starts game analysis. Project group starts problem-finding. Core Values group sets team norms and starts the journal. Coach facilitates handoffs only.',
+        build:'Students run their workstreams independently. Expert students lead their group. Coach rotates between groups, asks questions, does not give answers.',
+        develop:'Expect students to raise issues and solve them themselves before bringing the coach in. Cross-group check-ins at meeting start and end. Experts should be explaining their area to teammates, not just doing it.',
+        refine:'Students self-evaluate using the rubrics. Each group writes their own improvement list. No coach-driven decisions this phase.',
+        prep:'Full team owns the mock judging debrief. Expert students should brief less-experienced teammates on areas they have not led. Everyone should be able to answer any question.',
+      },
+    };
     const fsTips={
       foundation:'New to FLL? Your only job this phase is to understand what you are being judged on and get organized. Do not worry about doing things perfectly yet.',
       build:'At this stage you are building and testing. Things will break, that is normal. Log everything because judges love seeing that you learned from mistakes.',
@@ -3370,6 +3661,51 @@
     const fsNote=teamGoals.has('first-season')&&fsTips[phase]
       ?'<div class="curr-note" style="border-left-color:var(--green);background:rgba(52,211,153,.07)"><strong style="color:var(--green)">First season:</strong> '+fsTips[phase]+'</div>'
       :'';
+    const expLevel2 = plannerState.experience || 'beginner';
+    const expTipText = expTips[expLevel2] && expTips[expLevel2][phase] ? expTips[expLevel2][phase] : '';
+    // Student attendance flag for large/variable teams
+    const membersOn2 = document.getElementById('members-toggle').checked;
+    let studentAttNote = '';
+    if (membersOn2) {
+      const nStu = plannerState.teamsize || 0;
+      const occStudents = [];
+      const mostStudents = [];
+      for (let si = 0; si < nStu; si++) {
+        const att = (memberData[si] && memberData[si].attendance) || 'always';
+        if (att === 'occasional') occStudents.push(getMemberName(si));
+        else if (att === 'most') mostStudents.push(getMemberName(si));
+      }
+      const varStudents = [...occStudents, ...mostStudents];
+      if (varStudents.length > 0) {
+        studentAttNote = '<div class="curr-note" style="border-left-color:rgba(0,212,180,.5);background:rgba(0,212,180,.04)">'
+          + '<strong style="color:var(--teal)">Before this meeting:</strong> Check who is actually coming. '
+          + (occStudents.length ? '<strong>' + occStudents.join(', ') + '</strong> ' + (occStudents.length===1?'is':'are') + ' occasional. ' : '')
+          + (mostStudents.length ? '<strong>' + mostStudents.join(', ') + '</strong> ' + (mostStudents.length===1?'is':'are') + ' usually here. ' : '')
+          + 'See the Attendance Flex Guide in the student assignments below to adjust workstreams on the fly.</div>';
+      }
+    }
+
+    // Occasional mentor availability note
+    const mc2 = plannerState.mentorCount || 0;
+    let occasionalNote = '';
+    if (mc2 > 0) {
+      const occasional = [];
+      for (let mi = 0; mi < mc2; mi++) {
+        const md = mentorData[mi] || {};
+        if (md.availability === 'occasional') occasional.push(getMentorName(mi));
+      }
+      if (occasional.length) {
+        occasionalNote = '<div class="curr-note" style="border-left-color:var(--gold);background:rgba(240,192,64,.05)">'
+          + '<strong style="color:var(--gold)">Mentor attendance:</strong> '
+          + occasional.join(', ') + (occasional.length===1 ? ' is' : ' are')
+          + ' not at every meeting. Confirm who is coming before assigning workstreams that depend on their oversight.</div>';
+      }
+    }
+    const expNote = expTipText
+      ? '<div class="curr-note" style="border-left-color:var(--gold);background:rgba(240,192,64,.06)"><strong style="color:var(--gold)">'
+        + (expLevel2==='experienced' ? 'Experienced team:' : 'Intermediate team:')
+        + '</strong> '+expTipText+'</div>'
+      : '';
 
     return '<div class="curr-meeting" id="cm-'+m.meetingNum+'">'
       +'<div class="curr-meeting-head" onclick="toggleMeeting('+m.meetingNum+')">'
@@ -3381,7 +3717,7 @@
       +'</div>'
       +'<div class="curr-meeting-body">'
       +'<ul class="curr-task-list">'+taskRows+'</ul>'
-      +bufferNote+roleNote+fsNote+mentorHtml
+      +bufferNote+studentAttNote+roleNote+fsNote+expNote+occasionalNote+mentorHtml
       +'</div></div>';
   }
 
