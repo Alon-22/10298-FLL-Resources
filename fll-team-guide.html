@@ -2690,6 +2690,16 @@
             return '<button style="font-size:.75rem;padding:.25rem .7rem;border-radius:20px;border:1px solid var(--border);background:'+bg+';color:'+col+';cursor:pointer;font-family:inherit;font-weight:700" data-mi="'+i+'" data-av="'+v+'" onclick="setAttendance(this)">'+lbl+'</button>';
           }).join('')
         + '</div>'
+        + (d.attendance === 'most'
+          ? '<div style="display:flex;align-items:center;gap:.5rem;margin-top:.4rem" id="freq-row-'+i+'">'
+            + '<span style="font-size:.78rem;color:var(--text-muted)">Times per week:</span>'
+            + [1,2,3].map(n2 => {
+                const act = (d.timesPerWeek||1) === n2;
+                return '<button style="font-size:.75rem;padding:.2rem .6rem;border-radius:12px;border:1px solid var(--border);background:'+(act?'var(--blue)':'var(--bg-mid)')+';color:'+(act?'#fff':'var(--text-muted)')+';cursor:pointer;font-family:inherit;font-weight:700"'
+                  +' data-mi="'+i+'" data-tw="'+n2+'" onclick="setTimesPerWeek(this)">'+n2+'x</button>';
+              }).join('')
+            + '</div>'
+          : '')
         + '</div></div>';
     }
   }
@@ -2896,10 +2906,16 @@
       const headNote = membersDetailed ? 'Who does what' : 'Suggested split (add student details above for personalized assignments)';
       let attNote = '';
       if (hasVariableAttendance) {
-        const spotNames = spotStudents.map(i => getMemberName(i));
-        const likelyNames = likelyStudents.map(i => getMemberName(i));
+        const spotNames = spotStudents.map(s => typeof s === 'string' ? s : s.name);
+        const likelyNames2 = likelyStudents.map(i => getMemberName(i));
         const parts = [];
-        if (spotNames.length) parts.push('<strong style="color:var(--gold)">' + spotNames.join(', ') + '</strong> — occasional');
+        if (spotStudents.length) {
+          const regOcc = spotStudents.filter(s => typeof s === 'string' || !s.expert).map(s => typeof s === 'string' ? s : s.name);
+          const expOcc = spotStudents.filter(s => s.expert).map(s => s.name);
+          if (expOcc.length) parts.push('<strong style="color:var(--gold)">' + expOcc.join(', ') + '</strong> — occasional <em style="color:var(--gold)">expert</em> (workstream upgrade when present)');
+          if (regOcc.length) parts.push('<strong style="color:var(--gold)">' + regOcc.join(', ') + '</strong> — occasional');
+        }
+        const likelyNames = mostStudents;
         if (likelyNames.length) parts.push('<strong style="color:var(--blue)">' + likelyNames.join(', ') + '</strong> — most meetings');
         attNote = '<div style="font-size:.76rem;color:var(--text-muted);margin-top:.4rem;padding:.4rem .6rem;background:rgba(240,192,64,.06);border-radius:var(--radius-sm);border-left:2px solid rgba(240,192,64,.3)">'
           + 'Variable attendance: ' + parts.join(' / ')
@@ -2937,13 +2953,36 @@
 
       const leadIdx = members[0];
       const isLead = isExpertIn(leadIdx.i, area);
+      const leadAtt = (memberData[leadIdx.i] && memberData[leadIdx.i].attendance) || 'always';
+      const leadIsOccasional = leadAtt === 'occasional';
       const leadName = getMemberName(leadIdx.i);
-      const leadBadge = isLead ? ' <span style="font-size:.68rem;background:rgba(240,192,64,.15);color:var(--gold);padding:.1rem .45rem;border-radius:10px;font-weight:700">expert lead</span>' : '';
+
+      // If the lead is occasional, find a backup (next non-occasional member in this stream)
+      let backupName = null;
+      if (leadIsOccasional) {
+        const backup = members.slice(1).find(m => {
+          const att = (memberData[m.i] && memberData[m.i].attendance) || 'always';
+          return att !== 'occasional';
+        });
+        backupName = backup ? getMemberName(backup.i) : null;
+      }
+
+      const leadBadge = isLead
+        ? ' <span style="font-size:.68rem;background:rgba(240,192,64,.15);color:var(--gold);padding:.1rem .45rem;border-radius:10px;font-weight:700">expert lead</span>'
+          + (leadIsOccasional ? ' <span style="font-size:.68rem;background:rgba(240,192,64,.08);color:var(--gold);padding:.1rem .45rem;border-radius:10px;font-weight:600;border:1px solid rgba(240,192,64,.3)">occasional</span>' : '')
+        : '';
       const taskText = leadIdx.slot.tasks.slice(0,2).join('; ');
+      const expertOccNote = (isLead && leadIsOccasional)
+        ? '<div style="font-size:.74rem;margin-top:.3rem;color:var(--text-muted);font-style:italic">'
+          + 'If here: takes lead. '
+          + (backupName ? 'If absent: <strong style="color:var(--text);font-style:normal">' + backupName + '</strong> covers this stream.' : 'If absent: mentor oversees directly.')
+          + '</div>'
+        : '';
 
       let memberRows = '<div style="font-weight:700;font-size:.83rem;color:'+AREA_COL[area]+';margin-bottom:.3rem">'
         + leadName + leadBadge + '</div>'
-        + '<div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.4rem">' + taskText + '</div>';
+        + '<div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.4rem">' + taskText + '</div>'
+        + expertOccNote;
 
       // Additional members in this stream (learning from lead)
       if (members.length > 1) {
@@ -2969,6 +3008,9 @@
     if (mc > 0) {
       const AREA_LABEL_M = { all:'All areas', robot:'Robot Game', project:'Innovation Project', cv:'Core Values' };
       const AREA_COL_M   = { all:'var(--text-muted)', robot:'var(--blue)', project:'var(--teal)', cv:'var(--purple,#9b7fd4)' };
+      const SKILL_LABEL_M = { programming:'Programming', building:'Robot building', research:'Research', prototyping:'Prototyping', presenting:'Presenting', writing:'Writing/docs', leadership:'Team lead', creative:'Creative thinking' };
+      const CONF_COL_M = { high:'var(--teal)', mid:'var(--blue)', learning:'var(--gold)' };
+      const CONF_LBL_M = { high:'Strong', mid:'Comfortable', learning:'Learning' };
       const presentMentors = [], occasionalMentors = [];
       for (let mi = 0; mi < mc; mi++) {
         const md = mentorData[mi] || { name:'', area:'all', availability:'always' };
@@ -2980,12 +3022,27 @@
           : md.availability === 'most'
           ? '<span style="font-size:.67rem;background:rgba(59,158,255,.1);color:var(--blue);padding:.1rem .45rem;border-radius:10px;font-weight:700;margin-left:.3rem">most meetings</span>'
           : '';
-        const row = '<div style="display:flex;align-items:center;gap:.5rem;padding:.3rem 0">'
+        // Build skills summary for this mentor
+        const mentorSkills = md.skills || {};
+        const highSkills = Object.keys(mentorSkills).filter(sk => mentorSkills[sk] === 'high');
+        const midSkills  = Object.keys(mentorSkills).filter(sk => mentorSkills[sk] === 'mid');
+        const learningSkills = Object.keys(mentorSkills).filter(sk => mentorSkills[sk] === 'learning');
+        const allMentorSkills = [...highSkills, ...midSkills, ...learningSkills];
+        const skillTags = allMentorSkills.slice(0,4).map(sk => {
+          const conf = mentorSkills[sk];
+          return '<span style="font-size:.68rem;padding:.1rem .4rem;border-radius:10px;font-weight:700;background:rgba(128,128,128,.1);color:'+CONF_COL_M[conf]+'">'
+            + (SKILL_LABEL_M[sk] || sk) + ' <span style="opacity:.7;font-weight:400">'+CONF_LBL_M[conf]+'</span></span>';
+        }).join(' ');
+        const skillSummary = allMentorSkills.length
+          ? '<div style="display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.2rem">'+skillTags+(allMentorSkills.length>4?'<span style="font-size:.68rem;color:var(--text-dim)">+more</span>':'')+'</div>'
+          : '<span style="font-size:.76rem;color:var(--text-dim)">No skills added</span>';
+        const row = '<div style="padding:.35rem 0;border-bottom:1px solid rgba(128,128,128,.06)">'
+          + '<div style="display:flex;align-items:center;gap:.5rem">'
           + '<span style="font-size:.83rem;font-weight:700;color:var(--text)">'+name+'</span>'
           + badge
-          + '<span style="font-size:.78rem;color:var(--text-dim)">overseeing</span>'
-          + '<span style="font-size:.78rem;font-weight:700;color:'+areaCol+'">'+areaLabel+'</span>'
-          + (md.availability === 'occasional' ? '<span style="font-size:.72rem;color:var(--text-dim);margin-left:.25rem">— confirm attendance</span>' : '')
+          + (md.availability === 'occasional' ? '<span style="font-size:.72rem;color:var(--text-dim)">— confirm attendance</span>' : '')
+          + '</div>'
+          + skillSummary
           + '</div>';
         if (md.availability === 'occasional') occasionalMentors.push(row);
         else presentMentors.push(row);
@@ -3007,16 +3064,47 @@
 
       let rows2 = '';
       if (coreNames.length) rows2 += '<div style="margin-bottom:.35rem"><span style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--teal)">Always here</span> <span style="font-size:.81rem;color:var(--text)">' + coreNames.join(', ') + '</span> <span style="font-size:.76rem;color:var(--text-dim)">— plan around these students</span></div>';
-      if (likelyN.length) rows2 += '<div style="margin-bottom:.35rem"><span style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--blue)">Usually here</span> <span style="font-size:.81rem;color:var(--text)">' + likelyN.join(', ') + '</span> <span style="font-size:.76rem;color:var(--text-dim)">— assign to workstream, but plan for absence</span></div>';
+      if (likelyN.length) rows2 += '<div style="margin-bottom:.35rem"><span style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--blue)">Usually here</span> <span style="font-size:.81rem;color:var(--text)">' + likelyStudents.map(i => getMemberName(i) + ((memberData[i] && memberData[i].timesPerWeek) ? ' (' + memberData[i].timesPerWeek + 'x/wk)' : '')).join(', ') + '</span> <span style="font-size:.76rem;color:var(--text-dim)">— assign to workstream, but plan for absence</span></div>';
       if (spotN.length) rows2 += '<div style="margin-bottom:.35rem"><span style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--gold)">Occasional</span> <span style="font-size:.81rem;color:var(--text)">' + spotN.join(', ') + '</span> <span style="font-size:.76rem;color:var(--text-dim)">— bonus hands if present; do not depend on them for core tasks</span></div>';
 
       // Scenario guidance
       const totalCore = coreStudents.length;
       const totalAll  = n;
+      // Find occasional experts for targeted day-of guidance
+      const expertOccasionals = [];
+      for (let i = 0; i < n; i++) {
+        const att = (memberData[i] && memberData[i].attendance) || 'always';
+        if (att !== 'occasional') continue;
+        const exp = memberData[i] && memberData[i].exp || {};
+        const expertAreas = ['robot','project','cv'].filter(a => exp[a] === 'exp');
+        if (expertAreas.length) {
+          const areaNames = { robot:'Robot', project:'Project', cv:'Core Values' };
+          expertOccasionals.push({
+            name: getMemberName(i),
+            areas: expertAreas.map(a => areaNames[a]).join(' & '),
+          });
+        }
+      }
+
+      let expertOccRows = '';
+      if (expertOccasionals.length) {
+        expertOccRows = expertOccasionals.map(eo =>
+          '<div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.25rem">'
+          + '<strong style="color:var(--gold)">' + eo.name + ' shows up (occasional expert, ' + eo.areas + '):</strong> '
+          + 'Slot them immediately into the lead role for their area. Whoever was covering steps to support. This is an upgrade, not a disruption — mentors should brief them quickly on what the group has done so far.'
+          + '</div>'
+          + '<div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.25rem">'
+          + '<strong style="color:var(--gold)">' + eo.name + ' is absent:</strong> '
+          + 'No core task depends on them. The backup lead (shown in the workstream above) runs that stream. Mentors should check in with that group more frequently.'
+          + '</div>'
+        ).join('');
+      }
+
       rows2 += '<div style="margin-top:.5rem;padding-top:.45rem;border-top:1px solid var(--border)">'
         + '<div style="font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:.3rem">Day-of scenarios</div>'
         + '<div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.25rem"><strong style="color:var(--text)">Core group only ('+totalCore+' students):</strong> Merge workstreams if needed. Prioritize core tasks and skip ext-tier items.</div>'
         + '<div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.25rem"><strong style="color:var(--text)">Full team ('+totalAll+' students):</strong> Run the planned parallel streams as shown above.</div>'
+        + expertOccRows
         + (mc3 > 1 ? '<div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.25rem"><strong style="color:var(--text)">Surprise extras:</strong> Each mentor absorbs extra students into their oversight stream. No re-planning needed.</div>' : '')
         + (mc3 === 1 && totalAll >= 6 ? '<div style="font-size:.8rem;color:var(--text-muted)"><strong style="color:var(--text)">Surprise extras:</strong> Point them to the group with fewest students. Assign the journal or documentation role as a quick entry point.</div>' : '')
         + '</div>';
@@ -3047,28 +3135,98 @@
   }
 
   function renderMentorCards(n) {
-    // Preserve existing data
-    while (mentorData.length < n) mentorData.push({ name: '', area: 'all', availability: 'always' });
+    while (mentorData.length < n) mentorData.push({ name: '', skills: {}, availability: 'always' });
     mentorData = mentorData.slice(0, n);
     const grid = document.getElementById('mentor-cards-grid');
     if (!grid) return;
     grid.innerHTML = '';
+    const CONF_LEVELS = [['high','Strong'],['mid','Comfortable'],['learning','Learning']];
+    const CONF_COLORS = { high:'var(--teal)', mid:'var(--blue)', learning:'var(--gold)' };
     for (let i = 0; i < n; i++) {
       const d = mentorData[i];
-      const areaOpts = ['all','robot','project','cv']
-        .map(a => '<option value="'+a+'"'+(d.area===a?' selected':'')+'>'+({'all':'All areas','robot':'Robot Game','project':'Innovation Project','cv':'Core Values'}[a])+'</option>')
-        .join('');
-      const availOpts = [['always','Every meeting'],['most','Most meetings'],['occasional','Occasional']]
-        .map(([v,l]) => '<option value="'+v+'"'+(d.availability===v?' selected':'')+'>'+l+'</option>')
-        .join('');
-      grid.innerHTML += '<div style="background:var(--bg-card2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.7rem .9rem;display:grid;grid-template-columns:1fr auto auto;gap:.6rem;align-items:center">'
-        + '<input class="oc-input" placeholder="Mentor '+(i+1)+' name (optional)" value="'+d.name+'"'
-          +' oninput="mentorData['+i+'].name=this.value" style="font-size:.84rem">'
-        + '<select style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:inherit;font-size:.82rem;padding:.4rem .6rem" onchange="mentorData['+i+'].area=this.value">'
-          + areaOpts + '</select>'
-        + '<select style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:inherit;font-size:.82rem;padding:.4rem .6rem" onchange="mentorData['+i+'].availability=this.value">'
-          + availOpts + '</select>'
+      if (!d.skills) d.skills = {};
+
+      // Skill rows with confidence buttons
+      const skillRows = SKILLS_DEF.map(s => {
+        const conf = d.skills[s.id] || null;
+        const btns = CONF_LEVELS.map(([cv, cl]) => {
+          const active = conf === cv;
+          const col = active ? CONF_COLORS[cv] : 'var(--text-dim)';
+          const bg  = active ? (cv==='high' ? 'rgba(0,212,180,.15)' : cv==='mid' ? 'rgba(59,158,255,.15)' : 'rgba(240,192,64,.15)') : 'transparent';
+          const border = active ? '1px solid '+CONF_COLORS[cv] : '1px solid var(--border)';
+          return '<button style="font-size:.72rem;padding:.18rem .55rem;border-radius:12px;border:'+border+';background:'+bg+';color:'+col+';cursor:pointer;font-family:inherit;font-weight:700;white-space:nowrap"'
+            +' data-mi="'+i+'" data-sk="'+s.id+'" data-cv="'+cv+'" onclick="setMentorSkill(this)">'+cl+'</button>';
+        }).join('');
+        const hasSkill = conf !== null;
+        const labelCol = hasSkill ? 'var(--text)' : 'var(--text-dim)';
+        return '<div style="display:grid;grid-template-columns:auto 1fr;gap:.5rem .7rem;align-items:center;padding:.2rem 0;border-bottom:1px solid var(--border-faint,rgba(128,128,128,.08))">'
+          +'<span style="font-size:.8rem;color:'+labelCol+';white-space:nowrap;min-width:110px">'+s.label+'</span>'
+          +'<div style="display:flex;gap:.3rem;flex-wrap:wrap">'+btns+'</div>'
+          +'</div>';
+      }).join('');
+
+      // Availability buttons
+      const availBtns = [['always','Every meeting'],['most','Most meetings'],['occasional','Occasional']].map(([v,l]) => {
+        const active = d.availability === v;
+        const bg = active ? (v==='always' ? 'var(--teal)' : v==='most' ? 'var(--blue)' : 'var(--gold)') : 'var(--bg-mid)';
+        const col = active ? (v==='always' ? '#000' : '#fff') : 'var(--text-muted)';
+        return '<button style="font-size:.75rem;padding:.25rem .7rem;border-radius:20px;border:1px solid var(--border);background:'+bg+';color:'+col+';cursor:pointer;font-family:inherit;font-weight:700"'
+          +' data-mi="'+i+'" data-av="'+v+'" onclick="setMentorAvail(this)">'+l+'</button>';
+      }).join('');
+
+      grid.innerHTML +=
+        '<div style="background:var(--bg-card2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.85rem 1rem;margin-bottom:.1rem">'
+        + '<div style="display:flex;gap:.6rem;align-items:center;margin-bottom:.75rem">'
+        +   '<input class="oc-input" placeholder="Mentor '+(i+1)+' name (optional)" value="'+d.name.replace(/"/g,'&quot;')+'"'
+            +' oninput="mentorData['+i+'].name=this.value" style="font-size:.84rem;flex:1">'
+        +   '<div style="display:flex;gap:.35rem;flex-wrap:wrap">'+availBtns+'</div>'
+        + '</div>'
+        + '<div style="font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.45rem">Skills &amp; confidence</div>'
+        + skillRows
         + '</div>';
+    }
+  }
+
+  function setMentorSkill(btn) {
+    const mi = parseInt(btn.dataset.mi);
+    const sk = btn.dataset.sk;
+    const cv = btn.dataset.cv;
+    if (!mentorData[mi].skills) mentorData[mi].skills = {};
+    // Toggle: clicking the already-active level clears it
+    if (mentorData[mi].skills[sk] === cv) {
+      delete mentorData[mi].skills[sk];
+    } else {
+      mentorData[mi].skills[sk] = cv;
+    }
+    renderMentorCards(plannerState.mentorCount);
+  }
+
+  function setMentorAvail(btn) {
+    const mi = parseInt(btn.dataset.mi);
+    const av = btn.dataset.av;
+    mentorData[mi].availability = av;
+    const row = btn.closest('div');
+    if (row) {
+      row.querySelectorAll('button[data-av]').forEach(b => {
+        const v = b.dataset.av;
+        const active = v === av;
+        b.style.background = active ? (v==='always' ? 'var(--teal)' : v==='most' ? 'var(--blue)' : 'var(--gold)') : 'var(--bg-mid)';
+        b.style.color = active ? (v==='always' ? '#000' : '#fff') : 'var(--text-muted)';
+      });
+    }
+  }
+
+  function setTimesPerWeek(btn) {
+    const mi = parseInt(btn.dataset.mi);
+    const tw = parseInt(btn.dataset.tw);
+    memberData[mi].timesPerWeek = tw;
+    const row = btn.closest('div');
+    if (row) {
+      row.querySelectorAll('button[data-tw]').forEach(b => {
+        const active = parseInt(b.dataset.tw) === tw;
+        b.style.background = active ? 'var(--blue)' : 'var(--bg-mid)';
+        b.style.color = active ? '#fff' : 'var(--text-muted)';
+      });
     }
   }
 
@@ -3076,16 +3234,10 @@
     const mi = parseInt(btn.dataset.mi);
     const av = btn.dataset.av;
     memberData[mi].attendance = av;
-    // Re-render just this card's attendance buttons
-    const allBtns = btn.closest('div').querySelectorAll('button');
-    allBtns.forEach(b => {
-      const v = b.dataset.av;
-      const active = v === av;
-      const bg = active ? (v==='always' ? 'var(--teal)' : v==='most' ? 'var(--blue)' : 'var(--gold)') : 'var(--bg-mid)';
-      const col = active ? (v==='always' ? '#000' : '#fff') : 'var(--text-muted)';
-      b.style.background = bg;
-      b.style.color = col;
-    });
+    if (av !== 'most') delete memberData[mi].timesPerWeek;
+    // Re-render card to show/hide freq row
+    ensureMemberData(plannerState.teamsize);
+    renderMemberCards();
   }
 
   function getMentorName(i) {
@@ -3672,14 +3824,15 @@
       const mostStudents = [];
       for (let si = 0; si < nStu; si++) {
         const att = (memberData[si] && memberData[si].attendance) || 'always';
-        if (att === 'occasional') occStudents.push(getMemberName(si));
+        const isExpertStu = ['robot','project','cv'].some(a => memberData[si] && memberData[si].exp && memberData[si].exp[a] === 'exp');
+        if (att === 'occasional') occStudents.push({ name: getMemberName(si), expert: isExpertStu });
         else if (att === 'most') mostStudents.push(getMemberName(si));
       }
-      const varStudents = [...occStudents, ...mostStudents];
+      const varStudents = [...occStudents.map(s=>s.name), ...mostStudents];
       if (varStudents.length > 0) {
         studentAttNote = '<div class="curr-note" style="border-left-color:rgba(0,212,180,.5);background:rgba(0,212,180,.04)">'
           + '<strong style="color:var(--teal)">Before this meeting:</strong> Check who is actually coming. '
-          + (occStudents.length ? '<strong>' + occStudents.join(', ') + '</strong> ' + (occStudents.length===1?'is':'are') + ' occasional. ' : '')
+          + (occStudents.length ? '<strong>' + occStudents.map(s=>s.name).join(', ') + '</strong> ' + (occStudents.length===1?'is':'are') + ' occasional. ' : '')
           + (mostStudents.length ? '<strong>' + mostStudents.join(', ') + '</strong> ' + (mostStudents.length===1?'is':'are') + ' usually here. ' : '')
           + 'See the Attendance Flex Guide in the student assignments below to adjust workstreams on the fly.</div>';
       }
