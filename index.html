@@ -1180,6 +1180,8 @@
     }
     .qa-input:focus { outline:none; border-color:var(--blue); }
     .qa-input::placeholder { color:var(--text-dim); }
+    .qa-why { font-size:.75rem; color:var(--text-dim); font-style:italic; margin-bottom:.35rem; line-height:1.5; }
+    .qa-diff-panel { display:block; }
 
     .outline-preview {
       display:none; background:var(--bg-card); border:1px solid var(--border-bright);
@@ -2253,38 +2255,161 @@
 
     <!-- ── Q&A PREP ── -->
     <div class="outline-panel" id="outline-qa">
-      <div style="font-size:.82rem;color:var(--text-muted);margin-bottom:1.2rem;line-height:1.6;">Write a short answer for each likely question before competition. Judges ask these almost every time. Short answers are fine, but every team member should know them.</div>
 
-      <div style="font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin-bottom:.7rem;">Innovation Project</div>
-      <div class="qa-grid">
-        <div class="qa-card"><div class="qa-question">Why did you choose this specific problem?</div><input class="qa-input" placeholder="Your answer..."></div>
-        <div class="qa-card"><div class="qa-question">How is your solution different from what already exists?</div><input class="qa-input" placeholder="Your answer..."></div>
-        <div class="qa-card"><div class="qa-question">What was the most surprising thing your experts told you?</div><input class="qa-input" placeholder="Your answer..."></div>
-        <div class="qa-card"><div class="qa-question">What would you change about your solution if you had more time?</div><input class="qa-input" placeholder="Your answer..."></div>
-        <div class="qa-card"><div class="qa-question">How do you know your solution would actually work?</div><input class="qa-input" placeholder="Your answer..."></div>
-        <div class="qa-card"><div class="qa-question">What happened when you shared it outside of FLL?</div><input class="qa-input" placeholder="Your answer..."></div>
-      </div>
-
-      <div style="font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin:.9rem 0 .7rem;">Robot Design</div>
-      <div class="qa-grid">
-        <div class="qa-card"><div class="qa-question">What is your highest-scoring run and how does it work?</div><input class="qa-input" placeholder="Your answer..."></div>
-        <div class="qa-card"><div class="qa-question">What did you try that didn't work, and what did you do instead?</div><input class="qa-input" placeholder="Your answer..."></div>
-        <div class="qa-card"><div class="qa-question">How do you make sure the robot goes straight?</div><input class="qa-input" placeholder="Your answer..."></div>
-        <div class="qa-card"><div class="qa-question">What would you build differently if you started over?</div><input class="qa-input" placeholder="Your answer..."></div>
-        <div class="qa-card"><div class="qa-question">How did everyone on the team contribute to the robot?</div><input class="qa-input" placeholder="Your answer..."></div>
-        <div class="qa-card"><div class="qa-question">What is the most innovative thing about your robot?</div><input class="qa-input" placeholder="Your answer..."></div>
+      <!-- Always-asked banner -->
+      <div style="background:rgba(240,192,64,.12);border:1px solid rgba(240,192,64,.35);border-radius:var(--radius);padding:.85rem 1.1rem;margin-bottom:1.4rem;">
+        <div style="font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;">Always asked — every team, every competition</div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;">
+          <div style="font-size:.88rem;color:var(--text);font-weight:600;">"How did your team solve disagreements?"</div>
+          <div style="font-size:.88rem;color:var(--text);font-weight:600;">"What did your team do to celebrate?"</div>
+        </div>
+        <div style="font-size:.78rem;color:var(--text-muted);margin-top:.5rem;">Every team member should have a real, specific answer ready. Not "we talked it out" — an actual example from this season.</div>
       </div>
 
-      <div style="font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:.9rem 0 .7rem;">Final Share (up to 8 min)</div>
-      <div class="qa-card" style="max-width:100%;margin-bottom:.5rem;">
-        <div class="qa-question">Is there anything about your project or robot you want to make sure judges heard?</div>
-        <input class="qa-input" placeholder="Your team's answer...">
+      <!-- Difficulty tabs -->
+      <div style="font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.6rem;">Practice by difficulty</div>
+      <div style="display:flex;gap:.5rem;margin-bottom:.3rem;flex-wrap:wrap;">
+        <button class="outline-area-btn oa-active" onclick="switchQADiff('easy',this)" style="background:rgba(0,212,180,.15);border-color:var(--teal);color:var(--teal)">Easy</button>
+        <button class="outline-area-btn" onclick="switchQADiff('medium',this)">Medium</button>
+        <button class="outline-area-btn" onclick="switchQADiff('hard',this)">Hard</button>
+        <button class="outline-area-btn" onclick="switchQADiff('what-is-hard',this)">What makes a Hard question?</button>
       </div>
-      <div class="qa-card" style="max-width:100%;">
-        <div class="qa-question">What question do you want to ask the judges for feedback?</div>
-        <input class="qa-input" placeholder="Your team's answer...">
+      <div style="font-size:.76rem;color:var(--text-dim);margin-bottom:1.3rem;">Fill in short answers you can say out loud. One sentence is fine — be specific to your team.</div>
+
+      <!-- EASY -->
+      <div class="qa-diff-panel" id="qa-easy">
+        <div style="font-size:.78rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.6;padding:.6rem .85rem;background:rgba(0,212,180,.07);border-radius:var(--radius-sm);border-left:2px solid var(--teal)">
+          <strong style="color:var(--teal)">Easy questions</strong> are expected. Every team gets them. If you freeze on these, judges notice. Practice until every team member can answer any of them without hesitation.
+        </div>
+
+        <div style="font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--teal);margin-bottom:.6rem;">Innovation Project</div>
+        <div class="qa-grid">
+          <div class="qa-card"><div class="qa-question">Why did you choose this problem?</div><input class="qa-input" placeholder="Your team's answer..."></div>
+          <div class="qa-card"><div class="qa-question">Who did you interview or talk to about the problem?</div><input class="qa-input" placeholder="Name and what they do..."></div>
+          <div class="qa-card"><div class="qa-question">Who did you share your solution with outside of FLL?</div><input class="qa-input" placeholder="Organization, event, person..."></div>
+          <div class="qa-card"><div class="qa-question">How did you come up with your solution?</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">What is the target audience for your solution?</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">What are your research sources?</div><input class="qa-input" placeholder="Your answer..."></div>
+        </div>
+
+        <div style="font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--blue);margin:.9rem 0 .6rem;">Robot Design</div>
+        <div class="qa-grid">
+          <div class="qa-card"><div class="qa-question">What sensors did you use and what do they do?</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">What do you think is the coolest thing about your robot?</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">What is your highest-scoring run and what missions does it hit?</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">How did everyone contribute to the robot?</div><input class="qa-input" placeholder="Your answer..."></div>
+        </div>
+
+        <div style="font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--purple,#9b7fd4);margin:.9rem 0 .6rem;">Core Values</div>
+        <div class="qa-grid">
+          <div class="qa-card"><div class="qa-question">What does Gracious Professionalism mean to you?</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">What is a Core Value and how did your team show it this season?</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">What was your team's best moment this season?</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">How did your team split up the work?</div><input class="qa-input" placeholder="Your answer..."></div>
+        </div>
       </div>
-    </div>
+
+      <!-- MEDIUM -->
+      <div class="qa-diff-panel" id="qa-medium" style="display:none">
+        <div style="font-size:.78rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.6;padding:.6rem .85rem;background:rgba(59,158,255,.07);border-radius:var(--radius-sm);border-left:2px solid var(--blue)">
+          <strong style="color:var(--blue)">Medium questions</strong> require team-specific answers. Generic answers score low. Judges are testing whether you really did the work and understand what you built.
+        </div>
+
+        <div style="font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--teal);margin-bottom:.6rem;">Innovation Project</div>
+        <div class="qa-grid">
+          <div class="qa-card"><div class="qa-question">What changed between version 1 and version 2 of your solution, and why?</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">What was the most surprising thing your expert told you?</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">Did you have other solution ideas? Why did you pick this one?</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">What would you change about your solution if you had more time?</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">How do you know your solution would actually work?</div><input class="qa-input" placeholder="Evidence, testing, feedback..."></div>
+          <div class="qa-card"><div class="qa-question">What happened when you shared your solution? What was the reaction?</div><input class="qa-input" placeholder="Your answer..."></div>
+        </div>
+
+        <div style="font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--blue);margin:.9rem 0 .6rem;">Robot Design</div>
+        <div class="qa-grid">
+          <div class="qa-card"><div class="qa-question">What ideas did you try that didn't work, and what did you do instead?</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">What mission did you decide NOT to run, and why?</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">Walk me through one piece of your code in plain language.</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">What would you build differently if you started over?</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">How do you make sure the robot goes straight and stays consistent?</div><input class="qa-input" placeholder="Your answer..."></div>
+        </div>
+
+        <div style="font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--purple,#9b7fd4);margin:.9rem 0 .6rem;">Core Values</div>
+        <div class="qa-grid">
+          <div class="qa-card"><div class="qa-question">Tell me about a real conflict your team had and exactly how you resolved it.</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">How did your team make decisions when not everyone agreed?</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">Tell me something you learned about the person next to you this season.</div><input class="qa-input" placeholder="Goes down the line — every member answers"></div>
+          <div class="qa-card"><div class="qa-question">If you could go back and change one thing from your season, what would it be?</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">What was your team's role for each person, and who decided?</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">If we gave your team one more week, how would you use it?</div><input class="qa-input" placeholder="Your answer..."></div>
+        </div>
+      </div>
+
+      <!-- HARD -->
+      <div class="qa-diff-panel" id="qa-hard" style="display:none">
+        <div style="font-size:.78rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.6;padding:.6rem .85rem;background:rgba(220,80,80,.07);border-radius:var(--radius-sm);border-left:2px solid #e05252">
+          <strong style="color:#e05252">Hard questions</strong> are designed to catch teams off guard. They test depth, honesty, and whether the kids genuinely drove the work. Most teams have never practiced these. The ones who have stand out.
+        </div>
+
+        <div style="font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--teal);margin-bottom:.6rem;">Innovation Project</div>
+        <div class="qa-grid">
+          <div class="qa-card"><div class="qa-question">Roughly how much would your solution cost to build and actually deploy?</div><div class="qa-why">Judges are testing whether you thought beyond the prototype. Even a rough estimate shows maturity.</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">If your expert told you your solution had a major flaw, what would you do next?</div><div class="qa-why">Tests whether your team can think on their feet and shows real scientific thinking.</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">You found that a similar solution already exists. Does that change anything about your project?</div><div class="qa-why">Judges sometimes know of similar products. This tests your research depth and how you handle new info.</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">Name a Core Value and give an example of how YOU personally used it outside of FLL this year.</div><div class="qa-why">Off-the-team examples show that Core Values actually sank in — not just a rehearsed team answer.</div><input class="qa-input" placeholder="Individual member answers..."></div>
+        </div>
+
+        <div style="font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--blue);margin:.9rem 0 .6rem;">Robot Design</div>
+        <div class="qa-grid">
+          <div class="qa-card"><div class="qa-question">Your robot just failed in a run. You have 30 seconds — what do you do?</div><div class="qa-why">Tests whether your team has a real contingency plan or just hopes the robot works.</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">How do you know your code is really working the way you think it is?</div><div class="qa-why">Judges ask this when a team seems to be describing code they don't fully understand. Have a specific answer.</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">What is the riskiest part of your most reliable run, and why do you keep it?</div><div class="qa-why">Shows strategic thinking about trade-offs — a sign of an advanced team.</div><input class="qa-input" placeholder="Your answer..."></div>
+        </div>
+
+        <div style="font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--purple,#9b7fd4);margin:.9rem 0 .6rem;">Core Values</div>
+        <div class="qa-grid">
+          <div class="qa-card"><div class="qa-question">What example of Gracious Professionalism have you seen ANOTHER team do today?</div><div class="qa-why">Requires real in-the-moment observation. Generic answers ("they were nice") don't impress judges.</div><input class="qa-input" placeholder="Specific team and specific action..."></div>
+          <div class="qa-card"><div class="qa-question">If you saw something happening to another team that wasn't fair, what would you do?</div><div class="qa-why">Tests whether kids understand that Gracious Professionalism extends beyond their own team.</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">Describe a situation where your coach helped you without doing the work for you.</div><div class="qa-why">Judges use this to check that kids did the real work. Be ready with a specific story, not a vague answer.</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">What advice would you give to your coach or mentor?</div><div class="qa-why">Flips the dynamic. Judges look for confidence, honesty, and whether kids feel ownership over their season.</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">What would your team do if it didn't have a coach?</div><div class="qa-why">Another kids-do-the-work check. Strong teams say "we'd figure it out because we know our project."</div><input class="qa-input" placeholder="Your answer..."></div>
+          <div class="qa-card"><div class="qa-question">Would you still do FLL if there were no awards? Why?</div><div class="qa-why">Judges love this one. Genuine answers about learning and fun score better than performative ones.</div><input class="qa-input" placeholder="Every member should have their own honest answer..."></div>
+        </div>
+      </div>
+
+      <!-- WHAT IS HARD -->
+      <div class="qa-diff-panel" id="qa-what-is-hard" style="display:none">
+        <div style="font-size:.82rem;color:var(--text-muted);margin-bottom:1.2rem;line-height:1.6;">Hard questions aren't harder because the words are bigger. They're hard because generic answers fail them. Here's what makes a question hard:</div>
+
+        <div style="display:flex;flex-direction:column;gap:.85rem;">
+          <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:.9rem 1.1rem;">
+            <div style="font-weight:700;font-size:.9rem;color:var(--text);margin-bottom:.3rem;">They require a real story, not a concept</div>
+            <div style="font-size:.83rem;color:var(--text-muted);line-height:1.6;">Easy: "What is Gracious Professionalism?" Hard: "Give an example of a team you saw today showing Gracious Professionalism." The hard version requires you to actually be paying attention at the event, not just knowing a definition.</div>
+          </div>
+          <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:.9rem 1.1rem;">
+            <div style="font-weight:700;font-size:.9rem;color:var(--text);margin-bottom:.3rem;">They test whether kids did the work</div>
+            <div style="font-size:.83rem;color:var(--text-muted);line-height:1.6;">Judges are trained to ask "walk me through your code" or "describe your coach's role" specifically to find out if the adults did the heavy lifting. If a kid can't explain their own robot's code, that's a red flag. Every member should understand the whole project at a basic level.</div>
+          </div>
+          <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:.9rem 1.1rem;">
+            <div style="font-weight:700;font-size:.9rem;color:var(--text);margin-bottom:.3rem;">They ask about failure, not just success</div>
+            <div style="font-size:.83rem;color:var(--text-muted);line-height:1.6;">Teams that say "everything went great" lose credibility. Judges look for: what broke, what you tried that failed, and what you learned. A team that has a real failure story told with confidence scores better than a team pretending everything was perfect.</div>
+          </div>
+          <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:.9rem 1.1rem;">
+            <div style="font-weight:700;font-size:.9rem;color:var(--text);margin-bottom:.3rem;">They address quiet members directly</div>
+            <div style="font-size:.83rem;color:var(--text-muted);line-height:1.6;">Judges may direct a question to a specific kid who hasn't spoken yet. Everyone on the team needs to be able to answer basic questions about the project and robot. Practice having your quieter members answer out loud, not just nod along.</div>
+          </div>
+          <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:.9rem 1.1rem;">
+            <div style="font-weight:700;font-size:.9rem;color:var(--text);margin-bottom:.3rem;">They introduce new information mid-session</div>
+            <div style="font-size:.83rem;color:var(--text-muted);line-height:1.6;">A judge might say: "We happen to know a similar product already exists" or "your expert mentioned that approach has a known problem." These are curveballs. The right move is to stay calm, acknowledge it, and explain what you would do next. Judges are not trying to trick you. They're testing your thinking.</div>
+          </div>
+          <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:.9rem 1.1rem;">
+            <div style="font-weight:700;font-size:.9rem;color:var(--text);margin-bottom:.3rem;">They ask about trade-offs, not just achievements</div>
+            <div style="font-size:.83rem;color:var(--text-muted);line-height:1.6;">Advanced teams can say "we chose reliability over maximum points" or "we didn't attempt that mission because the time cost was too high." Knowing what you decided NOT to do, and why, is a sign of strategic thinking that impresses judges more than a list of what you accomplished.</div>
+          </div>
+        </div>
+      </div>
+
+    </div></div>
 
   </div>
 </section>
@@ -4305,6 +4430,26 @@
   }
 
   // ── PRESENTATIONS ──
+  function switchQADiff(level, btn) {
+    document.querySelectorAll('.qa-diff-panel').forEach(p => p.style.display = 'none');
+    const panel = document.getElementById('qa-' + level);
+    if (panel) panel.style.display = 'block';
+    const row = btn.closest('div');
+    if (row) {
+      row.querySelectorAll('.outline-area-btn').forEach(b => {
+        b.classList.remove('oa-active','oa-teal');
+        b.style.removeProperty('background');
+        b.style.removeProperty('border-color');
+        b.style.removeProperty('color');
+      });
+    }
+    btn.classList.add('oa-active');
+    if (level === 'easy') { btn.style.background='rgba(0,212,180,.15)'; btn.style.borderColor='var(--teal)'; btn.style.color='var(--teal)'; }
+    else if (level === 'medium') { btn.style.background='rgba(59,158,255,.15)'; btn.style.borderColor='var(--blue)'; btn.style.color='var(--blue)'; }
+    else if (level === 'hard') { btn.style.background='rgba(220,80,80,.15)'; btn.style.borderColor='#e05252'; btn.style.color='#e05252'; }
+    else { btn.style.background='rgba(240,192,64,.12)'; btn.style.borderColor='var(--gold)'; btn.style.color='var(--gold)'; }
+  }
+
   function switchOutlineArea(area, btn) {
     document.querySelectorAll('.outline-area-btn').forEach(b => b.classList.remove('oa-active','oa-teal'));
     if (btn) {
