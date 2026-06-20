@@ -17,7 +17,8 @@
         +sc+' src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"'+esc
         +'<style>.goog-te-banner-frame,.skiptranslate{display:none!important}body{top:0!important}</style>';
       document.open();
-      document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+d.title+'</title><style>'+d.css+'</style></head><body>'+d.pages+gtBlock+'</body></html>');
+      var printBar='<div class="ws-print-bar"><div><div class="ws-print-bar-title">'+d.title+'</div><div class="ws-print-bar-sub">Each student worksheet prints on its own page.</div></div><button class="ws-print-btn" onclick="window.print()">Print All Worksheets</button></div>';
+      document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+d.title+'</title><style>'+d.css+'</style></head><body>'+printBar+d.pages+gtBlock+'</body></html>');
       document.close();
     } catch(e){}
   })();
@@ -4240,6 +4241,76 @@
     window.open(wsUrl, '_blank');
   }
 
+  function buildAgendaPage(name, grade, meeting, primaryArea, areas) {
+    const AREA_COLOR = { robot:'#3b9eff', project:'#00d4b4', cv:'#a78bfa' };
+    const AREA_LABEL = { robot:'Robot Game', project:'Innovation Project', cv:'Core Values' };
+    const phaseColor = { foundation:'#3b9eff', build:'#00d4b4', develop:'#a78bfa', refine:'#f0c040', prep:'#34d399' };
+    const phaseLabel = { foundation:'Season Kickoff', build:'Build and Research', develop:'Develop and Strengthen', refine:'Refinement', prep:'Competition Prep' };
+    const pColor     = phaseColor[meeting.phase] || '#3b9eff';
+    const pc         = WS_PHASE_CONTEXT[meeting.phase] || WS_PHASE_CONTEXT.build;
+    const gradeLabel = (grade || 6) + 'th Grade';
+
+    // Core tasks for agenda
+    const coreTasks = (meeting.bp.tasks || []).filter(function(t){ return t.tier === 'core' || t.tier === 'std'; });
+    const taskRows = coreTasks.map(function(t) {
+      const col = AREA_COLOR[t.area] || '#999';
+      return '<div class="ws-agenda-task-row">'
+        + '<div class="ws-agenda-area-dot" style="background:' + col + '"></div>'
+        + '<div class="ws-agenda-task-text">' + t.text + '</div>'
+        + '<div class="ws-agenda-task-mins">' + t.mins + ' min</div>'
+        + '</div>';
+    }).join('');
+
+    // Total time
+    const totalMins = coreTasks.reduce(function(sum, t){ return sum + (t.mins || 0); }, 0);
+
+    // Goals: use the focus descriptions from phase context for each area
+    const focusMap = { robot: pc.robot_focus, project: pc.project_focus, cv: pc.cv_focus };
+    const goalItems = areas.map(function(a) {
+      const focus = focusMap[a] || '';
+      if (!focus) return '';
+      return '<li class="ws-agenda-goal">'
+        + '<span class="ws-agenda-checkbox"></span>'
+        + '<span style="color:' + (AREA_COLOR[a]||'#333') + ';font-weight:700;margin-right:6px;">' + AREA_LABEL[a] + ':</span>'
+        + '<span>' + focus + '</span>'
+        + '</li>';
+    }).join('');
+
+    return '<div class="ws-agenda-page">'
+      // Colored header
+      + '<div class="ws-agenda-header" style="background:' + pColor + '">'
+      + '<div class="ws-agenda-eyebrow">Meeting ' + meeting.meetingNum + '  &bull;  Week ' + meeting.week + '  &bull;  ' + (phaseLabel[meeting.phase] || '') + '</div>'
+      + '<div class="ws-agenda-name">' + meeting.bp.title + '</div>'
+      + '<div class="ws-agenda-sub">' + name + '  &middot;  ' + gradeLabel + '</div>'
+      + '</div>'
+
+      // Meta row: name, date, team
+      + '<div class="ws-agenda-metarow">'
+      + '<div class="ws-agenda-meta-cell"><div class="ws-agenda-meta-label">Student</div><div class="ws-agenda-meta-val">' + name + '</div></div>'
+      + '<div class="ws-agenda-meta-cell"><div class="ws-agenda-meta-label">Date</div><span class="ws-agenda-meta-line"></span></div>'
+      + '<div class="ws-agenda-meta-cell"><div class="ws-agenda-meta-label">Team Name</div><span class="ws-agenda-meta-line"></span></div>'
+      + '<div class="ws-agenda-meta-cell"><div class="ws-agenda-meta-label">Total Time</div><div class="ws-agenda-meta-val">' + totalMins + ' min</div></div>'
+      + '</div>'
+
+      // Body
+      + '<div class="ws-agenda-body">'
+
+      // Phase context
+      + '<div class="ws-agenda-section-title">Where We Are This Season</div>'
+      + '<div class="ws-agenda-context">' + pc.context + '</div>'
+
+      // Agenda
+      + '<div class="ws-agenda-section-title">Today\'s Agenda</div>'
+      + taskRows
+
+      // Goals
+      + '<div class="ws-agenda-section-title">Goals for Today</div>'
+      + '<ul class="ws-agenda-goals">' + goalItems + '</ul>'
+
+      + '</div>'
+      + '</div>';
+  }
+
   function buildOneWorksheet(name, grade, meeting, primaryArea, areas, studentIndex) {
     const g   = WS_GRADE_CFG[grade] || WS_GRADE_CFG[6];
     const pc  = WS_PHASE_CONTEXT[meeting.phase] || WS_PHASE_CONTEXT.build;
@@ -4291,7 +4362,8 @@
       ratingHtml = '<div class="ws-rating"><span class="ws-rating-lbl">' + g.rating_label + '</span> <span class="ws-scale">1 &nbsp;&nbsp; 2 &nbsp;&nbsp; 3 &nbsp;&nbsp; 4 &nbsp;&nbsp; 5</span></div>';
     }
 
-    return '<div class="ws-page">'
+    const agendaPage = buildAgendaPage(name, grade, meeting, primaryArea, areas);
+    return agendaPage + '<div class="ws-page">'
       // Header bar
       + '<div class="ws-header-bar" style="background:' + pColor + '">'
       + '<div class="ws-header-left"><div class="ws-mission-tag">MEETING ' + meeting.meetingNum + '</div><div class="ws-meeting-title">' + meeting.bp.title + '</div></div>'
@@ -4378,9 +4450,100 @@
       .ws-rating-lbl { font-size:12px; font-weight:600; }
       .ws-scale { letter-spacing:6px; color:#888; }
       .ws-footer-brand { font-size:10px; color:#bbb; }
+      /* AGENDA PAGE */
+      .ws-agenda-page {
+        max-width:780px; margin:0 auto 24px; padding:0;
+        page-break-after:always; break-after:page;
+        border:2px solid #e0e0e0; border-radius:8px; overflow:hidden;
+        font-family:'Segoe UI',Arial,sans-serif;
+      }
+      .ws-agenda-header {
+        padding:20px 24px 16px; color:#fff;
+      }
+      .ws-agenda-eyebrow {
+        font-size:10px; font-weight:800; letter-spacing:.12em;
+        text-transform:uppercase; opacity:.85; margin-bottom:6px;
+      }
+      .ws-agenda-name { font-size:22px; font-weight:900; line-height:1.15; }
+      .ws-agenda-sub { font-size:12px; opacity:.8; margin-top:4px; }
+      .ws-agenda-body { padding:20px 24px; }
+      .ws-agenda-section-title {
+        font-size:9px; font-weight:800; letter-spacing:.12em;
+        text-transform:uppercase; color:#888; margin-bottom:8px; margin-top:18px;
+      }
+      .ws-agenda-section-title:first-child { margin-top:0; }
+      .ws-agenda-context {
+        font-size:12px; color:#444; line-height:1.6;
+        background:#f8f9fb; border-left:3px solid #dde2ea;
+        padding:10px 14px; border-radius:0 6px 6px 0; margin-bottom:4px;
+      }
+      .ws-agenda-task-row {
+        display:flex; align-items:flex-start; gap:10px;
+        padding:7px 0; border-bottom:1px solid #f0f0f0; font-size:12px;
+      }
+      .ws-agenda-task-row:last-child { border-bottom:none; }
+      .ws-agenda-area-dot {
+        width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:4px;
+      }
+      .ws-agenda-task-text { flex:1; color:#333; line-height:1.5; }
+      .ws-agenda-task-mins {
+        font-size:11px; font-weight:700; color:#888; white-space:nowrap; padding-top:1px;
+      }
+      .ws-agenda-goals { list-style:none; padding:0; }
+      .ws-agenda-goal {
+        display:flex; align-items:flex-start; gap:10px;
+        padding:8px 0; border-bottom:1px solid #f0f0f0; font-size:12px; color:#333;
+      }
+      .ws-agenda-goal:last-child { border-bottom:none; }
+      .ws-agenda-checkbox {
+        width:16px; height:16px; border:2px solid #bbb; border-radius:3px;
+        flex-shrink:0; margin-top:1px; display:inline-block;
+      }
+      .ws-agenda-metarow {
+        display:flex; gap:0; border-top:1px solid #eee; background:#f8f9fb;
+      }
+      .ws-agenda-meta-cell {
+        flex:1; padding:10px 14px; font-size:11px; color:#555;
+        border-right:1px solid #eee;
+      }
+      .ws-agenda-meta-cell:last-child { border-right:none; }
+      .ws-agenda-meta-label { font-weight:700; color:#888; font-size:10px;
+        text-transform:uppercase; letter-spacing:.07em; margin-bottom:3px; }
+      .ws-agenda-meta-val { font-size:12px; color:#333; }
+      .ws-agenda-meta-line {
+        display:block; border-bottom:1px solid #ccc; margin-top:6px; height:18px;
+      }
+      @media print {
+        .ws-agenda-page {
+          page-break-after:always; break-after:page;
+          border:none; margin:0; border-radius:0; max-width:100%;
+        }
+      }
+
+      .ws-print-bar {
+        max-width:780px; margin:0 auto 18px; display:flex;
+        align-items:center; justify-content:space-between; gap:12px;
+        padding:12px 16px; background:#f4f6fa; border:1px solid #dde2ea;
+        border-radius:8px; font-family:'Segoe UI',Arial,sans-serif;
+      }
+      .ws-print-bar-title { font-size:.88rem; font-weight:700; color:#333; }
+      .ws-print-bar-sub { font-size:.78rem; color:#666; margin-top:2px; }
+      .ws-print-btn {
+        background:#2563eb; color:#fff; border:none; border-radius:6px;
+        padding:9px 22px; font-size:.88rem; font-weight:700;
+        cursor:pointer; font-family:'Segoe UI',Arial,sans-serif;
+        white-space:nowrap; transition:background .15s;
+      }
+      .ws-print-btn:hover { background:#1d4ed8; }
       @media print {
         body { margin:0; }
-        .ws-page { page-break-after:always; border:none; margin:0; border-radius:0; }
+        .ws-print-bar { display:none; }
+        .ws-page {
+          page-break-after:always; break-after:page;
+          border:none; margin:0; border-radius:0;
+          max-width:100%; min-height:100vh;
+        }
+        .ws-page:last-child { page-break-after:auto; break-after:auto; }
       }
     `;
   }
