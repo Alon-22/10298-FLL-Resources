@@ -1282,7 +1282,7 @@
 </nav>
 
 <!-- Hidden Google Translate mount -->
-<div id="google_translate_element" style="display:none;visibility:hidden;position:absolute"></div>
+<div id="google_translate_element" style="position:fixed;top:-999px;left:-999px;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;"></div>
 
 
 <!-- ═══════ HOME ═══════ -->
@@ -3717,33 +3717,38 @@
 
   function translateTo(lang, label, btn) {
     currentTranslateLang = lang;
-    // Update active state
     document.querySelectorAll('.translate-opt').forEach(b => b.classList.remove('tr-active'));
     if (btn) btn.classList.add('tr-active');
     document.getElementById('tr-cur-lbl').textContent = label;
     document.getElementById('translate-dropdown').style.display = 'none';
 
-    // RTL support for Hebrew
-    document.documentElement.setAttribute('dir', lang === 'he' ? 'rtl' : 'ltr');
-
     if (lang === 'en') {
-      // Restore English via cookie + reload
-      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + location.hostname + ';';
+      // Reset: clear googtrans cookie and reload
+      const domains = ['', location.hostname, '.' + location.hostname];
+      domains.forEach(function(d) {
+        const base = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = d ? base + ' domain=' + d + ';' : base;
+      });
       location.reload();
       return;
     }
 
-    const trySet = function(attempts) {
+    // RTL layout for Hebrew only
+    document.body.setAttribute('dir', lang === 'he' ? 'rtl' : 'ltr');
+
+    const doTranslate = function(attempts) {
+      // Try the goog-te-combo select (Google Translate widget)
       const sel = document.querySelector('.goog-te-combo');
       if (sel) {
         sel.value = lang;
-        sel.dispatchEvent(new Event('change'));
+        // Fire both change and input events for reliability
+        sel.dispatchEvent(new Event('change', { bubbles: true }));
+        sel.dispatchEvent(new Event('input',  { bubbles: true }));
       } else if (attempts > 0) {
-        setTimeout(function(){ trySet(attempts - 1); }, 350);
+        setTimeout(function(){ doTranslate(attempts - 1); }, 400);
       }
     };
-    trySet(15);
+    doTranslate(20);
   }
 
   // Close on outside click
