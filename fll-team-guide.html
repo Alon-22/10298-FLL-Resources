@@ -4190,7 +4190,32 @@
     const css = buildWorksheetCSS();
     const win = window.open('', '_blank');
     const title = 'Worksheets - Meeting ' + meetingNum + ': ' + meeting.bp.title;
-    win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + title + '</title><style>' + css + '</style></head><body>' + pages + '</body></html>');
+
+    // Detect current site language from googtrans cookie
+    const gtMatch = document.cookie.match(/(?:^|;)\s*googtrans=\/en\/([^;]+)/);
+    const wsLang = gtMatch ? gtMatch[1] : 'en'; // e.g. 'iw', 'ar', 'es', 'kk', 'zh-CN', 'zh-TW'
+
+    // Build inline Google Translate block for non-English worksheets.
+    // We embed the widget and programmatically select the language since
+    // cookies are not available in a blank window context.
+    let gtBlock = '';
+    if (wsLang !== 'en') {
+      const sc = '<' + 'script';
+      const esc = '<' + '/script>';
+      gtBlock = '<div id="ws_gt" style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;"></div>'
+        + sc + '>function googleTranslateElementInit(){'
+        +   'new google.translate.TranslateElement({pageLanguage:"en",autoDisplay:false},"ws_gt");'
+        +   'var n=0;(function t(){'
+        +     'var s=document.querySelector(".goog-te-combo");'
+        +     'if(s){s.value="' + wsLang + '";s.dispatchEvent(new Event("change",{bubbles:true}));}'
+        +     'else if(n++<40){setTimeout(t,300);}'
+        +   '})();'
+        + '}' + esc
+        + sc + ' src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"' + esc
+        + '<style>.goog-te-banner-frame,.skiptranslate{display:none!important}body{top:0!important}</style>';
+    }
+
+    win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + title + '</title><style>' + css + '</style></head><body>' + pages + gtBlock + '</body></html>');
     win.document.close();
   }
 
