@@ -1494,30 +1494,40 @@
 
     <!-- What is FLL -->
     <div class="bright-box blue" style="margin-top:.5rem;">
-      <h3>What is FIRST LEGO League (FLL)?</h3>
-      <p>FLL is a robotics competition for students in roughly grades 4 through 8. Every season has a theme, like food, energy, or transportation. Your team works on three things: building a robot that completes missions on a game table, researching a real-world problem connected to the theme, and showing good teamwork throughout the season. At competitions, judges score your team separately on all three.</p>
+      <h3>What is FIRST LEGO League?</h3>
+      <p>FLL is a program for students in grades 4 through 8 built around one idea: learning by doing. Over the course of a season, you will engineer a robot, conduct real research, develop a solution to an actual problem, and present your work to judges. The skills you build: critical thinking, collaboration, public speaking, and creative problem solving. These are the same ones engineers, scientists, and leaders use every day. The competition is the deadline, not the point.</p>
     </div>
 
-    <!-- Three areas -->
-    <div class="intro-cards">
-      <div class="intro-card blue" onclick="show('robot',navBtns[1])" style="cursor:pointer;">
-        <div class="ic-label">Area 01</div>
+    <!-- Four components -->
+    <div style="margin:1.5rem 0 .75rem;font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);">The 4 components judges score you on</div>
+    <div class="intro-cards" style="grid-template-columns:repeat(auto-fit,minmax(210px,1fr));">
+      <div class="intro-card blue" onclick="openTab('robot')" style="cursor:pointer;">
+        <div class="ic-label">Component 01</div>
         <h3>Robot Game</h3>
-        <p>Your robot gets 2.5 minutes on the game table, fully on its own. Once it starts, you can't touch it. You score points by completing missions, not by finishing fastest.</p>
-        <div class="ic-accent blue" style="margin-top:1rem;">Learn robot design →</div>
+        <p>Your robot has 2.5 minutes on the game table, entirely on its own. You design it, build it, and program it to complete as many missions as possible. Points come from missions completed, not speed.</p>
+        <div class="ic-accent blue" style="margin-top:1rem;">What you learn: mechanical design, programming, testing under pressure</div>
       </div>
-      <div class="intro-card teal" onclick="show('project',navBtns[2])" style="cursor:pointer;">
-        <div class="ic-label">Area 02</div>
+      <div class="intro-card blue" onclick="openTab('robot')" style="cursor:pointer;--border-col:#2a5080;">
+        <div class="ic-label">Component 02</div>
+        <h3>Robot Design</h3>
+        <p>Judges sit down with your team and ask how you built it. They want to understand your decisions: what you tried, what failed, what you changed, and why. Every team member should be able to answer.</p>
+        <div class="ic-accent blue" style="margin-top:1rem;">What you learn: engineering process, documentation, technical communication</div>
+      </div>
+      <div class="intro-card teal" onclick="openTab('project')" style="cursor:pointer;">
+        <div class="ic-label">Component 03</div>
         <h3>Innovation Project</h3>
-        <p>Your team picks a real problem connected to the season's theme, designs a solution, talks to real experts, and shares what you found with people outside FLL.</p>
-        <div class="ic-accent teal" style="margin-top:1rem;">Learn the project →</div>
+        <p>You identify a real-world problem connected to the season theme, research it by talking to actual experts, design a solution, and present it to judges. Then you share it with people outside of FLL.</p>
+        <div class="ic-accent teal" style="margin-top:1rem;">What you learn: research, problem definition, presentation, community engagement</div>
       </div>
-      <div class="intro-card purple" onclick="show('values',navBtns[3])" style="cursor:pointer;">
-        <div class="ic-label">Area 03</div>
+      <div class="intro-card purple" onclick="openTab('values')" style="cursor:pointer;">
+        <div class="ic-label">Component 04</div>
         <h3>Core Values</h3>
-        <p>A separate judging session where judges watch how your team works together. They want to see real teamwork and problem-solving, not a scripted performance.</p>
-        <div class="ic-accent" style="margin-top:1rem;color:var(--purple);">Learn core values →</div>
+        <p>Judges observe how your team works together throughout the day. They are looking for genuine collaboration, respect, and how you handle challenges as a group. This is not a performance. It is how you actually act.</p>
+        <div class="ic-accent" style="margin-top:1rem;color:var(--purple);">What you learn: teamwork, leadership, gracious professionalism</div>
       </div>
+    </div>
+    <div class="bright-box" style="background:rgba(59,158,255,.07);border-color:rgba(59,158,255,.2);margin-top:1rem;">
+      <p style="font-size:.9rem;line-height:1.7;color:var(--text-muted);">At competition, each component is scored separately. A team can win a Robot Game award, a Project award, a Core Values award, or a Champion award for excelling across all four. The goal is not to be perfect at one thing. It is to show growth and depth across everything.</p>
     </div>
 
     <!-- Season Timeline -->
@@ -1529,7 +1539,7 @@
           <div class="tl-line"></div>
         </div>
         <div>
-          <div class="tl-month">August — Season Launch</div>
+          <div class="tl-month">August: Season Launch</div>
           <h3>The new challenge is revealed</h3>
           <p>FIRST releases the season theme and robot game rules. You'll find out what's on the game table and what kind of problem your project should focus on. Start a team journal right away.</p>
         </div>
@@ -1553,7 +1563,7 @@
         <div>
           <div class="tl-month">October–November</div>
           <h3>Refine and reach out</h3>
-          <p>Work on your robot's consistency, contact experts for your project, and start practicing your judging presentations for all three areas. Most qualifier competitions happen in November or December.</p>
+          <p>Work on your robot's consistency, contact experts for your project, and start rehearsing your Innovation Project presentation and Robot Design explanation for the judging session. Most qualifier competitions happen in November or December.</p>
         </div>
       </div>
       <div class="tl-item">
@@ -1634,7 +1644,7 @@
       <h3 style="color:var(--text);margin-bottom:1rem;">The most important thing to understand about robot design</h3>
       <div class="compare">
         <div class="compare-col bad">
-          <div class="cmp-label">Big robot — the common mistake</div>
+          <div class="cmp-label">Big robot: the common mistake</div>
           <ul>
             <li>Gets stuck in tight table spaces</li>
             <li>Heavy and slow, hard to control precisely</li>
@@ -1644,10 +1654,10 @@
           </ul>
         </div>
         <div class="compare-col good">
-          <div class="cmp-label">Small, compact robot — what works</div>
+          <div class="cmp-label">Small, compact robot: what works</div>
           <ul>
             <li>Fits anywhere on the table</li>
-            <li>Light and fast — navigates precisely</li>
+            <li>Light and fast, navigates precisely</li>
             <li>Stable and predictable run after run</li>
             <li>Fewer moving parts = fewer failures</li>
             <li>Same result nearly every time</li>
@@ -1661,7 +1671,7 @@
     </div>
 
     <!-- Getting started steps -->
-    <h3 style="color:var(--text);margin-bottom:1rem;">Where to start — your first 4 weeks</h3>
+    <h3 style="color:var(--text);margin-bottom:1rem;">Where to start: your first 4 weeks</h3>
     <div class="step-list">
       <div class="step-item">
         <div class="step-num-circle blue">1</div>
@@ -1738,7 +1748,7 @@
         </div>
         <div class="info-card">
           <h3>Document your robot's evolution</h3>
-          <p>Not every team needs a full V2 before their first event — and that's fine. What matters is intentional improvement: if you change something, record why, what you changed, and whether it worked. Even a single well-documented robot with logged iterations shows judges real engineering process. Only consider a redesign if the core structure is causing consistent failures that practice won't fix.</p>
+          <p>Not every team needs a full V2 before their first event, and that's fine. What matters is intentional improvement: if you change something, record why, what you changed, and whether it worked. Even a single well-documented robot with logged iterations shows judges real engineering process. Only consider a redesign if the core structure is causing consistent failures that practice won't fix.</p>
         </div>
         <div class="info-card">
           <h3>Build mission-specific attachments</h3>
@@ -1893,7 +1903,7 @@
       <ul class="checklist">
         <li><span class="ck blue">✓</span>Who they are: a professor, nonprofit employee, government worker, local business owner, anyone with real knowledge of your problem</li>
         <li><span class="ck blue">✓</span>Why you're asking: "We're a student FLL team researching [problem] and we'd love to hear from an expert in [their field]"</li>
-        <li><span class="ck blue">✓</span>What you're asking: two or three specific questions — not "can you help us with our project"</li>
+        <li><span class="ck blue">✓</span>What you're asking: two or three specific questions, not "can you help us with our project"</li>
         <li><span class="ck blue">✓</span>Record their response and note exactly how it influenced your project</li>
       </ul>
     </div>
@@ -1913,19 +1923,19 @@
   <div class="section-banner">
     <div class="section-eyebrow eyebrow-purple">Area 03</div>
     <h2>Core Values</h2>
-    <p>Core Values is a separate judging session, usually 10 to 15 minutes, where judges watch your whole team interact. They're not just listening to your answers. They're watching who speaks, how you treat each other, and whether the way you work together seems real.</p>
+    <p>Core Values is not a separate judging session. It is observed by judges throughout your entire 30-minute judging block. While your team presents the Innovation Project and explains the Robot Design, judges are also watching how you treat each other, who speaks, whether you listen, and whether your teamwork looks genuine.</p>
   </div>
 
   <div class="content">
 
     <!-- What is the session -->
     <div class="bright-box" style="background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.25);margin-bottom:1.5rem;">
-      <h3>What happens in the Core Values judging session?</h3>
-      <p>Judges will ask your team questions about the season: what you learned, how you made decisions, what challenges you ran into, how you handled disagreements. Sometimes they'll give your team a short activity to do together and watch how you work through it. They're not looking for a perfect rehearsed presentation. They want to see a real team doing real things.</p>
+      <h3>How does judging actually work?</h3>
+      <p>Your team has one 30-minute judging session. It is structured as: a 2-minute welcome while you set up, a 5-minute Innovation Project presentation, 5 minutes of Innovation Project Q&A, a 5-minute Robot Design explanation, 5 minutes of Robot Design Q&A, and up to 8 minutes of Final Share where you can add anything and judges give verbal feedback. After you leave, judges spend 10 minutes scoring together. Core Values is not a separate event, judges are watching how your team works together throughout the entire session.</p>
     </div>
 
     <!-- Six Values -->
-    <h3 style="color:var(--text);margin-bottom:1rem;">The six Core Values — what they actually mean</h3>
+    <h3 style="color:var(--text);margin-bottom:1rem;">The six Core Values: what they actually mean</h3>
     <div class="values-grid">
       <div class="val-card">
         <div class="vl blue">Discovery</div>
@@ -1961,7 +1971,7 @@
 
     <!-- Gracious Professionalism -->
     <div class="callout purple" style="margin-bottom:1.75rem;">
-      <div class="cl-label">Gracious Professionalism — the most important FLL concept</div>
+      <div class="cl-label">Gracious Professionalism: the most important FLL concept</div>
       <p>Compete hard. Be kind. That's the whole idea. Gracious Professionalism means treating competitors, judges, and volunteers with real respect, even when things go wrong. Cheer when other teams score. Share tips you didn't have to share. Never celebrate another team's failure. Judges watch this all day, not just during your judging session.</p>
     </div>
 
@@ -2021,7 +2031,7 @@
         </div>
         <div class="info-card">
           <h3>Show how your values show up in all three areas</h3>
-          <p>Did your Teamwork show up in how you built the robot? Did your Discovery connect to the project? At higher competition levels, judges look for teams where the Core Values show up everywhere, not just in the Core Values session.</p>
+          <p>Did your Teamwork show up in how you built the robot? Did your Discovery connect to the project? At higher competition levels, judges look for teams where Core Values show up genuinely throughout the entire judging session, not just when they are directly asked about it.</p>
         </div>
         <div class="info-card">
           <h3>Give each member a spotlight in your portfolio</h3>
@@ -2090,7 +2100,7 @@
       <div class="section-icon">&#127908;</div>
       <div>
         <div class="section-title">Judging Presentation Script Builder</div>
-        <div class="section-sub">Write, time, and rehearse your presentations — one section at a time</div>
+        <div class="section-sub">Write, time, and rehearse your presentations, one section at a time</div>
       </div>
     </div>
   </div>
@@ -2100,12 +2110,12 @@
     <!-- General tips card -->
     <div class="pres-tips-card">
       <div style="font-weight:800;font-size:.95rem;color:var(--text);margin-bottom:.1rem;">&#128161; Before You Write</div>
-      <div style="font-size:.83rem;color:var(--text-muted);">Judges want to hear from the <em>kids</em> — not a polished boardroom pitch. Speak naturally, use your own words, and let your real enthusiasm show.</div>
+      <div style="font-size:.83rem;color:var(--text-muted);">Judges want to hear from the <em>kids</em>, not a polished boardroom pitch. Speak naturally, use your own words, and let your real enthusiasm show.</div>
       <div class="pres-tips-grid">
-        <div class="ptip"><span class="ptip-icon">&#9200;</span><strong>5 minutes each</strong>You have 5 minutes for Innovation Project and ~5 for Robot Design. Practice to hit that target — not under, not over.</div>
-        <div class="ptip"><span class="ptip-icon">&#128101;</span><strong>Everyone speaks</strong>Every team member should say something. Judges notice when one kid does all the talking.</div>
-        <div class="ptip"><span class="ptip-icon">&#128218;</span><strong>Tell a story</strong>Start with a hook that makes judges care about the problem before you explain the solution.</div>
-        <div class="ptip"><span class="ptip-icon">&#128262;</span><strong>Know it cold</strong>You can use notes, but practice until you don't need them. Judges ask follow-up questions — you need to know the material, not just the script.</div>
+        <div class="ptip"><strong>Know the structure</strong>Your full judging session is 30 minutes: 5 min Innovation Project presentation, 5 min IP questions, 5 min Robot Design explanation, 5 min Robot Design questions, then up to 8 min of Final Share. Practice each section to its time target.</div>
+        <div class="ptip"><strong>Everyone speaks</strong>Every team member should say something. Judges notice when one kid does all the talking.</div>
+        <div class="ptip"><strong>Tell a story</strong>Start with a hook that makes judges care about the problem before you explain the solution.</div>
+        <div class="ptip"><strong>Know it cold</strong>You can use notes, but practice until you don't need them. Judges ask follow-up questions, you need to know the material, not just the script.</div>
       </div>
     </div>
 
@@ -2129,28 +2139,28 @@
       <div class="script-section-card" id="ssc-ip-1">
         <div class="ssc-header" onclick="toggleScriptSection('ip-1')">
           <div class="ssc-num">1</div>
-          <div class="ssc-title">The Hook — Grab Their Attention</div>
+          <div class="ssc-title">The Hook: Grab Their Attention</div>
           <div class="ssc-time-badge">~30 sec</div>
           <div class="ssc-wordcount" id="wc-ip-1">0 words</div>
           <div class="ssc-chevron">&#9654;</div>
         </div>
         <div class="ssc-body">
           <div class="ssc-tip">
-            <strong>What to cover:</strong> Open with something that makes judges stop and pay attention — a surprising fact, a question, or a story. Don't start with "Hi, we're team X and our project is about…"
+            <strong>What to cover:</strong> Open with something that makes judges stop and pay attention, a surprising fact, a question, or a story. Don't start with "Hi, we're team X and our project is about…"
             <ul>
               <li>A real moment someone on your team experienced</li>
               <li>A shocking statistic about the problem</li>
               <li>A question that makes judges think</li>
             </ul>
           </div>
-          <textarea class="ssc-textarea" id="ip-s1" placeholder="Example: 'Did you know that 1 in 4 kids in our school says they don't understand what they're eating at lunch? We didn't either — until we started digging…'"
+          <textarea class="ssc-textarea" id="ip-s1" placeholder="Example: 'Did you know that 1 in 4 kids in our school says they don't understand what they're eating at lunch? We didn't either, until we started digging…'"
             oninput="updatePresWordCount('ip-s1','wc-ip-1',65,'ip')"></textarea>
           <div class="ssc-wc-row">
             <div class="ssc-wc" id="wc-ip-1-detail">0 words ≈ 0s &nbsp;(target: ~30s)</div>
             <button class="ssc-example-toggle" onclick="toggleExample('ex-ip-1')">&#9997; See EYVE example</button>
           </div>
           <div class="ssc-example" id="ex-ip-1">
-            <em>EYVE example:</em> "Have you ever sat down to eat your vegetables and wondered — wait, where did these actually come from? What's actually in this? Our team noticed that most kids at our school had no idea. And neither did we. That was the moment TapDeck was born."
+            <em>EYVE example:</em> "Have you ever sat down to eat your vegetables and wondered, wait, where did these actually come from? What's actually in this? Our team noticed that most kids at our school had no idea. And neither did we. That was the moment TapDeck was born."
           </div>
         </div>
       </div>
@@ -2159,14 +2169,14 @@
       <div class="script-section-card" id="ssc-ip-2">
         <div class="ssc-header" onclick="toggleScriptSection('ip-2')">
           <div class="ssc-num">2</div>
-          <div class="ssc-title">The Problem — Why Does It Matter?</div>
+          <div class="ssc-title">The Problem: Why Does It Matter?</div>
           <div class="ssc-time-badge">~45 sec</div>
           <div class="ssc-wordcount" id="wc-ip-2">0 words</div>
           <div class="ssc-chevron">&#9654;</div>
         </div>
         <div class="ssc-body">
           <div class="ssc-tip">
-            <strong>What to cover:</strong> Explain the problem clearly — who is affected, how big is it, why does it matter now?
+            <strong>What to cover:</strong> Explain the problem clearly, who is affected, how big is it, why does it matter now?
             <ul>
               <li>Be specific: give numbers, names, or real examples</li>
               <li>Show that you understand the problem deeply, not just on the surface</li>
@@ -2180,7 +2190,7 @@
             <button class="ssc-example-toggle" onclick="toggleExample('ex-ip-2')">&#9997; See EYVE example</button>
           </div>
           <div class="ssc-example" id="ex-ip-2">
-            <em>EYVE example:</em> "We talked to 30 kids and found that 80% didn't know the nutrition info of what they were eating — and most said they didn't know where to look. The problem wasn't that information doesn't exist. It's that it's scattered, confusing, and boring. Kids just tune it out."
+            <em>EYVE example:</em> "We talked to 30 kids and found that 80% didn't know the nutrition info of what they were eating, and most said they didn't know where to look. The problem wasn't that information doesn't exist. It's that it's scattered, confusing, and boring. Kids just tune it out."
           </div>
         </div>
       </div>
@@ -2189,7 +2199,7 @@
       <div class="script-section-card" id="ssc-ip-3">
         <div class="ssc-header" onclick="toggleScriptSection('ip-3')">
           <div class="ssc-num">3</div>
-          <div class="ssc-title">Our Research — What Did We Learn?</div>
+          <div class="ssc-title">Our Research: What Did We Learn?</div>
           <div class="ssc-time-badge">~60 sec</div>
           <div class="ssc-wordcount" id="wc-ip-3">0 words</div>
           <div class="ssc-chevron">&#9654;</div>
@@ -2200,7 +2210,7 @@
             <ul>
               <li>Experts you interviewed (name their field, not just "an expert")</li>
               <li>Surveys, research, or data you gathered</li>
-              <li>What surprised you — moments your thinking changed</li>
+              <li>What surprised you, moments your thinking changed</li>
               <li>Solutions that already exist and why they fall short</li>
             </ul>
           </div>
@@ -2211,7 +2221,7 @@
             <button class="ssc-example-toggle" onclick="toggleExample('ex-ip-3')">&#9997; See EYVE example</button>
           </div>
           <div class="ssc-example" id="ex-ip-3">
-            <em>EYVE example:</em> "We interviewed eight experts — a nutritionist, two food scientists, a school lunch coordinator, and even a chef from a restaurant downtown. The biggest thing we learned: kids engage with food information when it's connected to something they already love, like music. That insight completely changed our solution. We also found three existing apps, but they were all designed for adults and required parents to set up accounts."
+            <em>EYVE example:</em> "We interviewed eight experts, a nutritionist, two food scientists, a school lunch coordinator, and even a chef from a restaurant downtown. The biggest thing we learned: kids engage with food information when it's connected to something they already love, like music. That insight completely changed our solution. We also found three existing apps, but they were all designed for adults and required parents to set up accounts."
           </div>
         </div>
       </div>
@@ -2220,18 +2230,18 @@
       <div class="script-section-card" id="ssc-ip-4">
         <div class="ssc-header" onclick="toggleScriptSection('ip-4')">
           <div class="ssc-num">4</div>
-          <div class="ssc-title">Our Solution — What Did We Build?</div>
+          <div class="ssc-title">Our Solution: What Did We Build?</div>
           <div class="ssc-time-badge">~75 sec</div>
           <div class="ssc-wordcount" id="wc-ip-4">0 words</div>
           <div class="ssc-chevron">&#9654;</div>
         </div>
         <div class="ssc-body">
           <div class="ssc-tip">
-            <strong>What to cover:</strong> Describe your solution clearly — what is it, how does it work, and why is it better?
+            <strong>What to cover:</strong> Describe your solution clearly, what is it, how does it work, and why is it better?
             <ul>
               <li>What specifically does your solution do?</li>
               <li>How did you design/build/test it?</li>
-              <li>What makes it innovative — what's different about your approach?</li>
+              <li>What makes it innovative, what's different about your approach?</li>
               <li>Show a prototype, demo, or visuals if you have them</li>
             </ul>
           </div>
@@ -2242,7 +2252,7 @@
             <button class="ssc-example-toggle" onclick="toggleExample('ex-ip-4')">&#9997; See EYVE example</button>
           </div>
           <div class="ssc-example" id="ex-ip-4">
-            <em>EYVE example:</em> "TapDeck is a playlist-based food discovery app. You scan a food item, and instead of showing you a boring nutrition label, TapDeck creates a music playlist that represents that food's nutritional profile — high energy foods get upbeat songs, leafy greens get calming ones. We built two versions: V1 was a paper prototype we tested with 15 kids. They loved the concept but said the music felt random. So in V2 we worked with a music teacher to map nutrients to actual musical qualities. The reaction was completely different."
+            <em>EYVE example:</em> "TapDeck is a playlist-based food discovery app. You scan a food item, and instead of showing you a boring nutrition label, TapDeck creates a music playlist that represents that food's nutritional profile, high energy foods get upbeat songs, leafy greens get calming ones. We built two versions: V1 was a paper prototype we tested with 15 kids. They loved the concept but said the music felt random. So in V2 we worked with a music teacher to map nutrients to actual musical qualities. The reaction was completely different."
           </div>
         </div>
       </div>
@@ -2251,14 +2261,14 @@
       <div class="script-section-card" id="ssc-ip-5">
         <div class="ssc-header" onclick="toggleScriptSection('ip-5')">
           <div class="ssc-num">5</div>
-          <div class="ssc-title">Testing & Improvement — How Did It Get Better?</div>
+          <div class="ssc-title">Testing and Improvement: How Did It Get Better?</div>
           <div class="ssc-time-badge">~30 sec</div>
           <div class="ssc-wordcount" id="wc-ip-5">0 words</div>
           <div class="ssc-chevron">&#9654;</div>
         </div>
         <div class="ssc-body">
           <div class="ssc-tip">
-            <strong>What to cover:</strong> Show that you actually tested your solution with real people and improved it based on feedback — this is the design process judges want to see.
+            <strong>What to cover:</strong> Show that you actually tested your solution with real people and improved it based on feedback, this is the design process judges want to see.
             <ul>
               <li>Who tested it? How many people?</li>
               <li>What feedback did you get?</li>
@@ -2281,14 +2291,14 @@
       <div class="script-section-card" id="ssc-ip-6">
         <div class="ssc-header" onclick="toggleScriptSection('ip-6')">
           <div class="ssc-num">6</div>
-          <div class="ssc-title">Sharing — How Did You Spread Your Idea?</div>
+          <div class="ssc-title">Sharing: How Did You Spread Your Idea?</div>
           <div class="ssc-time-badge">~30 sec</div>
           <div class="ssc-wordcount" id="wc-ip-6">0 words</div>
           <div class="ssc-chevron">&#9654;</div>
         </div>
         <div class="ssc-body">
           <div class="ssc-tip">
-            <strong>What to cover:</strong> Judges want to know that your solution didn't just stay in the room — you shared it with people beyond your team.
+            <strong>What to cover:</strong> Judges want to know that your solution didn't just stay in the room, you shared it with people beyond your team.
             <ul>
               <li>Who did you present to? (school, community org, professionals)</li>
               <li>How did you share? (presentation, video, demo, report)</li>
@@ -2311,18 +2321,18 @@
       <div class="script-section-card" id="ssc-ip-7">
         <div class="ssc-header" onclick="toggleScriptSection('ip-7')">
           <div class="ssc-num">7</div>
-          <div class="ssc-title">Closing — Land the Plane</div>
+          <div class="ssc-title">Closing: Land the Plane</div>
           <div class="ssc-time-badge">~30 sec</div>
           <div class="ssc-wordcount" id="wc-ip-7">0 words</div>
           <div class="ssc-chevron">&#9654;</div>
         </div>
         <div class="ssc-body">
           <div class="ssc-tip">
-            <strong>What to cover:</strong> Wrap up with impact — what could this become, and what did the journey mean to your team?
+            <strong>What to cover:</strong> Wrap up with impact, what could this become, and what did the journey mean to your team?
             <ul>
               <li>What's the next step for your solution?</li>
               <li>What would real-world impact look like?</li>
-              <li>One sentence from the heart — what did this season mean to you?</li>
+              <li>One sentence from the heart, what did this season mean to you?</li>
             </ul>
           </div>
           <textarea class="ssc-textarea" id="ip-s7" placeholder="End strong. What's the future of your solution? What did your team learn that will stay with you? Give judges a reason to remember you."
@@ -2332,7 +2342,7 @@
             <button class="ssc-example-toggle" onclick="toggleExample('ex-ip-7')">&#9997; See EYVE example</button>
           </div>
           <div class="ssc-example" id="ex-ip-7">
-            <em>EYVE example:</em> "If TapDeck reaches just one kid who starts paying attention to what they eat because a song made them curious — that's enough. But we think it can reach a lot more than one. We're a team of eight kids who built something real this year. And we're just getting started."
+            <em>EYVE example:</em> "If TapDeck reaches just one kid who starts paying attention to what they eat because a song made them curious, that's enough. But we think it can reach a lot more than one. We're a team of eight kids who built something real this year. And we're just getting started."
           </div>
         </div>
       </div>
@@ -2374,7 +2384,7 @@
             <button class="ssc-example-toggle" onclick="toggleExample('ex-robot-1')">&#9997; See EYVE example</button>
           </div>
           <div class="ssc-example" id="ex-robot-1">
-            <em>EYVE example:</em> "We rotated every team member through building and programming. Nobody owned just one role — that was intentional, so everyone understood the whole robot. Our strategy was to nail 6–8 reliable missions before going for harder ones."
+            <em>EYVE example:</em> "We rotated every team member through building and programming. Nobody owned just one role, that was intentional, so everyone understood the whole robot. Our strategy was to nail 6–8 reliable missions before going for harder ones."
           </div>
         </div>
       </div>
@@ -2383,17 +2393,17 @@
       <div class="script-section-card" id="ssc-robot-2">
         <div class="ssc-header" onclick="toggleScriptSection('robot-2')">
           <div class="ssc-num">2</div>
-          <div class="ssc-title">Mission Strategy — What Did You Choose to Run?</div>
+          <div class="ssc-title">Mission Strategy: What Did You Choose to Run?</div>
           <div class="ssc-time-badge">~60 sec</div>
           <div class="ssc-wordcount" id="wc-robot-2">0 words</div>
           <div class="ssc-chevron">&#9654;</div>
         </div>
         <div class="ssc-body">
           <div class="ssc-tip">
-            <strong>What to cover:</strong> Walk judges through your mission selection — not just what you ran, but why.
+            <strong>What to cover:</strong> Walk judges through your mission selection, not just what you ran, but why.
             <ul>
               <li>Which missions did you prioritize and why?</li>
-              <li>Which missions did you decide to skip — and what was the reasoning?</li>
+              <li>Which missions did you decide to skip, and what was the reasoning?</li>
               <li>How did your strategy change over the season?</li>
             </ul>
           </div>
@@ -2404,7 +2414,7 @@
             <button class="ssc-example-toggle" onclick="toggleExample('ex-robot-2')">&#9997; See EYVE example</button>
           </div>
           <div class="ssc-example" id="ex-robot-2">
-            <em>EYVE example:</em> "We built runs around clusters of missions that shared the same robot position. Our Run 1 hits four missions in the same corner. Run 2 crosses the field once and grabs two more. We chose reliability over point maximizing — a consistent 200 beats a risky 280. One mission we dropped after Week 6 because it cost us 90 seconds and we could never get it right under pressure."
+            <em>EYVE example:</em> "We built runs around clusters of missions that shared the same robot position. Our Run 1 hits four missions in the same corner. Run 2 crosses the field once and grabs two more. We chose reliability over point maximizing, a consistent 200 beats a risky 280. One mission we dropped after Week 6 because it cost us 90 seconds and we could never get it right under pressure."
           </div>
         </div>
       </div>
@@ -2413,28 +2423,28 @@
       <div class="script-section-card" id="ssc-robot-3">
         <div class="ssc-header" onclick="toggleScriptSection('robot-3')">
           <div class="ssc-num">3</div>
-          <div class="ssc-title">Robot Design — How Is It Built?</div>
+          <div class="ssc-title">Robot Design: How Is It Built?</div>
           <div class="ssc-time-badge">~75 sec</div>
           <div class="ssc-wordcount" id="wc-robot-3">0 words</div>
           <div class="ssc-chevron">&#9654;</div>
         </div>
         <div class="ssc-body">
           <div class="ssc-tip">
-            <strong>What to cover:</strong> Explain your key design choices — not every part, just the ones that matter most.
+            <strong>What to cover:</strong> Explain your key design choices, not every part, just the ones that matter most.
             <ul>
               <li>What's the most important attachment? How does it work?</li>
               <li>What design decisions did you make and why? (gear ratios, wheel choice, arm design)</li>
               <li>What did you try that didn't work, and what did you switch to?</li>
             </ul>
           </div>
-          <textarea class="ssc-textarea" id="robot-s3" placeholder="Our robot's most important attachment is ___ — it works by ___. We chose ___ design because ___. We tried ___ first but switched to ___ because ___."
+          <textarea class="ssc-textarea" id="robot-s3" placeholder="Our robot's most important attachment is ___, it works by ___. We chose ___ design because ___. We tried ___ first but switched to ___ because ___."
             oninput="updatePresWordCount('robot-s3','wc-robot-3',165,'robot')"></textarea>
           <div class="ssc-wc-row">
             <div class="ssc-wc" id="wc-robot-3-detail">0 words ≈ 0s &nbsp;(target: ~75s)</div>
             <button class="ssc-example-toggle" onclick="toggleExample('ex-robot-3')">&#9997; See EYVE example</button>
           </div>
           <div class="ssc-example" id="ex-robot-3">
-            <em>EYVE example:</em> "Our main attachment is a double-arm gripper we call 'The Claw.' It can grab mission models at two different heights without repositioning the robot. We started with a single arm but kept missing on the left side. The double arm added only 40 grams and fixed that completely. We also switched from large wheels to medium wheels in Week 4 — the large wheels were faster but we kept drifting on turns."
+            <em>EYVE example:</em> "Our main attachment is a double-arm gripper we call 'The Claw.' It can grab mission models at two different heights without repositioning the robot. We started with a single arm but kept missing on the left side. The double arm added only 40 grams and fixed that completely. We also switched from large wheels to medium wheels in Week 4, the large wheels were faster but we kept drifting on turns."
           </div>
         </div>
       </div>
@@ -2443,14 +2453,14 @@
       <div class="script-section-card" id="ssc-robot-4">
         <div class="ssc-header" onclick="toggleScriptSection('robot-4')">
           <div class="ssc-num">4</div>
-          <div class="ssc-title">Programming — How Does the Code Work?</div>
+          <div class="ssc-title">Programming: How Does the Code Work?</div>
           <div class="ssc-time-badge">~60 sec</div>
           <div class="ssc-wordcount" id="wc-robot-4">0 words</div>
           <div class="ssc-chevron">&#9654;</div>
         </div>
         <div class="ssc-body">
           <div class="ssc-tip">
-            <strong>What to cover:</strong> Explain your programming approach in plain language — judges don't need to understand every line, but they should understand your thinking.
+            <strong>What to cover:</strong> Explain your programming approach in plain language, judges don't need to understand every line, but they should understand your thinking.
             <ul>
               <li>What language/environment? (Scratch, Python, SPIKE App, etc.)</li>
               <li>How do you control navigation? (gyro, encoder, color sensor)</li>
@@ -2458,14 +2468,14 @@
               <li>How did you handle a bug or code problem?</li>
             </ul>
           </div>
-          <textarea class="ssc-textarea" id="robot-s4" placeholder="We programmed in ___. We use ___ to navigate because ___. One thing we're proud of in our code is ___ — it works by ___."
+          <textarea class="ssc-textarea" id="robot-s4" placeholder="We programmed in ___. We use ___ to navigate because ___. One thing we're proud of in our code is ___, it works by ___."
             oninput="updatePresWordCount('robot-s4','wc-robot-4',130,'robot')"></textarea>
           <div class="ssc-wc-row">
             <div class="ssc-wc" id="wc-robot-4-detail">0 words ≈ 0s &nbsp;(target: ~60s)</div>
             <button class="ssc-example-toggle" onclick="toggleExample('ex-robot-4')">&#9997; See EYVE example</button>
           </div>
           <div class="ssc-example" id="ex-robot-4">
-            <em>EYVE example:</em> "We use the gyro sensor for all straight-line navigation and a PID loop to self-correct during turns. When we first wrote the PID, we thought it was broken — the robot kept oscillating. Turns out our 'D' value was ten times too high. Once we tuned it down the robot became incredibly consistent. We also had one full code wipe three weeks before competition. We rebuilt it in two sessions because we'd documented everything."
+            <em>EYVE example:</em> "We use the gyro sensor for all straight-line navigation and a PID loop to self-correct during turns. When we first wrote the PID, we thought it was broken, the robot kept oscillating. Turns out our 'D' value was ten times too high. Once we tuned it down the robot became incredibly consistent. We also had one full code wipe three weeks before competition. We rebuilt it in two sessions because we'd documented everything."
           </div>
         </div>
       </div>
@@ -2474,14 +2484,14 @@
       <div class="script-section-card" id="ssc-robot-5">
         <div class="ssc-header" onclick="toggleScriptSection('robot-5')">
           <div class="ssc-num">5</div>
-          <div class="ssc-title">Innovation Highlight — Your Most Creative Idea</div>
+          <div class="ssc-title">Innovation Highlight: Your Most Creative Idea</div>
           <div class="ssc-time-badge">~30 sec</div>
           <div class="ssc-wordcount" id="wc-robot-5">0 words</div>
           <div class="ssc-chevron">&#9654;</div>
         </div>
         <div class="ssc-body">
           <div class="ssc-tip">
-            <strong>What to cover:</strong> Pick one thing — a design, a piece of code, a process — that you're genuinely proud of because it was clever or unexpected.
+            <strong>What to cover:</strong> Pick one thing, a design, a piece of code, a process, that you're genuinely proud of because it was clever or unexpected.
             <ul>
               <li>What problem were you trying to solve?</li>
               <li>What's the innovative solution?</li>
@@ -2495,7 +2505,7 @@
             <button class="ssc-example-toggle" onclick="toggleExample('ex-robot-5')">&#9997; See EYVE example</button>
           </div>
           <div class="ssc-example" id="ex-robot-5">
-            <em>EYVE example:</em> "Our most innovative idea was using the color sensor to read a piece of colored tape on the mat as a 'checkpoint' — so each run recalibrates its position at that point, not just at the start. Most teams calibrate once. We calibrate mid-run, which catches drift before it becomes a problem."
+            <em>EYVE example:</em> "Our most innovative idea was using the color sensor to read a piece of colored tape on the mat as a 'checkpoint', so each run recalibrates its position at that point, not just at the start. Most teams calibrate once. We calibrate mid-run, which catches drift before it becomes a problem."
           </div>
         </div>
       </div>
@@ -2504,14 +2514,14 @@
       <div class="script-section-card" id="ssc-robot-6">
         <div class="ssc-header" onclick="toggleScriptSection('robot-6')">
           <div class="ssc-num">6</div>
-          <div class="ssc-title">Reflection — What Would You Do Differently?</div>
+          <div class="ssc-title">Reflection: What Would You Do Differently?</div>
           <div class="ssc-time-badge">~30 sec</div>
           <div class="ssc-wordcount" id="wc-robot-6">0 words</div>
           <div class="ssc-chevron">&#9654;</div>
         </div>
         <div class="ssc-body">
           <div class="ssc-tip">
-            <strong>What to cover:</strong> Judges respect teams that can honestly evaluate their own work — this isn't about admitting failure, it's about showing engineering maturity.
+            <strong>What to cover:</strong> Judges respect teams that can honestly evaluate their own work, this isn't about admitting failure, it's about showing engineering maturity.
             <ul>
               <li>One thing you'd change if you could start over</li>
               <li>What you learned from a mistake or failed design</li>
@@ -2888,7 +2898,7 @@
       }
     });
 
-    // Pass 2: overflow tasks (more tasks than students) — append to existing slots
+    // Pass 2: overflow tasks (more tasks than students), append to existing slots
     if (tasks.length > n) {
       let overflow = tasks.slice(n);
       overflow.forEach(t => {
@@ -2999,7 +3009,7 @@
       warnEl.style.display = 'block';
       warnEl.className = 'priority-warn priority-warn-red';
       const names = veryLow.map(a=>a.name).join(' and ');
-      warnEl.innerHTML = `<strong>This will hurt your overall score.</strong> ${names} are getting almost no time. FLL judges all three areas separately — a team with a great robot but no project or core values work is rarely competitive. You can specialize, but completely skipping an area is risky.`;
+      warnEl.innerHTML = `<strong>This will hurt your overall score.</strong> ${names} are getting almost no time. FLL judges score all four components (Robot Game, Robot Design, Innovation Project, and Core Values) across one 30-minute judging session. A team with a great robot but weak project or core values work is rarely competitive. You can specialize, but completely skipping an area is risky.`;
     } else if (veryLow.length === 1) {
       warnEl.style.display = 'block';
       warnEl.className = 'priority-warn priority-warn-red';
@@ -3011,7 +3021,7 @@
     } else if (tooLow.length === 1) {
       warnEl.style.display = 'block';
       warnEl.className = 'priority-warn priority-warn-yellow';
-      warnEl.innerHTML = `<strong>Light coverage:</strong> ${tooLow[0].name} is scheduled lightly. That's fine if it's intentional — just make sure your team still covers the basics for that area before competition.`;
+      warnEl.innerHTML = `<strong>Light coverage:</strong> ${tooLow[0].name} is scheduled lightly. That's fine if it's intentional, just make sure your team still covers the basics for that area before competition.`;
     } else {
       warnEl.style.display = 'none';
     }
@@ -3105,7 +3115,7 @@
     ]},
     { phase:'build', title:'Robot evaluation: do we need a V2?', priority:2, tasks:[
       { text:'Review your robot photos and run logs. Ask honestly: are we losing points because of the build design, or because of code and driver consistency? A redesign only helps if the structure is the problem.', area:'robot', mins:15, tier:'core' },
-      { text:'List what is working well on the current robot and what keeps failing. If practice and small fixes could solve the issues, stick with what you have — a mid-season rebuild costs more time than it saves for most first-event teams.', area:'robot', mins:20, tier:'core' },
+      { text:'List what is working well on the current robot and what keeps failing. If practice and small fixes could solve the issues, stick with what you have, a mid-season rebuild costs more time than it saves for most first-event teams.', area:'robot', mins:20, tier:'core' },
       { text:'If expert responded: read and discuss. Note what you will change. If not: send a follow-up.', area:'project', mins:20, tier:'std' },
       { text:'Document current robot state: photos, run scores, known issues, and your decision on whether to redesign or refine.', area:'project', mins:10, tier:'std' },
       { text:'Team check-in: is everyone contributing? Is the workload balanced? Discuss it openly.', area:'cv', mins:15, tier:'ext' },
@@ -3114,7 +3124,7 @@
       { text:'Run every current mission 10 times each. Record exact success rates.', area:'robot', mins:30, tier:'core' },
       { text:'Anything under 60%: mark it as "on hold" and fix it next session.', area:'robot', mins:10, tier:'core' },
       { text:'Plan your next mission based on point value and how close it is to what your robot already does.', area:'robot', mins:10, tier:'core' },
-      { text:'Continue prototype — try to get it to a point where you can demo the core function.', area:'project', mins:25, tier:'std' },
+      { text:'Continue prototype, try to get it to a point where you can demo the core function.', area:'project', mins:25, tier:'std' },
       { text:'Write a brief timeline of your project: key dates, decisions made, who did what.', area:'project', mins:15, tier:'std' },
       { text:'Write one Fun entry in your journal: something that made the team laugh or enjoy a meeting.', area:'cv', mins:10, tier:'ext' },
     ]},
@@ -3201,7 +3211,7 @@
     ]},
     { phase:'refine', title:'Mock judging: Robot Design', priority:1, tasks:[
       { text:'One person acts as judge: "Walk me through how your robot was designed and changed over the season."', area:'robot', mins:10, tier:'core' },
-      { text:'"What part of the robot did you personally work on?" — everyone answers.', area:'robot', mins:10, tier:'core' },
+      { text:'"What part of the robot did you personally work on?", everyone answers.', area:'robot', mins:10, tier:'core' },
       { text:'"Your robot fails mid-run. What do you do?" Discuss your actual answer.', area:'robot', mins:10, tier:'core' },
       { text:'Debrief: which answers were strong? Which need work?', area:'robot', mins:10, tier:'core' },
       { text:'Fix any robot issues surfaced in the mock session.', area:'robot', mins:20, tier:'std' },
@@ -3220,7 +3230,7 @@
       { text:'Practice questions: "How do you decide? What did you learn? Who helped you outside the team? What was fun?"', area:'cv', mins:10, tier:'core' },
       { text:'Debrief: who spoke well? Who needs more practice? Which questions need better answers?', area:'cv', mins:10, tier:'core' },
       { text:'Fix one robot issue from this week.', area:'robot', mins:15, tier:'core' },
-      { text:'Run all missions. Write out your final run strategy — every run, every mission.', area:'robot', mins:20, tier:'std' },
+      { text:'Run all missions. Write out your final run strategy, every run, every mission.', area:'robot', mins:20, tier:'std' },
       { text:'Check every required portfolio item: journal, expert log, spotlights, discovery, conflict resolution, inclusion.', area:'cv', mins:15, tier:'std' },
     ]},
     { phase:'refine', title:'Polish and finalize', priority:2, tasks:[
@@ -3249,7 +3259,7 @@
     ]},
     { phase:'prep', title:'Competition week: full rehearsal', priority:1, tasks:[
       { text:'Light robot practice: run all missions once. No major changes this week.', area:'robot', mins:15, tier:'core' },
-      { text:'Quick project presentation run-through. No feedback — just run it clean.', area:'project', mins:10, tier:'core' },
+      { text:'Quick project presentation run-through. No feedback, just run it clean.', area:'project', mins:10, tier:'core' },
       { text:'Quick Core Values Q&A: each person answers one question.', area:'cv', mins:10, tier:'core' },
       { text:'Pack your competition bag: robot, laptop, extension cord, portfolio, prototype.', area:'robot', mins:15, tier:'core' },
       { text:'Full dress rehearsal: all three judging areas back-to-back.', area:'robot', mins:30, tier:'std' },
@@ -3324,7 +3334,7 @@
     if (teamGoals.has('first-season'))  goalNotes.push('First season: each meeting includes a beginner tip explaining what you are working toward.');
     const rPct=Math.round(weights.robot*100), pPct=Math.round(weights.project*100), cPct=100-rPct-pPct;
     if (Math.abs(rPct-33)>3||Math.abs(pPct-33)>3) {
-      goalNotes.push('Time split: Robot '+rPct+'% / Project '+pPct+'% / Core Values '+cPct+'% — agenda items reflect this across each meeting.');
+      goalNotes.push('Time split: Robot '+rPct+'% / Project '+pPct+'% / Core Values '+cPct+'%, agenda items reflect this across each meeting.');
     }
     // Mentor mode toggle bar
     html += '<div class="curr-mentor-bar" onclick="document.getElementById(\'mentor-toggle-cb\').click()">'
@@ -3407,12 +3417,12 @@
 
     const usedMins=tasks.reduce((s,t)=>s+t.mins,0);
     const bufferMins=Math.round(hours*60)-usedMins;
-    const bufferNote=bufferMins>0?'<div class="curr-note">+'+bufferMins+' min buffer — use for extra practice runs, journal catch-up, or questions.</div>':'';
+    const bufferNote=bufferMins>0?'<div class="curr-note">+'+bufferMins+' min buffer, use for extra practice runs, journal catch-up, or questions.</div>':'';
     const roleNote=buildStudentAssignments(tasks);
 
     const fsTips={
       foundation:'New to FLL? Your only job this phase is to understand what you are being judged on and get organized. Do not worry about doing things perfectly yet.',
-      build:'At this stage you are building and testing. Things will break — that is normal. Log everything because judges love seeing that you learned from mistakes.',
+      build:'At this stage you are building and testing. Things will break, that is normal. Log everything because judges love seeing that you learned from mistakes.',
       develop:'Now you are adding depth. If anything feels overwhelming, pick the one thing that helps the most and focus there.',
       refine:'This phase is about practicing what you already have, not adding new things. Resist the urge to make big changes this close to competition.',
       prep:'You are ready. Trust what you have built. The biggest thing now is practicing delivery with confidence.',
@@ -3466,71 +3476,71 @@
 
   const MENTOR_PHASE = {
     foundation: {
-      open: "Your goal this phase is not to build anything — it is to make sure every student understands what they are working toward. Start each session by asking what they already know, not by explaining. Let them surface gaps themselves.",
+      open: "Your goal this phase is not to build anything, it is to make sure every student understands what they are working toward. Start each session by asking what they already know, not by explaining. Let them surface gaps themselves.",
       emphasize: [
         "Roles before building: every student should have a clear responsibility before anyone touches the robot or opens a research tab",
         "The journal is a habit, not a task. Model it in front of them: write something together at the end of each session, every session",
-        "Do not correct too fast. When a student makes a wrong call, ask a question before redirecting — they will remember the lesson better",
+        "Do not correct too fast. When a student makes a wrong call, ask a question before redirecting, they will remember the lesson better",
       ],
       watchFor: [
-        "One student dominating decisions — say explicitly: 'What does everyone else think before we decide?'",
-        "Teams rushing to build before they understand the game — they will rebuild it wrong later",
-        "Journal being skipped in the first two sessions — it compounds and is very hard to catch up on",
+        "One student dominating decisions, say explicitly: 'What does everyone else think before we decide?'",
+        "Teams rushing to build before they understand the game, they will rebuild it wrong later",
+        "Journal being skipped in the first two sessions, it compounds and is very hard to catch up on",
       ],
       close: "End every session with a round-robin: 'What is one thing you remember from today?' One answer per person. It takes 3 minutes and dramatically improves retention.",
     },
     build: {
-      open: "Students are creating now. Your role shifts from explaining to asking. Before they start any task, ask 'what is your plan?' — not 'here is what you should do.' Let them reason first.",
+      open: "Students are creating now. Your role shifts from explaining to asking. Before they start any task, ask 'what is your plan?', not 'here is what you should do.' Let them reason first.",
       emphasize: [
         "Test after every small change, not after finishing everything. Push for small loops: code a little, test, log, adjust",
         "Failure is information. When something breaks, ask 'what did we learn?' before anyone touches the fix",
-        "Documentation belongs in the moment, not at the end. Have them log each test result as it happens — not as a summary after",
+        "Documentation belongs in the moment, not at the end. Have them log each test result as it happens, not as a summary after",
       ],
       watchFor: [
-        "Students who get stuck and go quiet instead of asking for help — check in proactively, do not wait for them to raise their hand",
-        "The team gravitating to what is easy instead of what needs the most work — redirect with 'what is the thing you most want to avoid working on right now?'",
-        "Experienced students doing everything while beginners watch — assign sub-tasks so everyone is hands-on, even if it is slower",
+        "Students who get stuck and go quiet instead of asking for help, check in proactively, do not wait for them to raise their hand",
+        "The team gravitating to what is easy instead of what needs the most work, redirect with 'what is the thing you most want to avoid working on right now?'",
+        "Experienced students doing everything while beginners watch, assign sub-tasks so everyone is hands-on, even if it is slower",
       ],
-      close: "Before leaving: each student writes one specific thing in the journal. Not a session summary — one observation about what they built or tested today.",
+      close: "Before leaving: each student writes one specific thing in the journal. Not a session summary, one observation about what they built or tested today.",
     },
     develop: {
       open: "This is where most teams plateau. They have a working robot and a rough prototype but have not gone deeper on either. Your job is to raise the bar. Name it clearly: 'good enough to have built it is not good enough to present it.'",
       emphasize: [
-        "Consistency over new features — a robot that succeeds 9 out of 10 times beats one that has twice as many missions at 5 out of 10",
-        "Expert feedback on the project changes everything. Help students prepare real questions before reaching out — not 'do you have advice?' but 'we found X, does that match what you see?'",
+        "Consistency over new features, a robot that succeeds 9 out of 10 times beats one that has twice as many missions at 5 out of 10",
+        "Expert feedback on the project changes everything. Help students prepare real questions before reaching out, not 'do you have advice?' but 'we found X, does that match what you see?'",
         "Judging prep starts now. Have students explain their work to you without prompting. Listen for what they skip.",
       ],
       watchFor: [
-        "Teams adding new robot missions instead of improving existing ones — this is almost always the wrong call at this stage",
-        "Expert outreach emails that are too vague — review them before they go out, not after",
+        "Teams adding new robot missions instead of improving existing ones, this is almost always the wrong call at this stage",
+        "Expert outreach emails that are too vague, review them before they go out, not after",
         "Core Values being treated as a checklist ('we have three values documented') instead of genuine reflection",
       ],
       close: "Ask: 'If a judge asked you to explain your project in 90 seconds right now, what would you say?' Have each student try it. Listen for gaps.",
     },
     refine: {
-      open: "Resist the urge to add anything new. Refinement means making what exists better — faster, cleaner, more consistent. Say 'no new features' and hold the line. Confidence comes from repetition, not variety.",
+      open: "Resist the urge to add anything new. Refinement means making what exists better, faster, cleaner, more consistent. Say 'no new features' and hold the line. Confidence comes from repetition, not variety.",
       emphasize: [
         "Mock judging is the single most effective prep tool available. Do it more than once, with different people acting as judges",
         "Every student must be able to explain all three areas, not just their own contribution",
         "Judges remember specificity. 'We contacted Dr. Smith at the county health department' scores higher than 'we contacted an expert.' Make sure they know their own facts cold.",
       ],
       watchFor: [
-        "Teams changing robot strategy this close to competition — almost never worth the risk, redirect to consistency practice",
+        "Teams changing robot strategy this close to competition, almost never worth the risk, redirect to consistency practice",
         "Students who only know their own piece and go blank when asked about the rest",
-        "Presentations that sound rehearsed but break down under follow-up questions — if they cannot answer questions, they do not understand it yet",
+        "Presentations that sound rehearsed but break down under follow-up questions, if they cannot answer questions, they do not understand it yet",
       ],
       close: "After every mock judging session, ask: 'What question caught you most off guard?' Write those down. Practice those specific questions next session.",
     },
     prep: {
-      open: "Your job now is to manage nerves, not add material. Students who are anxious want to rehearse — let them. Remind them they know more than they think they do. Your confidence in them is contagious.",
+      open: "Your job now is to manage nerves, not add material. Students who are anxious want to rehearse, let them. Remind them they know more than they think they do. Your confidence in them is contagious.",
       emphasize: [
-        "Logistics matter — a team that arrives disorganized wastes mental energy before the first judging session even starts",
+        "Logistics matter, a team that arrives disorganized wastes mental energy before the first judging session even starts",
         "Gracious Professionalism toward other teams should be specific and concrete, not just 'be nice.' What does it actually look like?",
         "Acknowledge what each student built this season. Find one specific thing per person to recognize before competition day.",
       ],
       watchFor: [
-        "Last-minute robot changes — the risk almost never outweighs the reward this close to competition",
-        "Students who have memorized a script instead of understanding the material — judges follow up on anything that sounds rehearsed",
+        "Last-minute robot changes, the risk almost never outweighs the reward this close to competition",
+        "Students who have memorized a script instead of understanding the material, judges follow up on anything that sounds rehearsed",
         "Anxiety leading to over-preparation of one area at the expense of the other two",
       ],
       close: "Final session: skip the drills. Have each student say one thing they are proud of from this season. Then tell them what you are proud of. That is the right way to finish.",
@@ -3539,31 +3549,31 @@
 
   const EXP_COACHING = {
     robot: {
-      new:  "Give this student one small, specific task — not 'help with the robot' but 'run this one mission five times and write down what happens each time.' Concrete beats open-ended for beginners. Stay nearby for the first few attempts.",
+      new:  "Give this student one small, specific task, not 'help with the robot' but 'run this one mission five times and write down what happens each time.' Concrete beats open-ended for beginners. Stay nearby for the first few attempts.",
       some: "Let this student make one decision without input from you. Ask 'what do you think we should try?' then wait. Their instincts are better than they believe.",
-      exp:  "Push this student to narrate their choices out loud. 'Why did you set the speed to 70 instead of 80?' builds the articulation they will need with judges — and teaches the whole team.",
+      exp:  "Push this student to narrate their choices out loud. 'Why did you set the speed to 70 instead of 80?' builds the articulation they will need with judges, and teaches the whole team.",
     },
     project: {
       new:  "Start with what they already know about the problem. Ask 'have you ever seen this happen in real life?' before pointing them to research. Connecting to lived experience first builds motivation and better interview instincts.",
-      some: "Have this student lead the expert outreach — they should write the email, not just sign it. Review it together, but let the voice be theirs.",
+      some: "Have this student lead the expert outreach, they should write the email, not just sign it. Review it together, but let the voice be theirs.",
       exp:  "Challenge this student to explain the problem in a way that would make sense to someone who has never heard of FLL. That is the perspective every judge brings.",
     },
     cv: {
-      new:  "New students often do not speak up in groups. Give them a specific question to answer in today's debrief — told to them privately first. Preparation reduces anxiety significantly.",
+      new:  "New students often do not speak up in groups. Give them a specific question to answer in today's debrief, told to them privately first. Preparation reduces anxiety significantly.",
       some: "Ask this student to observe the team dynamic today and share one observation at the end of the session. 'Noticing how we work' is a leadership skill worth developing explicitly.",
       exp:  "Experienced students in Core Values often coast through familiar territory. Give them a harder question: 'What is something we could do better as a team that nobody has mentioned yet?'",
     },
   };
 
   const SKILL_COACHING = {
-    programming:  "Let this student type — do not take the keyboard. Even when it is slower, they learn by doing, not watching. Ask 'what do you expect to happen?' before each test run.",
+    programming:  "Let this student type, do not take the keyboard. Even when it is slower, they learn by doing, not watching. Ask 'what do you expect to happen?' before each test run.",
     building:     "Ask this student to explain their build choices as they make them. 'Why did you attach it there?' builds both skill and real portfolio material for the design presentation.",
     research:     "Guide toward credible sources without doing it for them. Ask 'where would an official organization talk about this problem?' before suggesting anything specific.",
     prototyping:  "If they hesitate or over-plan, say: 'let us just build a rough version and see what we learn.' Iteration beats planning for early prototype development.",
     presenting:   "Have this student practice to you alone first, before the group. Public rehearsal can shut down students who are still building confidence.",
     writing:      "Short and specific beats long and vague. 'We tested 8 times and got 5' is a better journal entry than a paragraph summary. Remind them of this when you see them writing.",
     leadership:   "Give a concrete facilitation task: 'You are in charge of making sure every person speaks during today's debrief.' Specific responsibility is more useful than abstract encouragement.",
-    creative:     "When this student suggests something unusual, do not evaluate it immediately. Say 'interesting — how would that work?' A few seconds of exploration costs nothing and builds lasting confidence.",
+    creative:     "When this student suggests something unusual, do not evaluate it immediately. Say 'interesting, how would that work?' A few seconds of exploration costs nothing and builds lasting confidence.",
   };
 
   function buildMentorGuide(bp, tasks, phase) {
@@ -3908,7 +3918,7 @@
 
     let h = '<div class="gantt-wrap">';
     h += '<div class="gantt-head-row">'
-      + '<div class="gantt-title-txt">Season Timeline — click any block to update status</div>'
+      + '<div class="gantt-title-txt">Season Timeline: click any block to update status</div>'
       + '<div class="gantt-legend">'
       + '<div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:var(--border)"></div>Not started</div>'
       + '<div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:rgba(59,158,255,.3)"></div>In progress</div>'
@@ -4003,7 +4013,7 @@
       + '.assigns{margin-top:6px;padding:5px 8px;background:#f9f9f9;border-radius:4px;font-size:11px;color:#555}'
       + '@media print{body{padding:0}.mtg{break-inside:avoid}}';
 
-    const title = 'FLL Season Plan — ' + opts.weeks + ' weeks, ' + currentSchedule.length + ' meetings';
+    const title = 'FLL Season Plan - ' + opts.weeks + ' weeks, ' + currentSchedule.length + ' meetings';
     const win = window.open('', '_blank');
     win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + title + '</title><style>' + css + '</style></head><body><h1>' + title + '</h1>' + body + '</body></html>');
     win.document.close();
