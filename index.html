@@ -1010,6 +1010,100 @@
     .mentor-student-item strong { color: var(--text); font-weight: 700; }
 
 
+
+
+    /* TEAM STORY CARDS */
+    .team-story-card {
+      background: linear-gradient(135deg, rgba(0,212,180,.07), rgba(59,158,255,.05));
+      border: 1px solid rgba(0,212,180,.3);
+      border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-top: 1.5rem;
+    }
+    .team-story-eyebrow {
+      font-size: .68rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--teal); margin-bottom: .6rem;
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .team-story-eyebrow::before { content:''; display:inline-block; width:20px; height:2px; background:var(--teal); border-radius:1px; }
+    .team-story-card h3 { color: var(--text); font-size: 1rem; margin-bottom: .75rem; }
+    .team-story-card p { font-size: .875rem; color: var(--text-muted); line-height: 1.6; margin-bottom: .6rem; }
+    .team-story-card p:last-child { margin-bottom: 0; }
+    .team-story-quote {
+      font-style: italic; color: var(--teal); font-size: .88rem;
+      border-left: 3px solid var(--teal); padding-left: .75rem;
+      margin: .75rem 0; line-height: 1.55;
+    }
+    .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; margin-top: .85rem; }
+    @media (max-width: 640px) { .story-grid { grid-template-columns: 1fr; } }
+    .story-item {
+      background: rgba(0,0,0,.15); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: .7rem .9rem;
+    }
+    .story-item-label { font-size: .68rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--text-dim); margin-bottom: .3rem; }
+    .story-item-value { font-size: .85rem; color: var(--text); line-height: 1.45; }
+    /* MENTOR RUBRIC OVERLAY */
+    .mentor-rubric-block {
+      margin-top: .85rem; padding: .85rem 1rem;
+      background: rgba(240,192,64,.07); border-left: 3px solid var(--gold);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+    .mentor-rubric-head { font-size:.71rem; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:var(--gold); margin-bottom:.5rem; }
+    .mentor-rubric-item { margin-bottom:.5rem; font-size:.81rem; line-height:1.45; color:var(--text-muted); }
+    .mentor-rubric-tag { font-weight:800; color:var(--gold); margin-right:.3rem; }
+
+    /* GRADE SELECTOR */
+    .grade-row { display:flex; align-items:center; gap:.5rem; margin-top:.4rem; }
+    .grade-lbl { font-size:.73rem; color:var(--text-dim); font-weight:600; width:70px; }
+    .grade-select {
+      background:var(--bg-card2); border:1px solid var(--border);
+      color:var(--text); border-radius:var(--radius-sm);
+      padding:.25rem .6rem; font-size:.8rem; cursor:pointer;
+      font-family:inherit;
+    }
+    .grade-select:focus { outline:none; border-color:var(--blue); }
+
+    /* WORKSHEET BUTTON */
+    .ws-dl-btn {
+      display:inline-flex; align-items:center; gap:.35rem;
+      background:rgba(0,212,180,.1); border:1px solid rgba(0,212,180,.35);
+      color:var(--teal); border-radius:var(--radius-sm);
+      padding:.28rem .75rem; font-size:.76rem; font-weight:700;
+      cursor:pointer; transition:all .18s; white-space:nowrap;
+    }
+    .ws-dl-btn:hover { background:rgba(0,212,180,.18); border-color:var(--teal); }
+
+
+    /* TRANSLATE BUTTON */
+    .translate-wrapper { position:relative; margin-left:auto; flex-shrink:0; }
+    .translate-btn {
+      background:rgba(59,158,255,.1); border:1px solid rgba(59,158,255,.3);
+      color:var(--text-muted); border-radius:var(--radius-sm);
+      padding:.35rem .85rem; font-size:.82rem; font-weight:600;
+      cursor:pointer; transition:all .18s; font-family:inherit;
+      display:flex; align-items:center; gap:.4rem; white-space:nowrap;
+    }
+    .translate-btn:hover { background:rgba(59,158,255,.18); border-color:var(--blue); color:var(--text); }
+    .translate-dropdown {
+      display:none; position:absolute; right:0; top:calc(100% + 6px);
+      background:var(--bg-card); border:1px solid var(--border-bright);
+      border-radius:var(--radius); overflow:hidden; min-width:200px;
+      box-shadow:0 12px 40px rgba(0,0,0,.5); z-index:999;
+    }
+    .translate-opt {
+      display:block; width:100%; text-align:left;
+      background:none; border:none; color:var(--text-muted);
+      padding:.65rem 1rem; font-size:.85rem; font-family:inherit;
+      cursor:pointer; transition:background .15s, color .15s; border-bottom:1px solid var(--border);
+    }
+    .translate-opt:last-child { border-bottom:none; }
+    .translate-opt:hover { background:var(--bg-card2); color:var(--text); }
+    .translate-opt.tr-active { color:var(--blue); font-weight:700; }
+    .translate-opt .tr-flag { margin-right:.45rem; }
+    .translate-opt .tr-native { font-size:.78rem; color:var(--text-dim); display:block; margin-top:.1rem; }
+    /* Suppress Google's default top bar */
+    .goog-te-banner-frame, .goog-te-gadget { display:none !important; }
+    body { top:0 !important; }
+    .skiptranslate { display:none !important; }
+
     /* VIEW SWITCHER */
     .view-tabs { display:flex; gap:.5rem; margin-bottom:1.25rem; flex-wrap:wrap; align-items:center; }
     .view-tab {
@@ -1171,7 +1265,24 @@
     <button onclick="show('values',this)">Core Values</button>
     <button onclick="show('planner',this)">Season Planner</button>
   </div>
+
+  <!-- Translate -->
+  <div class="translate-wrapper" id="translate-wrapper">
+    <button class="translate-btn" id="translate-btn" onclick="toggleTranslateMenu(event)">
+      &#127760; <span id="tr-cur-lbl">Language</span>
+    </button>
+    <div class="translate-dropdown" id="translate-dropdown">
+      <button class="translate-opt tr-active" id="tr-en" onclick="translateTo('en','Language',this)"><span class="tr-flag">&#127482;&#127480;</span>English</button>
+      <button class="translate-opt" id="tr-es" onclick="translateTo('es','Español',this)"><span class="tr-flag">&#127466;&#127480;</span>Español<span class="tr-native">Spanish</span></button>
+      <button class="translate-opt" id="tr-he" onclick="translateTo('he','עברית',this)"><span class="tr-flag">&#127470;&#127473;</span>עברית<span class="tr-native">Hebrew</span></button>
+      <button class="translate-opt" id="tr-zh-CN" onclick="translateTo('zh-CN','普通话',this)"><span class="tr-flag">&#127464;&#127475;</span>普通话<span class="tr-native">Mandarin (Simplified)</span></button>
+      <button class="translate-opt" id="tr-zh-TW" onclick="translateTo('zh-TW','廣東話',this)"><span class="tr-flag">&#127469;&#127472;</span>廣東話<span class="tr-native">Cantonese (Traditional)</span></button>
+    </div>
+  </div>
 </nav>
+
+<!-- Hidden Google Translate mount -->
+<div id="google_translate_element" style="display:none;visibility:hidden;position:absolute"></div>
 
 
 <!-- ═══════ HOME ═══════ -->
@@ -1462,8 +1573,8 @@
           <div class="ic-accent blue">Example: body under 5.5″ × 5″</div>
         </div>
         <div class="info-card">
-          <h3>Document every robot version</h3>
-          <p>When you redesign or rebuild, record the old version first: photo, what it was, its pros, its cons. Multiple documented versions across a season shows judges real engineering process.</p>
+          <h3>Document your robot's evolution</h3>
+          <p>Not every team needs a full V2 before their first event — and that's fine. What matters is intentional improvement: if you change something, record why, what you changed, and whether it worked. Even a single well-documented robot with logged iterations shows judges real engineering process. Only consider a redesign if the core structure is causing consistent failures that practice won't fix.</p>
         </div>
         <div class="info-card">
           <h3>Build mission-specific attachments</h3>
@@ -1755,6 +1866,39 @@
       </div>
     </div>
 
+
+    <div class="team-story-card">
+      <div class="team-story-eyebrow">&#128247; Real Team Example &mdash; Eat Yo Vegetables (EYVE)</div>
+      <h3>How Core Values showed up in everything EYVE did</h3>
+      <div class="story-grid">
+        <div class="story-item">
+          <div class="story-item-label">Teamwork &amp; Decisions</div>
+          <div class="story-item-value">Every disagreement goes to a team vote. Tied vote? Smash Bros tournament settles it. No one person overrides the group &mdash; ever.</div>
+        </div>
+        <div class="story-item">
+          <div class="story-item-label">Inclusion in Action</div>
+          <div class="story-item-value">Everyone rotated through every robot role (coder, resetter, note-taker) every session. No permanent specialists. No one sat out of any part of the work.</div>
+        </div>
+        <div class="story-item">
+          <div class="story-item-label">Discovery</div>
+          <div class="story-item-value">Learned Arduino from zero. Reached out to FTC teams and a CTO to learn the Arduino IDE. The entire TapDeck tech stack was brand-new to every team member.</div>
+        </div>
+        <div class="story-item">
+          <div class="story-item-label">Impact</div>
+          <div class="story-item-value">Community outreach beyond FLL: mentored younger teams at St. Jude's Church, volunteered at Westminster Free Clinic. Partnership with Child's Play Charity for hospital implementation.</div>
+        </div>
+        <div class="story-item">
+          <div class="story-item-label">Fun (With Evidence)</div>
+          <div class="story-item-value">Boba after competition. KBBQ. Go-karting. Smash Bros tournaments. Chopstick exercises at practice. Game nights. All of it was in the journal &mdash; so judges could see it was real, not just claimed.</div>
+        </div>
+        <div class="story-item">
+          <div class="story-item-label">Gracious Professionalism</div>
+          <div class="story-item-value">"This is more than just robots." The team ended their last FLL season &mdash; most members' final year &mdash; with this as their guiding principle, mentoring younger teams and cheering for competitors.</div>
+        </div>
+      </div>
+      <div class="team-story-quote">"Over the years, our team has been fortunate enough to compete in all levels of FLL. As we move on to the next step of our engineering careers, our team can truly say: this is more than just robots." &mdash; Joshua, final judging presentation</div>
+    </div>
+
     <!-- Summary checklist -->
     <div class="bright-box" style="background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.25);">
       <h3>Core Values preparation checklist</h3>
@@ -1940,7 +2084,7 @@
   };
   const memberData = [];
 
-  function makeMember() { return { name:'', exp:{robot:'new',project:'new',cv:'new'}, skills:new Set() }; }
+  function makeMember() { return { name:'', exp:{robot:'new',project:'new',cv:'new'}, skills:new Set(), grade:6 }; }
 
   function ensureMemberData(n) {
     while (memberData.length < n) memberData.push(makeMember());
@@ -1989,6 +2133,7 @@
         + '<input class="member-name-input" type="text" placeholder="Student ' + (i + 1) + '" value="' + nameVal + '" data-mi="' + i + '" oninput="memberData[this.dataset.mi].name=this.value">'
         + '</div>'
         + '<div class="member-card-body">'
+        + '<div class="grade-row"><span class="grade-lbl">Grade</span><select class="grade-select" data-mi="'+i+'" onchange="setGrade(this)">'+[4,5,6,7,8].map(g=>'<option value="'+g+'"'+(d.grade===g?' selected':'')+'>'+g+'th Grade</option>').join('')+'</select></div>'
         + '<div class="member-section-lbl">Experience</div>'
         + '<div class="member-exp-row">' + expRows + '</div>'
         + '<div class="member-section-lbl">Skills to build</div>'
@@ -2006,6 +2151,11 @@
     memberData[mi].exp[area] = level;
     btn.closest('.exp-btns').querySelectorAll('.exp-btn').forEach(b => { b.className = 'exp-btn'; });
     btn.classList.add('active-' + level);
+  }
+
+  function setGrade(sel) {
+    const mi = parseInt(sel.dataset.mi);
+    memberData[mi].grade = parseInt(sel.value);
   }
 
   function toggleSkill(btn) {
@@ -2260,7 +2410,7 @@
       { text:'Document Robot Version 1: take a photo, write pros and cons in your journal.', area:'robot', mins:10, tier:'core' },
       { text:'Vote on your top solution idea from last session.', area:'project', mins:10, tier:'core' },
       { text:'Draft a list of materials your solution prototype would need.', area:'project', mins:15, tier:'std' },
-      { text:'Plan a team bonding activity for later this season. Put it on the calendar.', area:'cv', mins:10, tier:'std' },
+      { text:'Make sure every team member has a turn at the keyboard and at the building table today. Judges will ask everyone what they personally worked on. Establish this rotation from day one.', area:'cv', mins:10, tier:'std' },
       { text:'Write individual member spotlights: each person writes 2 sentences about who they are and their role.', area:'cv', mins:20, tier:'ext' },
     ]},
     { phase:'foundation', title:'Season kickoff wrap-up', priority:3, tasks:[
@@ -2268,6 +2418,7 @@
       { text:'Watch one more match video focusing only on robot strategy and run order.', area:'robot', mins:15, tier:'core' },
       { text:'Discuss: what does a good project look like? Look at examples from previous winners online.', area:'project', mins:15, tier:'std' },
       { text:'Set team agreements: phone policy, how to run meetings, how to handle conflict.', area:'cv', mins:15, tier:'std' },
+      { text:'Draft a project responsibility chart: write team member names next to each role (researcher, prototype builder, expert contact, presenter). Judges look for evidence that all members were involved in development.', area:'project', mins:10, tier:'ext' },
     ]},
 
     // ── BUILD ──
@@ -2300,6 +2451,7 @@
       { text:'Identify two more potential contacts: one person who has the problem, one who could help solve it.', area:'project', mins:15, tier:'core' },
       { text:'Run all current missions back-to-back. Check for interference and log results.', area:'robot', mins:15, tier:'std' },
       { text:'Write your best statistic about the problem and a one-paragraph problem summary.', area:'project', mins:15, tier:'std' },
+      { text:'Check source variety: judges score higher when research spans multiple types. Aim for at least 3 different types: an article or study, a data set or statistic, a first-person account, an expert, and an organization.', area:'project', mins:10, tier:'std' },
       { text:'Practice your problem statement as a team. Everyone should be able to say it in 30 seconds.', area:'cv', mins:15, tier:'ext' },
       { text:'Start a project one-pager or simple website with your problem statement and solution idea.', area:'project', mins:20, tier:'ext' },
     ]},
@@ -2311,11 +2463,11 @@
       { text:'Code and test Mission 3 on the robot.', area:'robot', mins:25, tier:'std' },
       { text:'Write your team\'s conflict resolution process: when you disagree, how do you decide?', area:'cv', mins:15, tier:'ext' },
     ]},
-    { phase:'build', title:'Robot Version 2', priority:2, tasks:[
-      { text:'Review Robot V1 photos and notes. List 3 things you want to improve.', area:'robot', mins:10, tier:'core' },
-      { text:'Make at least one improvement and test Mission 1 again to confirm it\'s better.', area:'robot', mins:25, tier:'core' },
-      { text:'If expert responded: read and discuss. Note what you\'ll change. If not: send a follow-up.', area:'project', mins:20, tier:'std' },
-      { text:'Document prototype: photo, what\'s different from V1, what you\'re still trying to fix.', area:'project', mins:15, tier:'std' },
+    { phase:'build', title:'Robot evaluation: do we need a V2?', priority:2, tasks:[
+      { text:'Review your robot photos and run logs. Ask honestly: are we losing points because of the build design, or because of code and driver consistency? A redesign only helps if the structure is the problem.', area:'robot', mins:15, tier:'core' },
+      { text:'List what is working well on the current robot and what keeps failing. If practice and small fixes could solve the issues, stick with what you have — a mid-season rebuild costs more time than it saves for most first-event teams.', area:'robot', mins:20, tier:'core' },
+      { text:'If expert responded: read and discuss. Note what you will change. If not: send a follow-up.', area:'project', mins:20, tier:'std' },
+      { text:'Document current robot state: photos, run scores, known issues, and your decision on whether to redesign or refine.', area:'project', mins:10, tier:'std' },
       { text:'Team check-in: is everyone contributing? Is the workload balanced? Discuss it openly.', area:'cv', mins:15, tier:'ext' },
     ]},
     { phase:'build', title:'Mission consistency check', priority:2, tasks:[
@@ -2357,7 +2509,7 @@
       { text:'Calculate your new total expected score and write it down.', area:'robot', mins:5, tier:'core' },
       { text:'Write your current run strategy: every mission, which run you attempt it in, and why.', area:'robot', mins:15, tier:'std' },
       { text:'Update the prototype with any changes from recent feedback or testing.', area:'project', mins:20, tier:'std' },
-      { text:'Share your project with one more outside audience. Schedule it if not today.', area:'project', mins:15, tier:'ext' },
+      { text:'Share your project with a second outside audience that is a different type of group from your first share. If you shared with family, now share with a community member, teacher, or organization. Judges need evidence of multiple different groups.', area:'project', mins:15, tier:'std' },
     ]},
     { phase:'develop', title:'Second expert contact', priority:1, tasks:[
       { text:'Send a second expert email today. Make it different: different background, different angle.', area:'project', mins:20, tier:'core' },
@@ -2376,7 +2528,7 @@
       { text:'Practice Core Values Q&A: "What\'s one thing your team learned this season?" Everyone gives a specific answer.', area:'cv', mins:15, tier:'ext' },
     ]},
     { phase:'develop', title:'Presentation practice', priority:1, tasks:[
-      { text:'Each person explains the robot design to someone who wasn\'t in the room when it was built. 2 minutes each.', area:'robot', mins:15, tier:'core' },
+      { text:'Each person explains the robot design to someone who was not in the room when it was built: the overall design, each attachment and why it was built that way, and how the code or sensors work. 2 minutes each. Judges ask anyone.', area:'robot', mins:15, tier:'core' },
       { text:'Practice your project explanation: 90 seconds, no notes. Then discuss: what was clear, what wasn\'t?', area:'project', mins:15, tier:'core' },
       { text:'Practice: "How does your team make decisions when you disagree?" Everyone answers.', area:'cv', mins:15, tier:'core' },
       { text:'Write your Inclusion statement: what does inclusion mean for your specific team?', area:'cv', mins:20, tier:'std' },
@@ -2448,6 +2600,13 @@
     ]},
 
     // PREP
+    { phase:'prep', title:'Tell your season story', priority:1, tasks:[
+      { text:'Every member answers out loud: what did I personally work on this season? No one says just the robot. Be specific. Repeat until the answer is confident and precise.', area:'cv', mins:10, tier:'core' },
+      { text:'Robot story practice: start from the first session, hit the key changes, end with where you are now. Judges call this process and lessons learned. Any member should be able to tell it.', area:'robot', mins:10, tier:'core' },
+      { text:'Project story practice: the problem, why it matters (your impact stat), what you tried, who you talked to, and what changed because of that feedback. 3 minutes, no notes.', area:'project', mins:10, tier:'core' },
+      { text:'Explain every attachment in one sentence each: what it does, why you built it that way. Same for any notable code. Everyone practices, not just the technical leads.', area:'robot', mins:10, tier:'std' },
+      { text:'Walk through your expert log together: each contact, their background, what they told you, and what changed in your project because of it. Judges ask about this specifically.', area:'project', mins:10, tier:'std' },
+    ]},
     { phase:'prep', title:'Competition week: full rehearsal', priority:1, tasks:[
       { text:'Light robot practice: run all missions once. No major changes this week.', area:'robot', mins:15, tier:'core' },
       { text:'Quick project presentation run-through. No feedback — just run it clean.', area:'project', mins:10, tier:'core' },
@@ -2628,12 +2787,25 @@
       +'<div class="curr-meeting-num">'+m.meetingNum+'</div>'
       +'<div class="curr-meeting-title">'+bp.title+'</div>'
       +'<div class="curr-area-tags">'+areaTags+'</div>'
+      +'<button class="ws-dl-btn" onclick="event.stopPropagation();downloadWorksheets('+m.meetingNum+')">&#128196; Worksheets</button>'
       +'<div class="curr-chevron">&#9658;</div>'
       +'</div>'
       +'<div class="curr-meeting-body">'
       +'<ul class="curr-task-list">'+taskRows+'</ul>'
       +bufferNote+roleNote+fsNote+mentorHtml
       +'</div></div>';
+  }
+
+
+  function toggleMeeting(num) {
+    const card = document.getElementById('cm-' + num);
+    if (!card) return;
+    const body = card.querySelector('.curr-meeting-body');
+    const chevron = card.querySelector('.curr-chevron');
+    if (!body) return;
+    const open = body.style.display === 'block';
+    body.style.display = open ? 'none' : 'block';
+    if (chevron) chevron.innerHTML = open ? '&#9658;' : '&#9660;';
   }
 
 
@@ -2827,6 +2999,59 @@
     return html;
   }
 
+
+
+  const RUBRIC_BY_PHASE = {
+    foundation: {
+      head: 'Judging Evidence to Start Building',
+      items: [
+        { tag:'Project: Identify', txt:'Problem definition must be written, not just discussed. Judges look for research from a variety of source types: articles, data, experts, first-hand accounts. Begin collecting now even if the topic is still in flux.' },
+        { tag:'Project: Design', txt:'Start the habit of names on tasks. "All team members involved in development" needs evidence. Write who owns what in the project plan from the very first session.' },
+        { tag:'Robot: Identify', txt:'Mission strategy should be documented early: which missions, why, expected point value. A written list in the journal counts as evidence even if it changes later.' },
+        { tag:'Robot: Design', txt:'Every member needs visible involvement in both building and coding. Establish role rotation from day one. Judges will ask everyone what they personally worked on.' },
+        { tag:'Core Values', txt:'Journal entries begin this phase. Capture team members names, roles, and at least one fun or discovery moment per session. Judges want consistent documentation across the full season.' },
+      ]
+    },
+    build: {
+      head: 'Judging Evidence to Accumulate',
+      items: [
+        { tag:'Robot: Iterate', txt:'Testing logs are the evidence for repeated testing. Every run should record: what happened, what changed, why. The process matters to judges as much as the result.' },
+        { tag:'Robot: Design', txt:'Watch for roles hardening. If only one person codes and one builds, judges will notice. Find moments for all members to touch both building and coding each phase.' },
+        { tag:'Project: Iterate', txt:'The rubric requires sharing with multiple different groups. One outside share this phase is your first. Plan a second for develop with a genuinely different audience type.' },
+        { tag:'Project: Create', txt:'Prototype documentation is scored. Photograph every version. Write what changed and why. Even a sketch with an explanatory note counts as a documented model.' },
+        { tag:'Core Values (dual-scored)', txt:'Several criteria count toward BOTH their category AND Core Values: all-member participation in design, evidence of improvements from feedback, enthusiasm in presentations. These are worth double.' },
+      ]
+    },
+    develop: {
+      head: 'Judging Evidence to Strengthen',
+      items: [
+        { tag:'Robot: Create', txt:'Judges will ask any team member to explain an attachment and how the code works. This phase, make sure everyone can give that explanation, not just the technical leads.' },
+        { tag:'Project: Iterate', txt:'Second outside share should happen this phase with a different group from the first. Different enough to generate new feedback, not just confirmation.' },
+        { tag:'Project: Communicate', txt:'The rubric scores explanation of impact and pride or enthusiasm as separate rows. Rehearse both: who benefits from the solution, and does the presentation show genuine excitement?' },
+        { tag:'Robot: Communicate', txt:'Judges want process and lessons learned, not just what the robot does. They want to hear what the team tried, what failed, and what they figured out. Start building this narrative now.' },
+        { tag:'Core Values (dual-scored)', txt:'Dual-scored this phase: all-member involvement in development (Project), improvements based on testing (Robot), enthusiasm in presentations (both). These feed Core Values scoring directly.' },
+      ]
+    },
+    refine: {
+      head: 'Judging Evidence to Lock In',
+      items: [
+        { tag:'Both: Communicate', txt:'Pride and enthusiasm are scored as separate rows in both the Robot and Project rubrics. Remind the team: showing genuine excitement for their work is not just performance, it is scored.' },
+        { tag:'Robot: Communicate', txt:'Mock judging should specifically practice: Walk me through how your robot changed this season and what you learned from what went wrong. That is the highest Communicate level.' },
+        { tag:'Project: Communicate', txt:'The impact question catches most teams: Who specifically benefits from your solution, and how does their life change? Every member should have a confident, specific answer.' },
+        { tag:'Evidence audit', txt:'Before leaving this phase: journal covers every session, expert log lists all contacts with what each contributed, prototype has at least one documented iteration, run logs show testing over time.' },
+        { tag:'Core Values at the event', txt:'Judges watch team behavior throughout the entire event, not just in the judging room. How a team treats other teams in the pit and at the table is visible and evaluated.' },
+      ]
+    },
+    prep: {
+      head: 'Final Judging Readiness Check',
+      items: [
+        { tag:'Both: Identify', txt:'Can every team member state the mission strategy AND the project problem clearly without hesitation? Judges ask anyone. Do pair-practice if quieter members freeze on these questions.' },
+        { tag:'Both: Communicate', txt:'The top Communicate level is clearly shows pride or enthusiasm for their work. Not just competence, joy. Remind the team: judges want to celebrate with them. Walk in proud.' },
+        { tag:'Evidence ready', txt:'Competition day: engineering notebook with run logs spanning the full season, project portfolio with expert log and prototype documentation, physical prototype for the judges table.' },
+        { tag:'Core Values all day', txt:'Core Values is evaluated across the entire event. How the team treats opponents, how they cheer for others, how they handle a bad run is all visible and matters.' },
+      ]
+    },
+  };
 
   // ── TRACKER & GANTT ──
 
@@ -3145,15 +3370,390 @@
     setTimeout(() => win.print(), 600);
   }
 
-  function toggleMeeting(num) {
-    document.getElementById('cm-'+num).classList.toggle('open');
-  }
-</script>
 
-<!-- FOOTER -->
-<footer>
-  <p>FLL Getting Started Guide, built from the work of experienced FLL teams.</p>
-  <p style="margin-top:.4rem;">FIRST&#174; and FIRST&#174; LEGO&#174; League are registered trademarks of FIRST. This guide is for educational purposes only.</p>
-</footer>
+  // ── WORKSHEETS ──
+
+  const WS_PHASE_CONTEXT = {
+    foundation: {
+      title: 'Season Kickoff',
+      context: 'This is the very beginning of your FLL season. You are learning what the challenge is all about, forming your team, and starting to think about your robot and your Innovation Project.',
+      robot_focus: 'Reading the game guide and figuring out which missions are worth the most points.',
+      project_focus: 'Identifying a problem in the real world that connects to this year\'s FLL theme.',
+      cv_focus: 'Getting to know your team, deciding on roles, and writing your first journal entry.',
+    },
+    build: {
+      title: 'Build & Research Phase',
+      context: 'Now the real work begins. You\'re coding robot runs, researching your project topic, and testing ideas. Things will break — that\'s part of the process.',
+      robot_focus: 'Programming and testing robot missions. Log every run, even the ones that fail.',
+      project_focus: 'Deep-diving into research, connecting with experts, and identifying solutions.',
+      cv_focus: 'Keeping your team journal, supporting teammates, and showing Gracious Professionalism.',
+    },
+    develop: {
+      title: 'Develop & Refine',
+      context: 'You\'re adding depth to everything — more missions, a stronger prototype, and a presentation that tells a story. It\'s time to make good work great.',
+      robot_focus: 'Adding more missions, improving consistency, and solving attachment challenges.',
+      project_focus: 'Developing your innovative solution, gathering feedback, and refining your presentation.',
+      cv_focus: 'Practicing your judging presentation and making sure everyone on the team has a voice.',
+    },
+    refine: {
+      title: 'Refinement Phase',
+      context: 'You\'re polishing what you have, not adding new things. Practice makes perfect — especially under pressure.',
+      robot_focus: 'Running consistent practice rounds and timing yourselves.',
+      project_focus: 'Rehearsing your Innovation Project presentation until it feels natural.',
+      cv_focus: 'Mock judging, reviewing your portfolio, and celebrating how far you\'ve come.',
+    },
+    prep: {
+      title: 'Competition Prep',
+      context: 'Competition day is almost here. Your job now is to stay calm, trust your preparation, and be the best teammates you can be.',
+      robot_focus: 'Final robot checks, packing your materials, and reviewing the match schedule.',
+      project_focus: 'Final rehearsal of your presentation — know your key points cold.',
+      cv_focus: 'Remember Gracious Professionalism. Cheer for other teams. Be the team everyone remembers.',
+    },
+  };
+
+  const WS_GRADE_CFG = {
+    4: {
+      label: '4th Grade',
+      emoji: '⭐',
+      warmup_prompt: 'Quick warm-up! Draw or write one thing you already know about today\'s topic:',
+      notes_header: 'My Notes (write OR draw!)',
+      notes_lines: 5,
+      reflect_label: 'After the Meeting',
+      reflect_prompts: [
+        'One thing I learned today:',
+        'Something I want to know more about:',
+        'My favorite part was:',
+      ],
+      extra_section: 'draw',
+      extra_label: 'Draw It! Sketch your robot, your project idea, or something from today\'s meeting:',
+      rating_label: 'How did today\'s meeting go?',
+      rating_type: 'stars',
+    },
+    5: {
+      label: '5th Grade',
+      emoji: '🚀',
+      warmup_prompt: 'Before we start — write down one question you have going into today\'s meeting:',
+      notes_header: 'Meeting Notes',
+      notes_lines: 6,
+      reflect_label: 'Reflect',
+      reflect_prompts: [
+        'The most important thing I did today:',
+        'Something I struggled with (and how I tried to fix it):',
+        'One way I helped a teammate today:',
+      ],
+      extra_section: 'checklist',
+      extra_label: 'My Goals for Today (check them off as you go!)',
+      rating_label: 'Rate today\'s meeting:',
+      rating_type: 'stars',
+    },
+    6: {
+      label: '6th Grade',
+      emoji: '🔬',
+      warmup_prompt: 'Pre-meeting check-in: Based on the meeting title, what do you predict we will accomplish today?',
+      notes_header: 'Notes & Observations',
+      notes_lines: 7,
+      reflect_label: 'Post-Meeting Reflection',
+      reflect_prompts: [
+        'What did we actually accomplish versus what I predicted?',
+        'What\'s one decision the team made today, and do you agree with it?',
+        'What\'s the most important next step before the next meeting?',
+      ],
+      extra_section: 'connection',
+      extra_label: 'Real-World Connection: How does what you did today connect to something in the real world?',
+      rating_label: 'How productive was today\'s meeting?',
+      rating_type: 'scale',
+    },
+    7: {
+      label: '7th Grade',
+      emoji: '⚙️',
+      warmup_prompt: 'What was the outcome of the last meeting, and what does today need to build on?',
+      notes_header: 'Technical Notes & Analysis',
+      notes_lines: 8,
+      reflect_label: 'Analysis & Next Steps',
+      reflect_prompts: [
+        'What specific progress did the team make toward competition today?',
+        'What\'s one thing that isn\'t working, and what are two possible fixes?',
+        'What decision or responsibility will you own before the next meeting?',
+      ],
+      extra_section: 'plan',
+      extra_label: 'My Action Plan: What specific task am I owning before next meeting?',
+      rating_label: 'Team effectiveness today (1-5):',
+      rating_type: 'scale',
+    },
+    8: {
+      label: '8th Grade',
+      emoji: '🏆',
+      warmup_prompt: 'As a senior team member: what\'s the most important thing the team needs to accomplish today, and how will you help make that happen?',
+      notes_header: 'Documentation & Leadership Notes',
+      notes_lines: 9,
+      reflect_label: 'Leadership Reflection',
+      reflect_prompts: [
+        'How did you contribute to the team\'s progress today — specifically?',
+        'Did any teammate need support today? How did you (or could you have) helped?',
+        'If you were presenting this meeting\'s work to the judges right now, what would you say?',
+      ],
+      extra_section: 'mentor',
+      extra_label: 'Mentoring Note: What did you teach or explain to a younger team member today?',
+      rating_label: 'Leadership self-assessment:',
+      rating_type: 'scale',
+    },
+  };
+
+  // Per-area, per-grade warm-up activities
+  const WS_AREA_ACTIVITIES = {
+    robot: {
+      4: ['Draw the field table and circle the missions you want to try today.', 'List 3 things a robot needs to do to complete a mission (in your own words).'],
+      5: ['Write the name of one mission and the steps the robot needs to take to complete it.', 'Sketch a robot attachment you think could work for today\'s mission.'],
+      6: ['Describe the logic of one robot run in plain English — what happens step by step?', 'List what you\'ll test today and how you\'ll know if it worked.'],
+      7: ['Write a hypothesis: if we change [X] in the code/build, we predict [Y] will happen.', 'Document the current state of your robot run scores and what\'s blocking improvement.'],
+      8: ['Evaluate the team\'s current robot strategy: what\'s the highest-value change we could make today?', 'Write a quality-check checklist for this meeting\'s robot testing.'],
+    },
+    project: {
+      4: ['Write 3 words that describe the problem your project is trying to solve.', 'Draw someone who has the problem your project addresses. What does their day look like?'],
+      5: ['Write 2 facts you already know about your project topic and 1 question you still have.', 'What makes your solution different from what already exists?'],
+      6: ['Summarize your innovative solution in 2 sentences — without using any jargon.', 'Who did you talk to (or want to talk to) as an expert? What would you ask them?'],
+      7: ['Assess your current project research: what\'s the strongest evidence you have? What\'s missing?', 'Write the "so what" of your project — why should the judges care about your solution?'],
+      8: ['Critique your own innovation: what\'s the weakest part of your argument, and how do you address it?', 'Write the opening 30 seconds of your judging presentation from memory.'],
+    },
+    cv: {
+      4: ['What does "Gracious Professionalism" mean to you? Write or draw your answer.', 'Write one thing you appreciate about a teammate today.'],
+      5: ['Describe a time your team disagreed on something. How did you solve it?', 'What\'s one way you could make today\'s meeting more fun for everyone?'],
+      6: ['Reflect: does everyone on your team have a clear role? Who might need more support?', 'Write an example of Gracious Professionalism you could show at competition.'],
+      7: ['Analyze your team\'s current dynamic: what\'s working well and what could improve?', 'How does your team handle it when something goes wrong? Is that the best approach?'],
+      8: ['As a leader: identify one teammate who\'s struggling and write a plan to support them.', 'Draft a 3-sentence "team values" statement that captures how your team works together.'],
+    },
+  };
+
+
+  function downloadWorksheets(meetingNum) {
+    const meeting = currentSchedule.find(m => m.meetingNum === meetingNum);
+    if (!meeting) { alert('Generate a curriculum first!'); return; }
+
+    const n = plannerState.teamsize;
+    const detailedMode = document.getElementById('members-toggle') && document.getElementById('members-toggle').checked;
+    const memberCount = detailedMode ? Math.min(n, memberData.length) : n;
+
+    const tasks = meeting.bp.tasks.filter(t => t.tier === 'core');
+    const areas = [...new Set(tasks.map(t => t.area))];
+    const primaryArea = areas[0] || 'robot';
+
+    let pages = '';
+    for (let i = 0; i < memberCount; i++) {
+      const d = detailedMode && memberData[i] ? memberData[i] : { name: 'Student ' + (i+1), grade: 6, exp: { robot:'new', project:'new', cv:'new' }, skills: new Set() };
+      const grade = d.grade || 6;
+      const name  = d.name || ('Student ' + (i+1));
+      pages += buildOneWorksheet(name, grade, meeting, primaryArea, areas, i);
+    }
+
+    const css = buildWorksheetCSS();
+    const win = window.open('', '_blank');
+    const title = 'Worksheets — Meeting ' + meetingNum + ': ' + meeting.bp.title;
+    win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + title + '</title><style>' + css + '</style></head><body>' + pages + '</body></html>');
+    win.document.close();
+    setTimeout(() => win.print(), 700);
+  }
+
+  function buildOneWorksheet(name, grade, meeting, primaryArea, areas, studentIndex) {
+    const g   = WS_GRADE_CFG[grade] || WS_GRADE_CFG[6];
+    const pc  = WS_PHASE_CONTEXT[meeting.phase] || WS_PHASE_CONTEXT.build;
+    const AREA_LABEL_WS = { robot:'🤖 Robot Game', project:'🔬 Innovation Project', cv:'🤝 Core Values' };
+    const AREA_COLOR    = { robot:'#3b9eff', project:'#00d4b4', cv:'#a78bfa' };
+    const phaseColor    = { foundation:'#3b9eff', build:'#00d4b4', develop:'#a78bfa', refine:'#f0c040', prep:'#34d399' };
+    const pColor = phaseColor[meeting.phase] || '#3b9eff';
+    const aColor = AREA_COLOR[primaryArea] || '#3b9eff';
+
+    // Pick grade-specific activity for primary area
+    const actPool = WS_AREA_ACTIVITIES[primaryArea] && WS_AREA_ACTIVITIES[primaryArea][grade]
+      ? WS_AREA_ACTIVITIES[primaryArea][grade]
+      : WS_AREA_ACTIVITIES[primaryArea][6];
+    const activity = actPool[studentIndex % actPool.length];
+
+    // Focus description from phase context
+    const focusKey = primaryArea === 'robot' ? 'robot_focus' : primaryArea === 'project' ? 'project_focus' : 'cv_focus';
+    const focusDesc = pc[focusKey] || '';
+
+    // Area badges
+    const areaBadges = areas.map(a => '<span class="ws-area-badge" style="background:' + (AREA_COLOR[a]||'#3b9eff') + '22;color:' + (AREA_COLOR[a]||'#3b9eff') + ';border-color:' + (AREA_COLOR[a]||'#3b9eff') + '44">' + AREA_LABEL_WS[a] + '</span>').join('');
+
+    // Notes lines
+    const lines = Array(g.notes_lines).fill('<div class="ws-line"></div>').join('');
+
+    // Reflect prompts
+    const reflectItems = g.reflect_prompts.map(p =>
+      '<div class="ws-reflect-item"><div class="ws-reflect-q">' + p + '</div><div class="ws-line"></div><div class="ws-line"></div></div>'
+    ).join('');
+
+    // Extra section
+    let extraHtml = '';
+    if (g.extra_section === 'draw') {
+      extraHtml = '<div class="ws-draw-box"><div class="ws-draw-label">' + g.extra_label + '</div></div>';
+    } else if (g.extra_section === 'checklist') {
+      const checks = ['My specific task for today:', 'Something I want to try:', 'Something I want to ask the team:'];
+      extraHtml = '<div class="ws-extra-section"><div class="ws-section-title">' + g.extra_label + '</div>'
+        + checks.map(c => '<div class="ws-check-row"><span class="ws-checkbox">☐</span><span class="ws-check-txt">' + c + '</span><div class="ws-check-line"></div></div>').join('')
+        + '</div>';
+    } else if (g.extra_section === 'connection' || g.extra_section === 'plan' || g.extra_section === 'mentor') {
+      extraHtml = '<div class="ws-extra-section"><div class="ws-section-title">' + g.extra_label + '</div><div class="ws-line"></div><div class="ws-line"></div><div class="ws-line"></div></div>';
+    }
+
+    // Rating
+    let ratingHtml = '';
+    if (g.rating_type === 'stars') {
+      ratingHtml = '<div class="ws-rating"><span class="ws-rating-lbl">' + g.rating_label + '</span> ☆ ☆ ☆ ☆ ☆</div>';
+    } else {
+      ratingHtml = '<div class="ws-rating"><span class="ws-rating-lbl">' + g.rating_label + '</span> <span class="ws-scale">1 &nbsp;&nbsp; 2 &nbsp;&nbsp; 3 &nbsp;&nbsp; 4 &nbsp;&nbsp; 5</span></div>';
+    }
+
+    return '<div class="ws-page">'
+      // Header bar
+      + '<div class="ws-header-bar" style="background:' + pColor + '">'
+      + '<div class="ws-header-left"><div class="ws-mission-tag">MEETING ' + meeting.meetingNum + '</div><div class="ws-meeting-title">' + meeting.bp.title + '</div></div>'
+      + '<div class="ws-header-right"><div class="ws-student-name">' + name + '</div><div class="ws-grade-badge">' + g.emoji + ' ' + g.label + '</div></div>'
+      + '</div>'
+      // Area badges + date
+      + '<div class="ws-subheader"><div class="ws-area-badges">' + areaBadges + '</div><div class="ws-date-line">Date: _______________</div></div>'
+      // Mission brief
+      + '<div class="ws-section ws-mission">'
+      + '<div class="ws-section-title" style="color:' + pColor + '">&#127919; Mission Briefing</div>'
+      + '<div class="ws-brief-text">' + pc.context + '</div>'
+      + '<div class="ws-focus-box" style="border-color:' + aColor + ';background:' + aColor + '11"><strong>Your focus today:</strong> ' + focusDesc + '</div>'
+      + '</div>'
+      // Warm-up activity
+      + '<div class="ws-section">'
+      + '<div class="ws-section-title" style="color:' + aColor + '">&#9889; Warm-Up Challenge</div>'
+      + '<div class="ws-activity-prompt">' + g.warmup_prompt + '</div>'
+      + '<div class="ws-activity-task">' + activity + '</div>'
+      + '<div class="ws-line"></div><div class="ws-line"></div>'
+      + '</div>'
+      // Notes
+      + '<div class="ws-section">'
+      + '<div class="ws-section-title">&#128221; ' + g.notes_header + '</div>'
+      + lines
+      + '</div>'
+      // Extra section
+      + extraHtml
+      // Reflect
+      + '<div class="ws-section">'
+      + '<div class="ws-section-title">' + g.reflect_label + '</div>'
+      + reflectItems
+      + '</div>'
+      // Footer
+      + '<div class="ws-footer">'
+      + ratingHtml
+      + '<div class="ws-footer-brand">FLL Team Guide · fllteamguide.github.io</div>'
+      + '</div>'
+      + '</div>'; // ws-page
+  }
+
+  function buildWorksheetCSS() {
+    return `
+      * { box-sizing:border-box; margin:0; padding:0; }
+      body { font-family: 'Segoe UI', Arial, sans-serif; background:#fff; color:#222; font-size:13px; }
+      .ws-page {
+        max-width:780px; margin:0 auto; padding:0;
+        page-break-after:always; min-height:100vh;
+        display:flex; flex-direction:column; border:2px solid #e0e0e0;
+        margin-bottom:24px; border-radius:8px; overflow:hidden;
+      }
+      .ws-header-bar {
+        display:flex; justify-content:space-between; align-items:center;
+        padding:14px 20px; color:#fff; gap:12px;
+      }
+      .ws-mission-tag { font-size:10px; font-weight:800; letter-spacing:.1em; opacity:.85; text-transform:uppercase; }
+      .ws-meeting-title { font-size:18px; font-weight:800; line-height:1.2; }
+      .ws-header-right { text-align:right; flex-shrink:0; }
+      .ws-student-name { font-size:16px; font-weight:800; }
+      .ws-grade-badge { font-size:11px; opacity:.85; margin-top:2px; }
+      .ws-subheader { display:flex; justify-content:space-between; align-items:center; padding:8px 20px; background:#f8f8f8; border-bottom:1px solid #eee; }
+      .ws-area-badges { display:flex; gap:6px; flex-wrap:wrap; }
+      .ws-area-badge { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; border:1px solid; }
+      .ws-date-line { font-size:12px; color:#888; }
+      .ws-section { padding:14px 20px; border-bottom:1px solid #f0f0f0; }
+      .ws-section-title { font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.07em; color:#555; margin-bottom:8px; }
+      .ws-mission { background:#fafafa; }
+      .ws-brief-text { font-size:12.5px; line-height:1.55; color:#444; margin-bottom:8px; }
+      .ws-focus-box { border-left:3px solid; padding:7px 10px; border-radius:4px; font-size:12px; line-height:1.5; }
+      .ws-activity-prompt { font-size:12px; color:#666; font-style:italic; margin-bottom:4px; }
+      .ws-activity-task { font-size:13px; font-weight:600; color:#222; margin-bottom:8px; line-height:1.4; background:#fff8e1; border-radius:4px; padding:6px 10px; border-left:3px solid #f0c040; }
+      .ws-line { border-bottom:1.5px solid #e8e8e8; margin:8px 0; height:24px; }
+      .ws-draw-box { padding:14px 20px; }
+      .ws-draw-label { font-size:12px; font-weight:700; color:#555; margin-bottom:8px; }
+      .ws-draw-area { border:2px dashed #ddd; border-radius:8px; height:130px; background:#fafafa; }
+      .ws-extra-section { padding:14px 20px; background:#fafafa; border-bottom:1px solid #f0f0f0; }
+      .ws-check-row { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+      .ws-checkbox { font-size:16px; flex-shrink:0; }
+      .ws-check-txt { font-size:12.5px; flex-shrink:0; color:#444; }
+      .ws-check-line { flex:1; border-bottom:1.5px solid #e0e0e0; height:20px; }
+      .ws-reflect-item { margin-bottom:10px; }
+      .ws-reflect-q { font-size:12.5px; font-weight:600; color:#333; margin-bottom:4px; }
+      .ws-footer { display:flex; justify-content:space-between; align-items:center; padding:10px 20px; background:#f8f8f8; margin-top:auto; border-top:1px solid #eee; }
+      .ws-rating { font-size:14px; color:#555; display:flex; align-items:center; gap:8px; }
+      .ws-rating-lbl { font-size:12px; font-weight:600; }
+      .ws-scale { letter-spacing:6px; color:#888; }
+      .ws-footer-brand { font-size:10px; color:#bbb; }
+      @media print {
+        body { margin:0; }
+        .ws-page { page-break-after:always; border:none; margin:0; border-radius:0; }
+      }
+    `;
+  }
+
+  // ── TRANSLATE ──
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'es,he,zh-CN,zh-TW',
+      autoDisplay: false,
+    }, 'google_translate_element');
+  }
+
+  function toggleTranslateMenu(e) {
+    e.stopPropagation();
+    const dd = document.getElementById('translate-dropdown');
+    dd.style.display = dd.style.display === 'block' ? 'none' : 'block';
+  }
+
+  let currentTranslateLang = 'en';
+
+  function translateTo(lang, label, btn) {
+    currentTranslateLang = lang;
+    // Update active state
+    document.querySelectorAll('.translate-opt').forEach(b => b.classList.remove('tr-active'));
+    if (btn) btn.classList.add('tr-active');
+    document.getElementById('tr-cur-lbl').textContent = label;
+    document.getElementById('translate-dropdown').style.display = 'none';
+
+    // RTL support for Hebrew
+    document.documentElement.setAttribute('dir', lang === 'he' ? 'rtl' : 'ltr');
+
+    if (lang === 'en') {
+      // Restore English via cookie + reload
+      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + location.hostname + ';';
+      location.reload();
+      return;
+    }
+
+    const trySet = function(attempts) {
+      const sel = document.querySelector('.goog-te-combo');
+      if (sel) {
+        sel.value = lang;
+        sel.dispatchEvent(new Event('change'));
+      } else if (attempts > 0) {
+        setTimeout(function(){ trySet(attempts - 1); }, 350);
+      }
+    };
+    trySet(15);
+  }
+
+  // Close on outside click
+  document.addEventListener('click', function() {
+    const dd = document.getElementById('translate-dropdown');
+    if (dd) dd.style.display = 'none';
+  });
+
+
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
