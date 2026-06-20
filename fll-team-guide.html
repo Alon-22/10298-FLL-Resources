@@ -1416,6 +1416,8 @@
       <button class="translate-opt tr-active" id="tr-en" onclick="translateTo('en','Language',this)"><span class="tr-flag">&#127482;&#127480;</span>English</button>
       <button class="translate-opt" id="tr-es" onclick="translateTo('es','Español',this)"><span class="tr-flag">&#127466;&#127480;</span>Español<span class="tr-native">Spanish</span></button>
       <button class="translate-opt" id="tr-he" onclick="translateTo('he','עברית',this)"><span class="tr-flag">&#127470;&#127473;</span>עברית<span class="tr-native">Hebrew</span></button>
+      <button class="translate-opt" id="tr-ar" onclick="translateTo('ar','العربية',this)"><span class="tr-flag">&#127462;&#127466;</span>العربية<span class="tr-native">Arabic</span></button>
+      <button class="translate-opt" id="tr-kk" onclick="translateTo('kk','Қазақша',this)"><span class="tr-flag">&#127472;&#127487;</span>Қазақша<span class="tr-native">Kazakh</span></button>
       <button class="translate-opt" id="tr-zh-CN" onclick="translateTo('zh-CN','普通话',this)"><span class="tr-flag">&#127464;&#127475;</span>普通话<span class="tr-native">Mandarin (Simplified)</span></button>
       <button class="translate-opt" id="tr-zh-TW" onclick="translateTo('zh-TW','廣東話',this)"><span class="tr-flag">&#127469;&#127472;</span>廣東話<span class="tr-native">Cantonese (Traditional)</span></button>
     </div>
@@ -4470,13 +4472,48 @@
 
 
   // ── TRANSLATE ──
+  // Uses cookie + reload approach: set googtrans cookie then reload.
+  // This is the most reliable cross-browser method for Google Translate.
+
+  const TR_RTL_LANGS = { he: true, ar: true };
+
+  const TR_LANGS = {
+    en:    { label: 'Language' },
+    es:    { label: 'Español' },
+    he:    { label: 'עברית' },
+    ar:    { label: 'العربية' },
+    kk:    { label: 'Қазақша' },
+    'zh-CN': { label: '普通话' },
+    'zh-TW': { label: '廣東話' },
+  };
+
   function googleTranslateElementInit() {
     new google.translate.TranslateElement({
       pageLanguage: 'en',
-      includedLanguages: 'es,he,zh-CN,zh-TW',
+      includedLanguages: 'ar,es,he,kk,zh-CN,zh-TW',
       autoDisplay: false,
     }, 'google_translate_element');
   }
+
+  function getGoogTransCookie() {
+    const m = document.cookie.match(/(?:^|;)\s*googtrans=\/en\/([^;]+)/);
+    return m ? m[1] : 'en';
+  }
+
+  // On load: restore button state from cookie
+  document.addEventListener('DOMContentLoaded', function() {
+    const lang = getGoogTransCookie();
+    if (lang && lang !== 'en' && TR_LANGS[lang]) {
+      const lbl = document.getElementById('tr-cur-lbl');
+      if (lbl) lbl.textContent = TR_LANGS[lang].label;
+      const btn = document.getElementById('tr-' + lang);
+      if (btn) {
+        document.querySelectorAll('.translate-opt').forEach(b => b.classList.remove('tr-active'));
+        btn.classList.add('tr-active');
+      }
+      if (TR_RTL_LANGS[lang]) document.body.setAttribute('dir', 'rtl');
+    }
+  });
 
   function toggleTranslateMenu(e) {
     e.stopPropagation();
@@ -4484,45 +4521,30 @@
     dd.style.display = dd.style.display === 'block' ? 'none' : 'block';
   }
 
-  let currentTranslateLang = 'en';
-
   function translateTo(lang, label, btn) {
-    currentTranslateLang = lang;
-    document.querySelectorAll('.translate-opt').forEach(b => b.classList.remove('tr-active'));
-    if (btn) btn.classList.add('tr-active');
-    document.getElementById('tr-cur-lbl').textContent = label;
     document.getElementById('translate-dropdown').style.display = 'none';
+    const exp = 'expires=Thu, 01 Jan 1970 00:00:00 UTC';
+    const hosts = [location.hostname, '.' + location.hostname, ''];
 
     if (lang === 'en') {
-      // Reset: clear googtrans cookie and reload
-      const domains = ['', location.hostname, '.' + location.hostname];
-      domains.forEach(function(d) {
-        const base = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        document.cookie = d ? base + ' domain=' + d + ';' : base;
+      // Clear googtrans cookie on all domain variants then reload
+      hosts.forEach(function(h) {
+        const d = h ? '; domain=' + h : '';
+        document.cookie = 'googtrans=; ' + exp + '; path=/' + d + ';';
       });
       location.reload();
       return;
     }
 
-    // RTL layout for Hebrew only
-    document.body.setAttribute('dir', lang === 'he' ? 'rtl' : 'ltr');
-
-    const doTranslate = function(attempts) {
-      // Try the goog-te-combo select (Google Translate widget)
-      const sel = document.querySelector('.goog-te-combo');
-      if (sel) {
-        sel.value = lang;
-        // Fire both change and input events for reliability
-        sel.dispatchEvent(new Event('change', { bubbles: true }));
-        sel.dispatchEvent(new Event('input',  { bubbles: true }));
-      } else if (attempts > 0) {
-        setTimeout(function(){ doTranslate(attempts - 1); }, 400);
-      }
-    };
-    doTranslate(20);
+    // Set cookie for target language then reload
+    hosts.forEach(function(h) {
+      const d = h ? '; domain=' + h : '';
+      document.cookie = 'googtrans=/en/' + lang + '; path=/' + d + ';';
+    });
+    location.reload();
   }
 
-  // Close on outside click
+  // Close dropdown on outside click
   document.addEventListener('click', function() {
     const dd = document.getElementById('translate-dropdown');
     if (dd) dd.style.display = 'none';
