@@ -2067,27 +2067,6 @@
     <div class="section-banner-content">
       <div class="section-icon">&#127908;</div>
       <div>
-        <div class="section-title">Judging Presentation Script Builder</div>
-        <div class="section-sub">Write, time, and rehearse your presentations, one section at a time</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="tab-inner">
-
-    <!-- General tips card -->
-    <div class="pres-tips-card">
-      <div style="font-weight:800;font-size:.95rem;color:var(--text);margin-bottom:.1rem;">&#128161; Before You Write</div>
-      <div style="font-size:.83rem;color:var(--text-muted);">Judges want to hear from the <em>kids</em>, not a polished boardroom pitch. Speak naturally, use your own words, and let your real enthusiasm show.</div>
-      <div class="pres-tips-grid">
-        <div class="ptip"><strong>Know the structure</strong>Your full judging session is 30 minutes: 5 min Innovation Project presentation, 5 min IP questions, 5 min Robot Design explanation, 5 min Robot Design questions, then up to 8 min of Final Share. Practice each section to its time target.</div>
-        <div class="ptip"><strong>Everyone speaks</strong>Every team member should say something. Judges notice when one kid does all the talking.</div>
-        <div class="ptip"><strong>Tell a story</strong>Start w<!-- ── PRESENTATIONS ── -->
-<section id="presentations">
-  <div class="section-banner">
-    <div class="section-banner-content">
-      <div class="section-icon">&#127908;</div>
-      <div>
         <div class="section-title">Judging Outline Builder</div>
         <div class="section-sub">Map out what you want to say before you say it. Quick, focused, built around what judges are actually looking for.</div>
       </div>
@@ -2310,7 +2289,27 @@
   </div>
 </section>
 
-mentById('wks-display').textContent=this.value+' weeks'">
+
+<!-- ── SEASON PLANNER ── -->
+<section id="planner">
+  <div class="section-banner">
+    <div class="section-banner-content">
+      <div class="section-icon">&#128197;</div>
+      <div>
+        <div class="section-title">Season Planner</div>
+        <div class="section-sub">Build a custom curriculum for your season. Set your timeline, team size, and priorities, then generate your plan.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-inner">
+    <div class="planner-card">
+      <div class="planner-form">
+
+        <div class="planner-field">
+          <label class="planner-label">How many weeks is your season?</label>
+          <span id="wks-display" style="font-weight:700;color:var(--teal);font-size:1rem">12 weeks</span>
+          <input type="range" class="planner-range" id="planner-weeks" min="4" max="24" value="12" oninput="document.getElementById('wks-display').textContent=this.value+' weeks'">
           <div class="planner-range-ends"><span>4 wks</span><span>24 wks</span></div>
         </div>
 
