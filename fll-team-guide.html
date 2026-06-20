@@ -1556,7 +1556,7 @@
     <div class="faq">
       <div class="faq-item">
         <h3>You don't need to be perfect. You need to be consistent.</h3>
-        <p>A focused scope of missions that work every single run will outscore a long list of missions that fail half the time. There is no minimum or maximum number of missions you need to attempt. Judges care about how well you understood and executed your strategy, not how many missions you tried.</p>
+        <p>Missions you can execute reliably every run are worth far more than missions you attempt and fail. Go through all the missions, cut the ones you cannot execute consistently, and attempt as many of the rest as you can. Judges want to see that you understood the full mission board and made deliberate decisions about what to include and cut.</p>
       </div>
       <div class="faq-item">
         <h3>All three areas are judged equally. Don't ignore any of them.</h3>
@@ -1646,8 +1646,8 @@
       <div class="step-item">
         <div class="step-num-circle blue">1</div>
         <div>
-          <h3>Read the game guide and choose your scope</h3>
-          <p>Every season has many missions ranging from simple to very complex. Your team's job is to decide which ones are realistic given your time, team size, and experience. Start with a small set of achievable missions and build your strategy around those. You can always expand scope later — but you can't get back time spent on missions you were never going to finish.</p>
+          <h3>Survey all missions and decide what to cut</h3>
+          <p>Every FLL season has many missions — often 15 to 20 or more. Your team's job is to go through every single one, understand what it requires, and decide which ones to cut. The goal is not to do as few as possible — it's to attempt as many as you can execute reliably. Cut the ones that are too risky or not worth the setup time, and go after the rest.</p>
         </div>
       </div>
       <div class="step-item">
@@ -1660,8 +1660,8 @@
       <div class="step-item">
         <div class="step-num-circle blue">3</div>
         <div>
-          <h3>Write code for one in-scope mission and test it 10 times in a row</h3>
-          <p>Don't try to code everything at once. Pick one mission from your defined scope, write the code, and run it ten times. Count how many times it succeeds. If it's below 7 out of 10, fix the problem before moving on. Only add new missions to your scope once existing ones are reliable.</p>
+          <h3>Write code for one mission and test it 10 times in a row</h3>
+          <p>Don't try to code everything at once. Pick one mission, write the code, and run it ten times. Count how many times it succeeds. If it's below 7 out of 10, fix the problem before moving on. Only move to the next mission once this one is reliable. This is how you build up to many missions without losing consistency.</p>
         </div>
       </div>
       <div class="step-item">
@@ -1682,8 +1682,8 @@
     <div class="level-body">
       <div class="card-grid">
         <div class="info-card">
-          <h3>Define your scope early, then protect it</h3>
-          <p>There are many missions on the board. Most are not in your scope this season, and that is fine. Pick a small set of missions your team can complete reliably every single run. A narrow scope executed well will outscore an ambitious scope executed poorly. Judges will ask why you chose certain missions and skipped others — that reasoning is part of your Robot Design score.</p>
+          <h3>Survey all missions — then cut strategically</h3>
+          <p>FLL seasons typically have 15–20+ missions on the board. Your goal is to attempt as many as your team can execute reliably — not to pick the fewest. Go through every mission, figure out which ones to cut (too hard, too risky, not worth the points), and then go after the rest. Reliable execution beats an ambitious attempt that fails. Judges will ask why you skipped certain missions — having a real answer is part of your Robot Design score.</p>
         </div>
         <div class="info-card">
           <h3>Take notes after every practice run</h3>
@@ -1695,7 +1695,7 @@
         </div>
         <div class="info-card">
           <h3>Know your expected score before you compete</h3>
-          <p>Add up the exact point values for every mission in your scope. Walk into competition with that number memorized. If judges ask your expected score and you do not know it, that is a red flag. Knowing your scope and its value shows you have a real strategy.</p>
+          <p>For every mission you plan to attempt, write down its point value. Add them up and memorize your expected total. Walk into competition knowing exactly what you are going for. If judges ask your expected score and you cannot answer, that signals a lack of strategy.</p>
         </div>
       </div>
       <div class="callout teal" style="margin-bottom:0;">
@@ -1725,8 +1725,8 @@
           <p>One attachment per mission is more reliable than a multi-function arm. Keep them lightweight. Heavy attachments slow your robot and throw off its turning accuracy.</p>
         </div>
         <div class="info-card">
-          <h3>Plan a full run strategy on paper, scope and all</h3>
-          <p>Map out which in-scope missions go in each run, their point values, and a backup plan if one fails mid-run. Also document which missions are out of scope and why — judges frequently ask "what did you decide not to attempt?" and expect a real answer, not silence. Paper strategy before game day prevents panicking at the table.</p>
+          <h3>Plan a full run strategy on paper</h3>
+          <p>Map out which missions go in each run, their point values, and your run order. Build in a backup plan for if a mission fails mid-run. Document which missions you cut and why — judges frequently ask about this, and "we didn't get to it" is a weak answer. Knowing your full strategy on paper prevents panicking at the table.</p>
         </div>
         <div class="info-card">
           <h3>Track consistency percentage per mission</h3>
@@ -1746,7 +1746,7 @@
       <ul class="checklist" style="margin-top:.75rem;">
         <li><span class="ck teal">✓</span>Can every team member explain the robot's design choices, not just the person who built it?</li>
         <li><span class="ck teal">✓</span>Do you have photos or a journal documenting how the robot evolved over the season?</li>
-        <li><span class="ck teal">✓</span>Can you explain your scope — which missions you chose, why, what your expected score is, and what you decided not to attempt and why?</li>
+        <li><span class="ck teal">✓</span>Can you explain which missions you are attempting, your expected total score, and which missions you cut — and why you cut them?</li>
         <li><span class="ck teal">✓</span>When something went wrong (it always does), can you explain the problem and how you fixed it?</li>
         <li><span class="ck teal">✓</span>Does your code have any interesting or clever techniques worth explaining to judges?</li>
       </ul>
@@ -2778,15 +2778,14 @@
         if (d.exp[area] === 'exp')  s += 2;
         if (d.exp[area] === 'some') s += 1;
       }
-      // Rotation incentive: students underexposed to this area get a bonus
+      // Rotation: every student touches every area — rotation overrides skill affinity
       if (studentAreaCounts && studentAreaCounts[i]) {
         const counts = studentAreaCounts[i];
         const minCount = Math.min(counts.robot, counts.project, counts.cv);
         const thisCount = counts[area] || 0;
-        // Big bonus if never done this area; smaller bonus if done it fewer times than others
-        if (thisCount === 0 && minCount === 0) s += 4; // all equal at zero — let skills decide with slight nudge
-        else if (thisCount === 0) s += 8;              // hasn't done this area at all — strongly prefer
-        else s += Math.max(0, (minCount - thisCount + 1)) * 3; // underrepresented areas get a boost
+        if (thisCount === 0 && minCount === 0) s += 6;  // all equal — nudge toward variety
+        else if (thisCount === 0) s += 16;               // never done this area — strongly force rotation
+        else s += Math.max(0, (minCount - thisCount + 1)) * 5; // underrepresented gets big boost
       }
       return s;
     }
@@ -2836,24 +2835,23 @@
       });
     }
 
-    // Pass 3: unassigned students get support roles
+    // Pass 3: unassigned students — assign to their least-experienced area to guarantee full rotation
+    const DEFAULT_TASKS = {
+      robot:   'Observe the robot run, take notes on what fails, and suggest one fix to the robot lead.',
+      project: 'Read the project research notes and write one question to explore next meeting.',
+      cv:      'Write the journal entry for today. Photograph any physical work or whiteboard notes.',
+    };
     for (let i = 0; i < n; i++) {
       if (slots[i]) continue;
-      const d = memberData[i];
-      if (d && d.skills.has('writing')) {
-        slots[i] = { area:'cv', color:'var(--purple)', role:'Documentation',
-          tasks:['Write the journal entry for today and photograph any physical work.'] };
-      } else if (d && d.skills.has('leadership')) {
-        slots[i] = { area:'cv', color:'var(--purple)', role:'Coordinator',
-          tasks:['Keep the meeting moving. Make sure everyone knows their task.'] };
-      } else {
-        // Find biggest-task area to support
-        const areaCounts = {};
-        tasks.forEach(t => { areaCounts[t.area] = (areaCounts[t.area]||0)+1; });
-        const topArea = Object.entries(areaCounts).sort((a,b)=>b[1]-a[1])[0]?.[0] || 'robot';
-        slots[i] = { area:topArea, color:AREA_COLOR[topArea], role:AREA_LABEL[topArea]+' support',
-          tasks:['Assist with ' + AREA_LABEL[topArea].toLowerCase() + ' tasks and document progress.'] };
+      // Pick the area this student has done the least (force rotation exposure)
+      let leastArea = 'robot';
+      if (studentAreaCounts && studentAreaCounts[i]) {
+        const counts = studentAreaCounts[i];
+        leastArea = ['robot','project','cv'].sort((a,b) => (counts[a]||0) - (counts[b]||0))[0];
       }
+      slots[i] = { area: leastArea, color: AREA_COLOR[leastArea],
+        role: AREA_LABEL[leastArea] + ' support',
+        tasks: [DEFAULT_TASKS[leastArea]] };
     }
 
     // Update rotation tracker
@@ -3330,7 +3328,7 @@
   const BLUEPRINTS = [
     // ── FOUNDATION ──
     { phase:'foundation', title:'Season kickoff', priority:1, tasks:[
-      { text:'Read the game guide as a team. For every mission, mark it: in scope (we can do this), stretch (maybe later), or out of scope (not this season). Write down your reasoning.', area:'robot', mins:20, tier:'core' },
+      { text:'Read the game guide as a team. Go through every mission. Mark each one: attempt (we can do this reliably), risky (possible but needs work), or cut (too hard or not worth the points). Write down your reasoning for each cut.', area:'robot', mins:20, tier:'core' },
       { text:'Assign roles: robot lead, project lead, note-taker, presenter. Write them in your journal.', area:'cv', mins:10, tier:'core' },
       { text:'Start your team journal. Write today\'s date, who\'s here, and everyone\'s role.', area:'cv', mins:10, tier:'core' },
       { text:'Brainstorm 5+ specific problems related to this year\'s theme. Don\'t filter yet.', area:'project', mins:20, tier:'std' },
@@ -3339,7 +3337,7 @@
       { text:'Map the game table on paper. Label your in-scope mission zones and mark out-of-scope ones so the team knows where to focus.', area:'robot', mins:15, tier:'ext' },
     ]},
     { phase:'foundation', title:'Understand the game', priority:1, tasks:[
-      { text:'Go through each mission, write its point value, and decide: in scope or out of scope. Start with 3-5 missions your team can realistically run reliably. Document why you skipped the others. This is your starting strategy.', area:'robot', mins:25, tier:'core' },
+      { text:'Go through each mission, write its point value, and mark it attempt or cut. Aim to attempt as many as your team can execute reliably. Document why you cut the ones you did. This is your starting strategy.', area:'robot', mins:25, tier:'core' },
       { text:'Write the 5 chosen missions and expected total score in your journal.', area:'robot', mins:10, tier:'core' },
       { text:'Look at this year\'s Innovation Project theme. Pick your top 2 topic ideas to research next meeting.', area:'project', mins:15, tier:'std' },
       { text:'Assign one topic to each member. They\'ll bring back 2 facts at the next meeting.', area:'project', mins:10, tier:'std' },
@@ -3455,7 +3453,7 @@
       { text:'Code and test your next mission. Run it 10 times and log results.', area:'robot', mins:30, tier:'core' },
       { text:'Re-test all previous missions to confirm nothing broke. Record in journal.', area:'robot', mins:15, tier:'core' },
       { text:'Calculate your new total expected score and write it down.', area:'robot', mins:5, tier:'core' },
-      { text:'Write your current run strategy: every in-scope mission, which run it goes in, and why. Also list out-of-scope missions and the reason you skipped them.', area:'robot', mins:15, tier:'std' },
+      { text:'Write your current run strategy: every mission you are attempting, which run it goes in, and why. Also list missions you cut with one-line explanations.', area:'robot', mins:15, tier:'std' },
       { text:'Update the prototype with any changes from recent feedback or testing.', area:'project', mins:20, tier:'std' },
       { text:'Share your project with a second outside audience that is a different type of group from your first share. If you shared with family, now share with a community member, teacher, or organization. Judges need evidence of multiple different groups.', area:'project', mins:15, tier:'std' },
     ]},
@@ -3468,7 +3466,7 @@
       { text:'Team bonding: do one fun activity and write a journal entry about it.', area:'cv', mins:20, tier:'ext' },
     ]},
     { phase:'develop', title:'Run strategy on paper', priority:1, tasks:[
-      { text:'Write your full run strategy: every in-scope mission, its point value, which run it goes in. Add a column for out-of-scope missions with one-line explanations.', area:'robot', mins:20, tier:'core' },
+      { text:'Write your full run strategy: every mission you are attempting, its point value, which run it goes in. Add a column for cut missions with one-line explanations.', area:'robot', mins:20, tier:'core' },
       { text:'Calculate total expected score. Know this number. Every team member should know it.', area:'robot', mins:10, tier:'core' },
       { text:'Identify your 3 riskiest missions. What\'s your backup if one fails mid-run?', area:'robot', mins:15, tier:'core' },
       { text:'Review prototype: does anything need changing based on feedback so far?', area:'project', mins:15, tier:'std' },
@@ -3513,7 +3511,7 @@
       { text:'"Your robot fails mid-run. What do you do?" Discuss your actual answer.', area:'robot', mins:10, tier:'core' },
       { text:'Debrief: which answers were strong? Which need work?', area:'robot', mins:10, tier:'core' },
       { text:'Fix any robot issues surfaced in the mock session.', area:'robot', mins:20, tier:'std' },
-      { text:'Run all in-scope missions. Record pre-competition success rates. Anything under 70% should be cut from scope now.', area:'robot', mins:15, tier:'std' },
+      { text:'Run all missions you are attempting. Record success rates. Anything under 70% either gets fixed this week or gets cut. Do not enter competition with unreliable missions.', area:'robot', mins:15, tier:'std' },
     ]},
     { phase:'refine', title:'Mock judging: Innovation Project', priority:1, tasks:[
       { text:'Run full project presentation for someone outside the team. Let them ask questions.', area:'project', mins:15, tier:'core' },
