@@ -4475,8 +4475,6 @@
   // Uses cookie + reload approach: set googtrans cookie then reload.
   // This is the most reliable cross-browser method for Google Translate.
 
-  const TR_RTL_LANGS = { he: true, ar: true };
-
   const TR_LANGS = {
     en:    { label: 'Language' },
     es:    { label: 'Español' },
@@ -4511,7 +4509,7 @@
         document.querySelectorAll('.translate-opt').forEach(b => b.classList.remove('tr-active'));
         btn.classList.add('tr-active');
       }
-      if (TR_RTL_LANGS[lang]) document.body.setAttribute('dir', 'rtl');
+
     }
   });
 
