@@ -2,6 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <script>
+  (function(){
+    if(location.search.indexOf('fll_ws=1')===-1) return;
+    try {
+      var d=JSON.parse(localStorage.getItem('fll_ws_data')||'null');
+      if(!d||!d.pages) return;
+      // Build worksheet page with Google Translate widget embedded.
+      // Same origin as parent: googtrans cookie is present, GT auto-translates.
+      var sc='<'+'script', esc='<'+'/script>';
+      var gtBlock=
+        '<div id="ws_gt" style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;"></div>'
+        +sc+'>function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:"en",autoDisplay:false},"ws_gt");}'+esc
+        +sc+' src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"'+esc
+        +'<style>.goog-te-banner-frame,.skiptranslate{display:none!important}body{top:0!important}</style>';
+      document.open();
+      document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+d.title+'</title><style>'+d.css+'</style></head><body>'+d.pages+gtBlock+'</body></html>');
+      document.close();
+    } catch(e){}
+  })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FLL Getting Started Guide</title>
   <style>
@@ -1399,12 +1419,12 @@
     Getting Started
   </div>
   <div class="nav-links">
-    <button class="active" onclick="show('home',this)">Overview</button>
-    <button onclick="show('robot',this)">Robot Game</button>
-    <button onclick="show('project',this)">Innovation Project</button>
-    <button onclick="show('values',this)">Core Values</button>
-    <button onclick="show('presentations',this)">Presentations</button>
-    <button onclick="show('planner',this)">Season Planner</button>
+    <button class="active" data-tab="home" onclick="openTab('home',this)">Overview</button>
+    <button data-tab="robot" onclick="openTab('robot',this)">Robot Game</button>
+    <button data-tab="project" onclick="openTab('project',this)">Innovation Project</button>
+    <button data-tab="values" onclick="openTab('values',this)">Core Values</button>
+    <button data-tab="presentations" onclick="openTab('presentations',this)">Presentations</button>
+    <button data-tab="planner" onclick="openTab('planner',this)">Season Planner</button>
   </div>
 
   <!-- Translate -->
@@ -2649,6 +2669,28 @@
     if (btn) btn.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  // Open each section in its own browser tab via URL parameter
+  function openTab(section, btn) {
+    const base = location.href.replace(/[?#].*/, '');
+    const isCurrent = (new URLSearchParams(location.search).get('tab') || 'home') === section;
+    if (isCurrent) return; // already on this tab, do nothing
+    window.open(base + '?tab=' + section, '_blank');
+  }
+
+  // On load: detect ?tab= and activate the right section
+  (function() {
+    const param = new URLSearchParams(location.search).get('tab');
+    if (param) {
+      const btn = document.querySelector('[data-tab="' + param + '"]');
+      // Small delay so DOM is ready
+      window.addEventListener('DOMContentLoaded', function() {
+        show(param, btn);
+      });
+    }
+  })();
+
+
 
   document.querySelector('.btn-primary').addEventListener('click', () => show('robot', navBtns[1]));
   document.querySelector('.btn-teal').addEventListener('click', () => show('project', navBtns[2]));
@@ -4188,35 +4230,14 @@
     }
 
     const css = buildWorksheetCSS();
-    const win = window.open('', '_blank');
     const title = 'Worksheets - Meeting ' + meetingNum + ': ' + meeting.bp.title;
 
-    // Detect current site language from googtrans cookie
-    const gtMatch = document.cookie.match(/(?:^|;)\s*googtrans=\/en\/([^;]+)/);
-    const wsLang = gtMatch ? gtMatch[1] : 'en'; // e.g. 'iw', 'ar', 'es', 'kk', 'zh-CN', 'zh-TW'
-
-    // Build inline Google Translate block for non-English worksheets.
-    // We embed the widget and programmatically select the language since
-    // cookies are not available in a blank window context.
-    let gtBlock = '';
-    if (wsLang !== 'en') {
-      const sc = '<' + 'script';
-      const esc = '<' + '/script>';
-      gtBlock = '<div id="ws_gt" style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;"></div>'
-        + sc + '>function googleTranslateElementInit(){'
-        +   'new google.translate.TranslateElement({pageLanguage:"en",autoDisplay:false},"ws_gt");'
-        +   'var n=0;(function t(){'
-        +     'var s=document.querySelector(".goog-te-combo");'
-        +     'if(s){s.value="' + wsLang + '";s.dispatchEvent(new Event("change",{bubbles:true}));}'
-        +     'else if(n++<40){setTimeout(t,300);}'
-        +   '})();'
-        + '}' + esc
-        + sc + ' src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"' + esc
-        + '<style>.goog-te-banner-frame,.skiptranslate{display:none!important}body{top:0!important}</style>';
-    }
-
-    win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + title + '</title><style>' + css + '</style></head><body>' + pages + gtBlock + '</body></html>');
-    win.document.close();
+    // Store worksheet data in localStorage then open the same-origin URL with
+    // ?fll_ws=1. The head intercept script will replace the page content.
+    // Same origin = googtrans cookie is present = Google Translate auto-translates.
+    localStorage.setItem('fll_ws_data', JSON.stringify({ title: title, pages: pages, css: css }));
+    const wsUrl = location.href.replace(/[?#].*/, '') + '?fll_ws=1';
+    window.open(wsUrl, '_blank');
   }
 
   function buildOneWorksheet(name, grade, meeting, primaryArea, areas, studentIndex) {
