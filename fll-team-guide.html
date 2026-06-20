@@ -2476,17 +2476,17 @@
         </div>
 
         <div class="planner-field">
-          <label class="planner-label">How many mentors does your team have?</label>
-          <p class="planner-sublabel">Mentors are adults who help guide the team. Having multiple mentors enables parallel workstreams even for beginner teams.</p>
+          <label class="planner-label">How many coaches/mentors does your team have?</label>
+          <p class="planner-sublabel">Coaches and mentors are adults who guide the team. Having more than one enables parallel workstreams even for beginner teams.</p>
           <div class="popt-row" id="opt-mentorcount">
-            <button class="popt active" data-val="0" onclick="setMentorCount(this,0)">0</button>
-            <button class="popt" data-val="1" onclick="setMentorCount(this,1)">1</button>
+            <button class="popt" data-val="0" onclick="setMentorCount(this,0)">0</button>
+            <button class="popt active" data-val="1" onclick="setMentorCount(this,1)">1</button>
             <button class="popt" data-val="2" onclick="setMentorCount(this,2)">2</button>
             <button class="popt" data-val="3" onclick="setMentorCount(this,3)">3</button>
             <button class="popt" data-val="4" onclick="setMentorCount(this,4)">4+</button>
           </div>
-          <div id="mentor-details-section" style="display:none;margin-top:.75rem">
-            <div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.6rem">Add details about each mentor so the curriculum can assign them to specific workstreams.</div>
+          <div id="mentor-details-section" style="display:block;margin-top:.75rem">
+            <div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.6rem">Add details about each coach/mentor so the curriculum can assign them to specific workstreams.</div>
             <div id="mentor-cards-grid" style="display:flex;flex-direction:column;gap:.65rem"></div>
           </div>
         </div>
@@ -2599,7 +2599,8 @@
 
   /* ── SEASON PLANNER ── */
 
-  const plannerState = { perweek: 1, hours: 1.5, teamsize: 4, experience: 'beginner', mentorCount: 0 };
+  const plannerState = { perweek: 1, hours: 1.5, teamsize: 4, experience: 'beginner', mentorCount: 1 };
+  mentorData.push({ name: '', skills: {}, availability: 'always' }); // default 1 coach/mentor
   let mentorData = []; // [{ name, area, availability }]
   const teamGoals = new Set();
 
@@ -3242,7 +3243,7 @@
 
   function getMentorName(i) {
     const d = mentorData[i];
-    return (d && d.name && d.name.trim()) ? d.name.trim() : 'Mentor ' + (i + 1);
+    return (d && d.name && d.name.trim()) ? d.name.trim() : 'Coach/Mentor ' + (i + 1);
   }
 
   function setExperience(btn, level) {
