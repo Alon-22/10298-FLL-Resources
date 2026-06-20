@@ -1094,145 +1094,113 @@
 
 
 
-    /* PRESENTATIONS TAB */
-    .pres-tab-row { display:flex; gap:.6rem; margin-bottom:1.8rem; flex-wrap:wrap; }
-    .pres-tab-btn {
-      padding:.5rem 1.3rem; border-radius:var(--radius-sm); font-size:.88rem; font-weight:700;
-      border:1.5px solid var(--border); background:var(--bg-mid); color:var(--text-muted);
-      cursor:pointer; transition:all .18s; font-family:inherit;
-    }
-    .pres-tab-btn.pt-active { background:var(--blue); border-color:var(--blue); color:#fff; }
-    .pres-panel { display:none; }
-    .pres-panel.pt-show { display:block; }
 
-    .script-section-card {
-      background:var(--bg-card); border:1px solid var(--border);
-      border-radius:var(--radius); margin-bottom:1.2rem; overflow:hidden;
+    /* PRESENTATION OUTLINE BUILDER */
+    .pres-session-bar {
+      display:flex; gap:0; border-radius:var(--radius); overflow:hidden;
+      border:1px solid var(--border); margin-bottom:1.6rem;
     }
-    .ssc-header {
-      display:flex; align-items:center; gap:.9rem; padding:.85rem 1.1rem;
+    .psb-block {
+      flex:1; padding:.6rem .5rem; text-align:center; font-size:.72rem;
+      font-weight:700; border-right:1px solid var(--border); line-height:1.3;
+    }
+    .psb-block:last-child { border-right:none; }
+    .psb-time { font-size:.68rem; font-weight:400; color:var(--text-dim); margin-top:2px; }
+    .psb-ip   { background:rgba(0,212,180,.12); color:var(--teal); }
+    .psb-rb   { background:rgba(59,158,255,.12); color:var(--blue); }
+    .psb-fs   { background:rgba(240,192,64,.1);  color:var(--gold); }
+    .psb-jd   { background:rgba(74,104,128,.1);  color:var(--text-dim); }
+
+    .outline-panel { display:none; }
+    .outline-panel.op-show { display:block; }
+
+    .outline-area-row {
+      display:flex; gap:.7rem; margin-bottom:1.4rem; flex-wrap:wrap;
+    }
+    .outline-area-btn {
+      padding:.5rem 1.2rem; border-radius:var(--radius-sm); font-size:.86rem;
+      font-weight:700; border:1.5px solid var(--border); background:var(--bg-mid);
+      color:var(--text-muted); cursor:pointer; transition:all .18s; font-family:inherit;
+    }
+    .outline-area-btn.oa-active { background:var(--blue); border-color:var(--blue); color:#fff; }
+    .outline-area-btn.oa-teal.oa-active { background:var(--teal); border-color:var(--teal); color:#000; }
+
+    .outline-card {
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--radius); margin-bottom:1rem; overflow:hidden;
+    }
+    .oc-head {
+      display:flex; align-items:center; gap:.85rem; padding:.85rem 1.1rem;
       background:var(--bg-card2); border-bottom:1px solid var(--border);
-      cursor:pointer; user-select:none;
     }
-    .ssc-num {
-      width:2rem; height:2rem; border-radius:50%; background:var(--blue);
-      color:#fff; font-weight:800; font-size:.85rem; display:flex;
-      align-items:center; justify-content:center; flex-shrink:0;
+    .oc-num {
+      width:1.8rem; height:1.8rem; border-radius:50%; display:flex;
+      align-items:center; justify-content:center; font-size:.8rem;
+      font-weight:800; flex-shrink:0; color:#fff;
     }
-    .ssc-title { flex:1; font-weight:700; font-size:.95rem; color:var(--text); }
-    .ssc-time-badge {
-      font-size:.75rem; font-weight:700; padding:.2rem .65rem;
-      border-radius:20px; background:rgba(59,158,255,.12); color:var(--blue);
-      border:1px solid rgba(59,158,255,.25); white-space:nowrap;
+    .oc-title { font-weight:700; font-size:.9rem; color:var(--text); flex:1; }
+    .oc-judge-tag {
+      font-size:.7rem; font-weight:700; padding:.2rem .6rem;
+      border-radius:20px; border:1px solid; white-space:nowrap; flex-shrink:0;
     }
-    .ssc-wordcount { font-size:.75rem; color:var(--text-muted); white-space:nowrap; }
-    .ssc-chevron { color:var(--text-muted); font-size:.8rem; transition:transform .2s; }
-    .ssc-open .ssc-chevron { transform:rotate(90deg); }
-
-    .ssc-body { padding:1.1rem; display:none; }
-    .ssc-open .ssc-body { display:block; }
-
-    .ssc-tip {
-      background:rgba(0,212,180,.07); border:1px solid rgba(0,212,180,.2);
-      border-radius:var(--radius-sm); padding:.75rem 1rem; margin-bottom:.9rem;
-      font-size:.84rem; color:var(--text-muted); line-height:1.6;
+    .oc-body { padding:.9rem 1.1rem; }
+    .oc-judge-note {
+      font-size:.8rem; color:var(--text-muted); margin-bottom:.75rem;
+      line-height:1.55; padding:.55rem .75rem; border-radius:var(--radius-sm);
+      border-left:2px solid var(--border-bright); background:var(--bg-mid);
     }
-    .ssc-tip strong { color:var(--teal); }
-    .ssc-tip ul { margin:.4rem 0 0 1.1rem; padding:0; }
-    .ssc-tip li { margin-bottom:.3rem; }
-
-    .ssc-textarea {
-      width:100%; min-height:110px; background:var(--bg); border:1.5px solid var(--border);
+    .oc-judge-note strong { color:var(--teal); }
+    .oc-input-row { display:flex; align-items:center; gap:.6rem; margin-bottom:.45rem; }
+    .oc-bullet {
+      width:.5rem; height:.5rem; border-radius:50%; flex-shrink:0;
+    }
+    .oc-input {
+      flex:1; background:var(--bg); border:1px solid var(--border);
       border-radius:var(--radius-sm); color:var(--text); font-family:inherit;
-      font-size:.9rem; line-height:1.65; padding:.8rem; resize:vertical;
-      transition:border-color .15s; box-sizing:border-box;
+      font-size:.88rem; padding:.45rem .75rem; transition:border-color .15s;
     }
-    .ssc-textarea:focus { outline:none; border-color:var(--blue); }
-    .ssc-textarea::placeholder { color:var(--text-dim); font-style:italic; }
+    .oc-input:focus { outline:none; border-color:var(--blue); }
+    .oc-input::placeholder { color:var(--text-dim); }
+    .oc-add-hint { font-size:.75rem; color:var(--text-dim); margin-top:.3rem; }
 
-    .ssc-wc-row { display:flex; justify-content:space-between; align-items:center; margin-top:.5rem; }
-    .ssc-wc { font-size:.78rem; color:var(--text-muted); }
-    .wc-ok { color:var(--green); }
-    .wc-over { color:var(--bronze); }
-
-    .ssc-example-toggle {
-      background:none; border:none; color:var(--purple); font-size:.8rem;
-      cursor:pointer; font-family:inherit; padding:0; font-weight:600;
+    .qa-grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:.75rem; margin-top:.5rem;
     }
-    .ssc-example-toggle:hover { text-decoration:underline; }
-    .ssc-example {
-      display:none; margin-top:.75rem; background:rgba(167,139,250,.07);
-      border:1px solid rgba(167,139,250,.2); border-radius:var(--radius-sm);
-      padding:.75rem 1rem; font-size:.84rem; color:var(--text-muted);
-      font-style:italic; line-height:1.65;
-    }
-    .ssc-example em { color:var(--purple); font-style:normal; font-weight:600; }
-
-    .pres-toolbar {
-      display:flex; gap:.8rem; margin-bottom:1.6rem; align-items:center; flex-wrap:wrap;
-    }
-    .pres-action-btn {
-      padding:.55rem 1.2rem; border-radius:var(--radius-sm); font-size:.85rem;
-      font-weight:700; cursor:pointer; font-family:inherit; transition:all .18s;
-    }
-    .pab-primary { background:var(--blue); border:none; color:#fff; }
-    .pab-primary:hover { background:#2a8ef0; }
-    .pab-ghost { background:none; border:1.5px solid var(--border); color:var(--text-muted); }
-    .pab-ghost:hover { border-color:var(--border-bright); color:var(--text); }
-    .pres-total-time {
-      margin-left:auto; font-size:.82rem; color:var(--text-muted);
+    .qa-card {
       background:var(--bg-card); border:1px solid var(--border);
-      border-radius:var(--radius-sm); padding:.45rem .9rem; font-weight:600;
+      border-radius:var(--radius-sm); padding:.75rem 1rem;
     }
-    .pres-total-time span { color:var(--gold); }
+    .qa-question { font-size:.83rem; color:var(--text-muted); margin-bottom:.4rem; font-weight:600; }
+    .qa-input {
+      width:100%; background:var(--bg); border:1px solid var(--border);
+      border-radius:var(--radius-sm); color:var(--text); font-family:inherit;
+      font-size:.83rem; padding:.4rem .65rem; box-sizing:border-box;
+      transition:border-color .15s;
+    }
+    .qa-input:focus { outline:none; border-color:var(--blue); }
+    .qa-input::placeholder { color:var(--text-dim); }
 
-    .script-preview-overlay {
-      display:none; position:fixed; inset:0; background:rgba(0,0,0,.75);
-      z-index:1200; overflow-y:auto; padding:2rem 1rem;
+    .outline-preview {
+      display:none; background:var(--bg-card); border:1px solid var(--border-bright);
+      border-radius:var(--radius); padding:1.4rem; margin-top:1.5rem;
     }
-    .script-preview-box {
-      max-width:700px; margin:0 auto; background:var(--bg-card);
-      border:1px solid var(--border-bright); border-radius:var(--radius);
-      overflow:hidden;
+    .outline-preview.op-visible { display:block; }
+    .op-head { font-weight:800; font-size:.95rem; color:var(--text); margin-bottom:1rem;
+      padding-bottom:.6rem; border-bottom:1px solid var(--border); }
+    .op-section { margin-bottom:1rem; }
+    .op-section-lbl { font-size:.72rem; font-weight:800; letter-spacing:.08em;
+      text-transform:uppercase; margin-bottom:.35rem; }
+    .op-bullet { font-size:.85rem; color:var(--text-muted); padding:.15rem 0;
+      padding-left:1rem; position:relative; }
+    .op-bullet::before { content:''; position:absolute; left:0; top:.6rem;
+      width:.4rem; height:.4rem; border-radius:50%; background:var(--border-bright); }
+    .op-empty { font-size:.82rem; color:var(--text-dim); font-style:italic; padding-left:1rem; }
+
+    .pres-toolbar2 {
+      display:flex; gap:.75rem; margin-bottom:1.4rem; flex-wrap:wrap; align-items:center;
     }
-    .spb-head {
-      display:flex; align-items:center; justify-content:space-between;
-      padding:1rem 1.3rem; background:var(--bg-card2);
-      border-bottom:1px solid var(--border);
-    }
-    .spb-title { font-weight:800; font-size:1rem; color:var(--text); }
-    .spb-close {
-      background:none; border:none; color:var(--text-muted); font-size:1.3rem;
-      cursor:pointer; font-family:inherit; line-height:1;
-    }
-    .spb-body { padding:1.5rem; }
-    .spb-section { margin-bottom:1.4rem; }
-    .spb-section-label {
-      font-size:.72rem; font-weight:800; color:var(--blue); letter-spacing:.07em;
-      text-transform:uppercase; margin-bottom:.3rem;
-    }
-    .spb-section-text {
-      font-size:.92rem; line-height:1.75; color:var(--text); white-space:pre-wrap;
-      border-left:2px solid var(--border); padding-left:.9rem;
-    }
-    .spb-section-empty { color:var(--text-dim); font-style:italic; font-size:.88rem; }
-    .spb-footer {
-      padding:1rem 1.3rem; border-top:1px solid var(--border);
-      display:flex; gap:.8rem; justify-content:flex-end;
-    }
-    .pres-tips-card {
-      background:var(--bg-card); border:1px solid var(--border);
-      border-radius:var(--radius); padding:1.2rem 1.4rem; margin-bottom:1.5rem;
-    }
-    .pres-tips-grid {
-      display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin-top:.9rem;
-    }
-    .ptip {
-      background:var(--bg-card2); border-radius:var(--radius-sm);
-      padding:.8rem 1rem; font-size:.83rem; color:var(--text-muted); line-height:1.55;
-    }
-    .ptip-icon { font-size:1.1rem; margin-bottom:.35rem; display:block; }
-    .ptip strong { color:var(--text); display:block; margin-bottom:.2rem; }
+
     /* TRANSLATE BUTTON */
     .translate-wrapper { position:relative; margin-left:auto; flex-shrink:0; }
     .translate-btn {
@@ -2114,463 +2082,235 @@
       <div class="pres-tips-grid">
         <div class="ptip"><strong>Know the structure</strong>Your full judging session is 30 minutes: 5 min Innovation Project presentation, 5 min IP questions, 5 min Robot Design explanation, 5 min Robot Design questions, then up to 8 min of Final Share. Practice each section to its time target.</div>
         <div class="ptip"><strong>Everyone speaks</strong>Every team member should say something. Judges notice when one kid does all the talking.</div>
-        <div class="ptip"><strong>Tell a story</strong>Start with a hook that makes judges care about the problem before you explain the solution.</div>
-        <div class="ptip"><strong>Know it cold</strong>You can use notes, but practice until you don't need them. Judges ask follow-up questions, you need to know the material, not just the script.</div>
+        <div class="ptip"><strong>Tell a story</strong>Start w<!-- ── PRESENTATIONS ── -->
+<section id="presentations">
+  <div class="section-banner">
+    <div class="section-banner-content">
+      <div class="section-icon">&#127908;</div>
+      <div>
+        <div class="section-title">Judging Outline Builder</div>
+        <div class="section-sub">Map out what you want to say before you say it. Quick, focused, built around what judges are actually looking for.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-inner">
+
+    <!-- Session structure bar -->
+    <div style="font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted);margin-bottom:.65rem;">Your 30-minute judging session</div>
+    <div class="pres-session-bar">
+      <div class="psb-block psb-ip">Welcome<div class="psb-time">2 min</div></div>
+      <div class="psb-block psb-ip">IP Presentation<div class="psb-time">5 min</div></div>
+      <div class="psb-block psb-ip">IP Q&amp;A<div class="psb-time">5 min</div></div>
+      <div class="psb-block psb-rb">Robot Explanation<div class="psb-time">5 min</div></div>
+      <div class="psb-block psb-rb">Robot Q&amp;A<div class="psb-time">5 min</div></div>
+      <div class="psb-block psb-fs">Final Share<div class="psb-time">up to 8 min</div></div>
+      <div class="psb-block psb-jd">Judges Score<div class="psb-time">10 min (you leave)</div></div>
+    </div>
+    <div style="font-size:.78rem;color:var(--text-dim);margin-bottom:1.6rem;">Core Values is not a separate session. Judges watch how your team works together throughout the entire block.</div>
+
+    <!-- Area switcher -->
+    <div class="outline-area-row">
+      <button class="outline-area-btn oa-active" onclick="switchOutlineArea('ip',this)">Innovation Project</button>
+      <button class="outline-area-btn" onclick="switchOutlineArea('robot',this)">Robot Design</button>
+      <button class="outline-area-btn" onclick="switchOutlineArea('qa',this)">Q&amp;A Prep</button>
+    </div>
+
+    <!-- ── IP OUTLINE ── -->
+    <div class="outline-panel op-show" id="outline-ip">
+      <div style="font-size:.82rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.6;">You have <strong style="color:var(--teal)">5 minutes</strong> to present, then judges ask questions. Pick the most important points for each section below. One strong sentence beats three weak ones.</div>
+
+      <div class="pres-toolbar2">
+        <button class="pres-action-btn pab-primary" onclick="buildOutlinePreview('ip')">Build Outline</button>
+        <button class="pres-action-btn pab-ghost" onclick="printOutline('ip')">Print Outline</button>
+        <button class="pres-action-btn pab-ghost" onclick="clearOutline('ip')">Clear</button>
+      </div>
+
+      <!-- 1. The Problem -->
+      <div class="outline-card">
+        <div class="oc-head">
+          <div class="oc-num" style="background:var(--teal)">1</div>
+          <div class="oc-title">The Problem</div>
+          <div class="oc-judge-tag" style="color:var(--teal);border-color:rgba(0,212,180,.3)">~60 sec</div>
+        </div>
+        <div class="oc-body">
+          <div class="oc-judge-note"><strong>Judges want:</strong> a clear, specific problem statement. Who is affected? How do you know this is real? A number or a name makes it concrete.</div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--teal)"></div><input class="oc-input" id="ip-1-a" placeholder="The problem in one sentence"></div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--teal)"></div><input class="oc-input" id="ip-1-b" placeholder="Who is affected and how do you know"></div>
+          <div class="oc-add-hint">Keep it specific. Not "people have a problem" but "kids ages 9-12 in our school can't read nutrition labels."</div>
+        </div>
+      </div>
+
+      <!-- 2. Research -->
+      <div class="outline-card">
+        <div class="oc-head">
+          <div class="oc-num" style="background:var(--teal)">2</div>
+          <div class="oc-title">Research and Experts</div>
+          <div class="oc-judge-tag" style="color:var(--teal);border-color:rgba(0,212,180,.3)">~60 sec</div>
+        </div>
+        <div class="oc-body">
+          <div class="oc-judge-note"><strong>Judges want:</strong> real expert contact, not just internet research. Who did you talk to? What did they tell you that changed how you thought about the problem?</div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--teal)"></div><input class="oc-input" id="ip-2-a" placeholder="Expert 1: name and what they do"></div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--teal)"></div><input class="oc-input" id="ip-2-b" placeholder="Expert 2: name and what they do"></div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--teal)"></div><input class="oc-input" id="ip-2-c" placeholder="The most important thing you learned from your research"></div>
+        </div>
+      </div>
+
+      <!-- 3. Solution -->
+      <div class="outline-card">
+        <div class="oc-head">
+          <div class="oc-num" style="background:var(--teal)">3</div>
+          <div class="oc-title">Your Solution</div>
+          <div class="oc-judge-tag" style="color:var(--teal);border-color:rgba(0,212,180,.3)">~90 sec</div>
+        </div>
+        <div class="oc-body">
+          <div class="oc-judge-note"><strong>Judges want:</strong> to understand what you actually built or designed. How does it work? What makes it different from things that already exist?</div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--teal)"></div><input class="oc-input" id="ip-3-a" placeholder="What your solution is, in plain language"></div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--teal)"></div><input class="oc-input" id="ip-3-b" placeholder="What makes it different from what already exists"></div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--teal)"></div><input class="oc-input" id="ip-3-c" placeholder="One feature you are most proud of"></div>
+        </div>
+      </div>
+
+      <!-- 4. Testing -->
+      <div class="outline-card">
+        <div class="oc-head">
+          <div class="oc-num" style="background:var(--teal)">4</div>
+          <div class="oc-title">Testing and Improvement</div>
+          <div class="oc-judge-tag" style="color:var(--teal);border-color:rgba(0,212,180,.3)">~45 sec</div>
+        </div>
+        <div class="oc-body">
+          <div class="oc-judge-note"><strong>Judges want:</strong> proof that you tested with real people and changed something based on what you learned. Version 1 to Version 2 is the story they love.</div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--teal)"></div><input class="oc-input" id="ip-4-a" placeholder="Who you tested with and how many"></div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--teal)"></div><input class="oc-input" id="ip-4-b" placeholder="What changed between version 1 and version 2, and why"></div>
+        </div>
+      </div>
+
+      <!-- 5. Sharing -->
+      <div class="outline-card">
+        <div class="oc-head">
+          <div class="oc-num" style="background:var(--teal)">5</div>
+          <div class="oc-title">Sharing Beyond FLL</div>
+          <div class="oc-judge-tag" style="color:var(--teal);border-color:rgba(0,212,180,.3)">~30 sec</div>
+        </div>
+        <div class="oc-body">
+          <div class="oc-judge-note"><strong>Judges want:</strong> to see your solution leave the room. Who outside of FLL knows about your project?</div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--teal)"></div><input class="oc-input" id="ip-5-a" placeholder="Who you shared with (organization, school, event, etc.)"></div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--teal)"></div><input class="oc-input" id="ip-5-b" placeholder="Their reaction or what happened next"></div>
+        </div>
+      </div>
+
+      <div id="outline-preview-ip" class="outline-preview"></div>
+    </div>
+
+    <!-- ── ROBOT OUTLINE ── -->
+    <div class="outline-panel" id="outline-robot">
+      <div style="font-size:.82rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.6;">Robot Design is an <strong style="color:var(--blue)">explanation, not a presentation</strong>. Judges will ask questions throughout. Every team member should be able to answer about any part of the robot.</div>
+
+      <div class="pres-toolbar2">
+        <button class="pres-action-btn pab-primary" onclick="buildOutlinePreview('robot')">Build Outline</button>
+        <button class="pres-action-btn pab-ghost" onclick="printOutline('robot')">Print Outline</button>
+        <button class="pres-action-btn pab-ghost" onclick="clearOutline('robot')">Clear</button>
+      </div>
+
+      <!-- 1. Strategy -->
+      <div class="outline-card">
+        <div class="oc-head">
+          <div class="oc-num" style="background:var(--blue)">1</div>
+          <div class="oc-title">Mission Strategy</div>
+          <div class="oc-judge-tag" style="color:var(--blue);border-color:rgba(59,158,255,.3)">~60 sec</div>
+        </div>
+        <div class="oc-body">
+          <div class="oc-judge-note"><strong>Judges want:</strong> to understand your thinking. Why these missions? Why this order? What did you decide not to attempt?</div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--blue)"></div><input class="oc-input" id="rb-1-a" placeholder="Your overall approach (e.g. reliable 200 pts vs. risky 280 pts)"></div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--blue)"></div><input class="oc-input" id="rb-1-b" placeholder="A mission you chose not to run and why"></div>
+        </div>
+      </div>
+
+      <!-- 2. Build -->
+      <div class="outline-card">
+        <div class="oc-head">
+          <div class="oc-num" style="background:var(--blue)">2</div>
+          <div class="oc-title">Robot Build</div>
+          <div class="oc-judge-tag" style="color:var(--blue);border-color:rgba(59,158,255,.3)">~60 sec</div>
+        </div>
+        <div class="oc-body">
+          <div class="oc-judge-note"><strong>Judges want:</strong> to hear about your design decisions, not a tour of the robot. What did you try that failed? What do you wish you had done differently?</div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--blue)"></div><input class="oc-input" id="rb-2-a" placeholder="Your most important attachment and how it works"></div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--blue)"></div><input class="oc-input" id="rb-2-b" placeholder="Something you built that didn't work and what you changed"></div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--blue)"></div><input class="oc-input" id="rb-2-c" placeholder="One design choice you're most proud of"></div>
+        </div>
+      </div>
+
+      <!-- 3. Programming -->
+      <div class="outline-card">
+        <div class="oc-head">
+          <div class="oc-num" style="background:var(--blue)">3</div>
+          <div class="oc-title">Programming</div>
+          <div class="oc-judge-tag" style="color:var(--blue);border-color:rgba(59,158,255,.3)">~60 sec</div>
+        </div>
+        <div class="oc-body">
+          <div class="oc-judge-note"><strong>Judges want:</strong> plain-language explanation of how you control the robot. You don't need to recite code. You need to explain your thinking.</div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--blue)"></div><input class="oc-input" id="rb-3-a" placeholder="How you navigate (gyro, color sensor, encoder, etc.)"></div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--blue)"></div><input class="oc-input" id="rb-3-b" placeholder="One clever thing in your code and why it works"></div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--blue)"></div><input class="oc-input" id="rb-3-c" placeholder="A bug or problem you solved and how"></div>
+        </div>
+      </div>
+
+      <!-- 4. Innovation -->
+      <div class="outline-card">
+        <div class="oc-head">
+          <div class="oc-num" style="background:var(--blue)">4</div>
+          <div class="oc-title">Innovation Highlight</div>
+          <div class="oc-judge-tag" style="color:var(--blue);border-color:rgba(59,158,255,.3)">~30 sec</div>
+        </div>
+        <div class="oc-body">
+          <div class="oc-judge-note"><strong>Judges want:</strong> one thing that made them think "I haven't seen that before." It doesn't have to be complicated. It has to be yours.</div>
+          <div class="oc-input-row"><div class="oc-bullet" style="background:var(--blue)"></div><input class="oc-input" id="rb-4-a" placeholder="Your most creative or original idea this season"></div>
+        </div>
+      </div>
+
+      <div id="outline-preview-robot" class="outline-preview"></div>
+    </div>
+
+    <!-- ── Q&A PREP ── -->
+    <div class="outline-panel" id="outline-qa">
+      <div style="font-size:.82rem;color:var(--text-muted);margin-bottom:1.2rem;line-height:1.6;">Write a short answer for each likely question before competition. Judges ask these almost every time. Short answers are fine, but every team member should know them.</div>
+
+      <div style="font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin-bottom:.7rem;">Innovation Project</div>
+      <div class="qa-grid">
+        <div class="qa-card"><div class="qa-question">Why did you choose this specific problem?</div><input class="qa-input" placeholder="Your answer..."></div>
+        <div class="qa-card"><div class="qa-question">How is your solution different from what already exists?</div><input class="qa-input" placeholder="Your answer..."></div>
+        <div class="qa-card"><div class="qa-question">What was the most surprising thing your experts told you?</div><input class="qa-input" placeholder="Your answer..."></div>
+        <div class="qa-card"><div class="qa-question">What would you change about your solution if you had more time?</div><input class="qa-input" placeholder="Your answer..."></div>
+        <div class="qa-card"><div class="qa-question">How do you know your solution would actually work?</div><input class="qa-input" placeholder="Your answer..."></div>
+        <div class="qa-card"><div class="qa-question">What happened when you shared it outside of FLL?</div><input class="qa-input" placeholder="Your answer..."></div>
+      </div>
+
+      <div style="font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin:.9rem 0 .7rem;">Robot Design</div>
+      <div class="qa-grid">
+        <div class="qa-card"><div class="qa-question">What is your highest-scoring run and how does it work?</div><input class="qa-input" placeholder="Your answer..."></div>
+        <div class="qa-card"><div class="qa-question">What did you try that didn't work, and what did you do instead?</div><input class="qa-input" placeholder="Your answer..."></div>
+        <div class="qa-card"><div class="qa-question">How do you make sure the robot goes straight?</div><input class="qa-input" placeholder="Your answer..."></div>
+        <div class="qa-card"><div class="qa-question">What would you build differently if you started over?</div><input class="qa-input" placeholder="Your answer..."></div>
+        <div class="qa-card"><div class="qa-question">How did everyone on the team contribute to the robot?</div><input class="qa-input" placeholder="Your answer..."></div>
+        <div class="qa-card"><div class="qa-question">What is the most innovative thing about your robot?</div><input class="qa-input" placeholder="Your answer..."></div>
+      </div>
+
+      <div style="font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:.9rem 0 .7rem;">Final Share (up to 8 min)</div>
+      <div class="qa-card" style="max-width:100%;margin-bottom:.5rem;">
+        <div class="qa-question">Is there anything about your project or robot you want to make sure judges heard?</div>
+        <input class="qa-input" placeholder="Your team's answer...">
+      </div>
+      <div class="qa-card" style="max-width:100%;">
+        <div class="qa-question">What question do you want to ask the judges for feedback?</div>
+        <input class="qa-input" placeholder="Your team's answer...">
       </div>
     </div>
 
-    <!-- Tab row -->
-    <div class="pres-tab-row">
-      <button class="pres-tab-btn pt-active" onclick="switchPresTab('ip',this)">&#128161; Innovation Project</button>
-      <button class="pres-tab-btn" onclick="switchPresTab('robot',this)">&#129302; Robot Design</button>
-    </div>
-
-    <!-- ── INNOVATION PROJECT PANEL ── -->
-    <div class="pres-panel pt-show" id="pres-ip">
-
-      <div class="pres-toolbar">
-        <button class="pres-action-btn pab-primary" onclick="previewScript('ip')">&#128065; Preview Full Script</button>
-        <button class="pres-action-btn pab-ghost" onclick="printScript('ip')">&#128438; Print Script</button>
-        <button class="pres-action-btn pab-ghost" onclick="clearScript('ip')">&#128465; Clear All</button>
-        <div class="pres-total-time">Total: <span id="ip-total-time">0:00</span> / 5:00</div>
-      </div>
-
-      <!-- IP Section 1: Hook -->
-      <div class="script-section-card" id="ssc-ip-1">
-        <div class="ssc-header" onclick="toggleScriptSection('ip-1')">
-          <div class="ssc-num">1</div>
-          <div class="ssc-title">The Hook: Grab Their Attention</div>
-          <div class="ssc-time-badge">~30 sec</div>
-          <div class="ssc-wordcount" id="wc-ip-1">0 words</div>
-          <div class="ssc-chevron">&#9654;</div>
-        </div>
-        <div class="ssc-body">
-          <div class="ssc-tip">
-            <strong>What to cover:</strong> Open with something that makes judges stop and pay attention, a surprising fact, a question, or a story. Don't start with "Hi, we're team X and our project is about…"
-            <ul>
-              <li>A real moment someone on your team experienced</li>
-              <li>A shocking statistic about the problem</li>
-              <li>A question that makes judges think</li>
-            </ul>
-          </div>
-          <textarea class="ssc-textarea" id="ip-s1" placeholder="Example: 'Did you know that 1 in 4 kids in our school says they don't understand what they're eating at lunch? We didn't either, until we started digging…'"
-            oninput="updatePresWordCount('ip-s1','wc-ip-1',65,'ip')"></textarea>
-          <div class="ssc-wc-row">
-            <div class="ssc-wc" id="wc-ip-1-detail">0 words ≈ 0s &nbsp;(target: ~30s)</div>
-            <button class="ssc-example-toggle" onclick="toggleExample('ex-ip-1')">&#9997; See EYVE example</button>
-          </div>
-          <div class="ssc-example" id="ex-ip-1">
-            <em>EYVE example:</em> "Have you ever sat down to eat your vegetables and wondered, wait, where did these actually come from? What's actually in this? Our team noticed that most kids at our school had no idea. And neither did we. That was the moment TapDeck was born."
-          </div>
-        </div>
-      </div>
-
-      <!-- IP Section 2: Problem -->
-      <div class="script-section-card" id="ssc-ip-2">
-        <div class="ssc-header" onclick="toggleScriptSection('ip-2')">
-          <div class="ssc-num">2</div>
-          <div class="ssc-title">The Problem: Why Does It Matter?</div>
-          <div class="ssc-time-badge">~45 sec</div>
-          <div class="ssc-wordcount" id="wc-ip-2">0 words</div>
-          <div class="ssc-chevron">&#9654;</div>
-        </div>
-        <div class="ssc-body">
-          <div class="ssc-tip">
-            <strong>What to cover:</strong> Explain the problem clearly, who is affected, how big is it, why does it matter now?
-            <ul>
-              <li>Be specific: give numbers, names, or real examples</li>
-              <li>Show that you understand the problem deeply, not just on the surface</li>
-              <li>Connect it to something judges can relate to</li>
-            </ul>
-          </div>
-          <textarea class="ssc-textarea" id="ip-s2" placeholder="Describe the problem in plain language. Who has this problem? How many people? Why is it hard to solve? What happens if nothing changes?"
-            oninput="updatePresWordCount('ip-s2','wc-ip-2',100,'ip')"></textarea>
-          <div class="ssc-wc-row">
-            <div class="ssc-wc" id="wc-ip-2-detail">0 words ≈ 0s &nbsp;(target: ~45s)</div>
-            <button class="ssc-example-toggle" onclick="toggleExample('ex-ip-2')">&#9997; See EYVE example</button>
-          </div>
-          <div class="ssc-example" id="ex-ip-2">
-            <em>EYVE example:</em> "We talked to 30 kids and found that 80% didn't know the nutrition info of what they were eating, and most said they didn't know where to look. The problem wasn't that information doesn't exist. It's that it's scattered, confusing, and boring. Kids just tune it out."
-          </div>
-        </div>
-      </div>
-
-      <!-- IP Section 3: Research -->
-      <div class="script-section-card" id="ssc-ip-3">
-        <div class="ssc-header" onclick="toggleScriptSection('ip-3')">
-          <div class="ssc-num">3</div>
-          <div class="ssc-title">Our Research: What Did We Learn?</div>
-          <div class="ssc-time-badge">~60 sec</div>
-          <div class="ssc-wordcount" id="wc-ip-3">0 words</div>
-          <div class="ssc-chevron">&#9654;</div>
-        </div>
-        <div class="ssc-body">
-          <div class="ssc-tip">
-            <strong>What to cover:</strong> Show the work you did to understand the problem before jumping to solutions.
-            <ul>
-              <li>Experts you interviewed (name their field, not just "an expert")</li>
-              <li>Surveys, research, or data you gathered</li>
-              <li>What surprised you, moments your thinking changed</li>
-              <li>Solutions that already exist and why they fall short</li>
-            </ul>
-          </div>
-          <textarea class="ssc-textarea" id="ip-s3" placeholder="Who did you talk to? What did you read or test? What did you find out that surprised you? What existing solutions are out there, and what's missing?"
-            oninput="updatePresWordCount('ip-s3','wc-ip-3',130,'ip')"></textarea>
-          <div class="ssc-wc-row">
-            <div class="ssc-wc" id="wc-ip-3-detail">0 words ≈ 0s &nbsp;(target: ~60s)</div>
-            <button class="ssc-example-toggle" onclick="toggleExample('ex-ip-3')">&#9997; See EYVE example</button>
-          </div>
-          <div class="ssc-example" id="ex-ip-3">
-            <em>EYVE example:</em> "We interviewed eight experts, a nutritionist, two food scientists, a school lunch coordinator, and even a chef from a restaurant downtown. The biggest thing we learned: kids engage with food information when it's connected to something they already love, like music. That insight completely changed our solution. We also found three existing apps, but they were all designed for adults and required parents to set up accounts."
-          </div>
-        </div>
-      </div>
-
-      <!-- IP Section 4: Solution -->
-      <div class="script-section-card" id="ssc-ip-4">
-        <div class="ssc-header" onclick="toggleScriptSection('ip-4')">
-          <div class="ssc-num">4</div>
-          <div class="ssc-title">Our Solution: What Did We Build?</div>
-          <div class="ssc-time-badge">~75 sec</div>
-          <div class="ssc-wordcount" id="wc-ip-4">0 words</div>
-          <div class="ssc-chevron">&#9654;</div>
-        </div>
-        <div class="ssc-body">
-          <div class="ssc-tip">
-            <strong>What to cover:</strong> Describe your solution clearly, what is it, how does it work, and why is it better?
-            <ul>
-              <li>What specifically does your solution do?</li>
-              <li>How did you design/build/test it?</li>
-              <li>What makes it innovative, what's different about your approach?</li>
-              <li>Show a prototype, demo, or visuals if you have them</li>
-            </ul>
-          </div>
-          <textarea class="ssc-textarea" id="ip-s4" placeholder="Describe your solution step by step. How does it work? What problem does each feature solve? Why is your approach better than what already exists?"
-            oninput="updatePresWordCount('ip-s4','wc-ip-4',165,'ip')"></textarea>
-          <div class="ssc-wc-row">
-            <div class="ssc-wc" id="wc-ip-4-detail">0 words ≈ 0s &nbsp;(target: ~75s)</div>
-            <button class="ssc-example-toggle" onclick="toggleExample('ex-ip-4')">&#9997; See EYVE example</button>
-          </div>
-          <div class="ssc-example" id="ex-ip-4">
-            <em>EYVE example:</em> "TapDeck is a playlist-based food discovery app. You scan a food item, and instead of showing you a boring nutrition label, TapDeck creates a music playlist that represents that food's nutritional profile, high energy foods get upbeat songs, leafy greens get calming ones. We built two versions: V1 was a paper prototype we tested with 15 kids. They loved the concept but said the music felt random. So in V2 we worked with a music teacher to map nutrients to actual musical qualities. The reaction was completely different."
-          </div>
-        </div>
-      </div>
-
-      <!-- IP Section 5: Testing & Improvement -->
-      <div class="script-section-card" id="ssc-ip-5">
-        <div class="ssc-header" onclick="toggleScriptSection('ip-5')">
-          <div class="ssc-num">5</div>
-          <div class="ssc-title">Testing and Improvement: How Did It Get Better?</div>
-          <div class="ssc-time-badge">~30 sec</div>
-          <div class="ssc-wordcount" id="wc-ip-5">0 words</div>
-          <div class="ssc-chevron">&#9654;</div>
-        </div>
-        <div class="ssc-body">
-          <div class="ssc-tip">
-            <strong>What to cover:</strong> Show that you actually tested your solution with real people and improved it based on feedback, this is the design process judges want to see.
-            <ul>
-              <li>Who tested it? How many people?</li>
-              <li>What feedback did you get?</li>
-              <li>What specific change did you make because of that feedback?</li>
-            </ul>
-          </div>
-          <textarea class="ssc-textarea" id="ip-s5" placeholder="We tested our solution with ___. They told us ___. So we changed ___ because of that."
-            oninput="updatePresWordCount('ip-s5','wc-ip-5',65,'ip')"></textarea>
-          <div class="ssc-wc-row">
-            <div class="ssc-wc" id="wc-ip-5-detail">0 words ≈ 0s &nbsp;(target: ~30s)</div>
-            <button class="ssc-example-toggle" onclick="toggleExample('ex-ip-5')">&#9997; See EYVE example</button>
-          </div>
-          <div class="ssc-example" id="ex-ip-5">
-            <em>EYVE example:</em> "We ran two rounds of testing with kids aged 9–12. After round one, 60% said they'd use the app again. After we updated the music matching in V2, that jumped to 90%. The single biggest change? Letting kids customize one song in their playlist. That made it feel personal."
-          </div>
-        </div>
-      </div>
-
-      <!-- IP Section 6: Sharing -->
-      <div class="script-section-card" id="ssc-ip-6">
-        <div class="ssc-header" onclick="toggleScriptSection('ip-6')">
-          <div class="ssc-num">6</div>
-          <div class="ssc-title">Sharing: How Did You Spread Your Idea?</div>
-          <div class="ssc-time-badge">~30 sec</div>
-          <div class="ssc-wordcount" id="wc-ip-6">0 words</div>
-          <div class="ssc-chevron">&#9654;</div>
-        </div>
-        <div class="ssc-body">
-          <div class="ssc-tip">
-            <strong>What to cover:</strong> Judges want to know that your solution didn't just stay in the room, you shared it with people beyond your team.
-            <ul>
-              <li>Who did you present to? (school, community org, professionals)</li>
-              <li>How did you share? (presentation, video, demo, report)</li>
-              <li>What was the response?</li>
-            </ul>
-          </div>
-          <textarea class="ssc-textarea" id="ip-s6" placeholder="We shared our solution with ___ by ___. Their reaction was ___. One thing that happened because we shared was ___."
-            oninput="updatePresWordCount('ip-s6','wc-ip-6',65,'ip')"></textarea>
-          <div class="ssc-wc-row">
-            <div class="ssc-wc" id="wc-ip-6-detail">0 words ≈ 0s &nbsp;(target: ~30s)</div>
-            <button class="ssc-example-toggle" onclick="toggleExample('ex-ip-6')">&#9997; See EYVE example</button>
-          </div>
-          <div class="ssc-example" id="ex-ip-6">
-            <em>EYVE example:</em> "We presented TapDeck to Child's Play Charity, who works with kids in hospitals. They connected us with a hospital dietitian who gave us ideas we hadn't thought of. We also showed it to our school's PTA and they asked us to demo it at the spring festival."
-          </div>
-        </div>
-      </div>
-
-      <!-- IP Section 7: Closing -->
-      <div class="script-section-card" id="ssc-ip-7">
-        <div class="ssc-header" onclick="toggleScriptSection('ip-7')">
-          <div class="ssc-num">7</div>
-          <div class="ssc-title">Closing: Land the Plane</div>
-          <div class="ssc-time-badge">~30 sec</div>
-          <div class="ssc-wordcount" id="wc-ip-7">0 words</div>
-          <div class="ssc-chevron">&#9654;</div>
-        </div>
-        <div class="ssc-body">
-          <div class="ssc-tip">
-            <strong>What to cover:</strong> Wrap up with impact, what could this become, and what did the journey mean to your team?
-            <ul>
-              <li>What's the next step for your solution?</li>
-              <li>What would real-world impact look like?</li>
-              <li>One sentence from the heart, what did this season mean to you?</li>
-            </ul>
-          </div>
-          <textarea class="ssc-textarea" id="ip-s7" placeholder="End strong. What's the future of your solution? What did your team learn that will stay with you? Give judges a reason to remember you."
-            oninput="updatePresWordCount('ip-s7','wc-ip-7',65,'ip')"></textarea>
-          <div class="ssc-wc-row">
-            <div class="ssc-wc" id="wc-ip-7-detail">0 words ≈ 0s &nbsp;(target: ~30s)</div>
-            <button class="ssc-example-toggle" onclick="toggleExample('ex-ip-7')">&#9997; See EYVE example</button>
-          </div>
-          <div class="ssc-example" id="ex-ip-7">
-            <em>EYVE example:</em> "If TapDeck reaches just one kid who starts paying attention to what they eat because a song made them curious, that's enough. But we think it can reach a lot more than one. We're a team of eight kids who built something real this year. And we're just getting started."
-          </div>
-        </div>
-      </div>
-
-    </div><!-- end pres-ip -->
-
-
-    <!-- ── ROBOT DESIGN PANEL ── -->
-    <div class="pres-panel" id="pres-robot">
-
-      <div class="pres-toolbar">
-        <button class="pres-action-btn pab-primary" onclick="previewScript('robot')">&#128065; Preview Full Script</button>
-        <button class="pres-action-btn pab-ghost" onclick="printScript('robot')">&#128438; Print Script</button>
-        <button class="pres-action-btn pab-ghost" onclick="clearScript('robot')">&#128465; Clear All</button>
-        <div class="pres-total-time">Total: <span id="robot-total-time">0:00</span> / 5:00</div>
-      </div>
-
-      <!-- Robot Section 1: Team Intro -->
-      <div class="script-section-card" id="ssc-robot-1">
-        <div class="ssc-header" onclick="toggleScriptSection('robot-1')">
-          <div class="ssc-num">1</div>
-          <div class="ssc-title">Team & Strategy Overview</div>
-          <div class="ssc-time-badge">~30 sec</div>
-          <div class="ssc-wordcount" id="wc-robot-1">0 words</div>
-          <div class="ssc-chevron">&#9654;</div>
-        </div>
-        <div class="ssc-body">
-          <div class="ssc-tip">
-            <strong>What to cover:</strong> Quickly introduce who did what on the robot team, and give the judges your big-picture strategy going in.
-            <ul>
-              <li>How did you divide robot responsibilities?</li>
-              <li>What was your overall game strategy? (e.g., go for reliable missions vs. high-risk high-reward)</li>
-            </ul>
-          </div>
-          <textarea class="ssc-textarea" id="robot-s1" placeholder="Our robot team had ___ builders and ___ programmers. Our strategy was to ___ because ___."
-            oninput="updatePresWordCount('robot-s1','wc-robot-1',65,'robot')"></textarea>
-          <div class="ssc-wc-row">
-            <div class="ssc-wc" id="wc-robot-1-detail">0 words ≈ 0s &nbsp;(target: ~30s)</div>
-            <button class="ssc-example-toggle" onclick="toggleExample('ex-robot-1')">&#9997; See EYVE example</button>
-          </div>
-          <div class="ssc-example" id="ex-robot-1">
-            <em>EYVE example:</em> "We rotated every team member through building and programming. Nobody owned just one role, that was intentional, so everyone understood the whole robot. Our strategy was to nail 6–8 reliable missions before going for harder ones."
-          </div>
-        </div>
-      </div>
-
-      <!-- Robot Section 2: Mission Strategy -->
-      <div class="script-section-card" id="ssc-robot-2">
-        <div class="ssc-header" onclick="toggleScriptSection('robot-2')">
-          <div class="ssc-num">2</div>
-          <div class="ssc-title">Mission Strategy: What Did You Choose to Run?</div>
-          <div class="ssc-time-badge">~60 sec</div>
-          <div class="ssc-wordcount" id="wc-robot-2">0 words</div>
-          <div class="ssc-chevron">&#9654;</div>
-        </div>
-        <div class="ssc-body">
-          <div class="ssc-tip">
-            <strong>What to cover:</strong> Walk judges through your mission selection, not just what you ran, but why.
-            <ul>
-              <li>Which missions did you prioritize and why?</li>
-              <li>Which missions did you decide to skip, and what was the reasoning?</li>
-              <li>How did your strategy change over the season?</li>
-            </ul>
-          </div>
-          <textarea class="ssc-textarea" id="robot-s2" placeholder="We chose to run missions ___, ___, and ___ because they were reliable and worth __ points combined. We decided not to attempt ___ because ___."
-            oninput="updatePresWordCount('robot-s2','wc-robot-2',130,'robot')"></textarea>
-          <div class="ssc-wc-row">
-            <div class="ssc-wc" id="wc-robot-2-detail">0 words ≈ 0s &nbsp;(target: ~60s)</div>
-            <button class="ssc-example-toggle" onclick="toggleExample('ex-robot-2')">&#9997; See EYVE example</button>
-          </div>
-          <div class="ssc-example" id="ex-robot-2">
-            <em>EYVE example:</em> "We built runs around clusters of missions that shared the same robot position. Our Run 1 hits four missions in the same corner. Run 2 crosses the field once and grabs two more. We chose reliability over point maximizing, a consistent 200 beats a risky 280. One mission we dropped after Week 6 because it cost us 90 seconds and we could never get it right under pressure."
-          </div>
-        </div>
-      </div>
-
-      <!-- Robot Section 3: Robot Design -->
-      <div class="script-section-card" id="ssc-robot-3">
-        <div class="ssc-header" onclick="toggleScriptSection('robot-3')">
-          <div class="ssc-num">3</div>
-          <div class="ssc-title">Robot Design: How Is It Built?</div>
-          <div class="ssc-time-badge">~75 sec</div>
-          <div class="ssc-wordcount" id="wc-robot-3">0 words</div>
-          <div class="ssc-chevron">&#9654;</div>
-        </div>
-        <div class="ssc-body">
-          <div class="ssc-tip">
-            <strong>What to cover:</strong> Explain your key design choices, not every part, just the ones that matter most.
-            <ul>
-              <li>What's the most important attachment? How does it work?</li>
-              <li>What design decisions did you make and why? (gear ratios, wheel choice, arm design)</li>
-              <li>What did you try that didn't work, and what did you switch to?</li>
-            </ul>
-          </div>
-          <textarea class="ssc-textarea" id="robot-s3" placeholder="Our robot's most important attachment is ___, it works by ___. We chose ___ design because ___. We tried ___ first but switched to ___ because ___."
-            oninput="updatePresWordCount('robot-s3','wc-robot-3',165,'robot')"></textarea>
-          <div class="ssc-wc-row">
-            <div class="ssc-wc" id="wc-robot-3-detail">0 words ≈ 0s &nbsp;(target: ~75s)</div>
-            <button class="ssc-example-toggle" onclick="toggleExample('ex-robot-3')">&#9997; See EYVE example</button>
-          </div>
-          <div class="ssc-example" id="ex-robot-3">
-            <em>EYVE example:</em> "Our main attachment is a double-arm gripper we call 'The Claw.' It can grab mission models at two different heights without repositioning the robot. We started with a single arm but kept missing on the left side. The double arm added only 40 grams and fixed that completely. We also switched from large wheels to medium wheels in Week 4, the large wheels were faster but we kept drifting on turns."
-          </div>
-        </div>
-      </div>
-
-      <!-- Robot Section 4: Programming -->
-      <div class="script-section-card" id="ssc-robot-4">
-        <div class="ssc-header" onclick="toggleScriptSection('robot-4')">
-          <div class="ssc-num">4</div>
-          <div class="ssc-title">Programming: How Does the Code Work?</div>
-          <div class="ssc-time-badge">~60 sec</div>
-          <div class="ssc-wordcount" id="wc-robot-4">0 words</div>
-          <div class="ssc-chevron">&#9654;</div>
-        </div>
-        <div class="ssc-body">
-          <div class="ssc-tip">
-            <strong>What to cover:</strong> Explain your programming approach in plain language, judges don't need to understand every line, but they should understand your thinking.
-            <ul>
-              <li>What language/environment? (Scratch, Python, SPIKE App, etc.)</li>
-              <li>How do you control navigation? (gyro, encoder, color sensor)</li>
-              <li>Any clever programming trick or loop you're proud of?</li>
-              <li>How did you handle a bug or code problem?</li>
-            </ul>
-          </div>
-          <textarea class="ssc-textarea" id="robot-s4" placeholder="We programmed in ___. We use ___ to navigate because ___. One thing we're proud of in our code is ___, it works by ___."
-            oninput="updatePresWordCount('robot-s4','wc-robot-4',130,'robot')"></textarea>
-          <div class="ssc-wc-row">
-            <div class="ssc-wc" id="wc-robot-4-detail">0 words ≈ 0s &nbsp;(target: ~60s)</div>
-            <button class="ssc-example-toggle" onclick="toggleExample('ex-robot-4')">&#9997; See EYVE example</button>
-          </div>
-          <div class="ssc-example" id="ex-robot-4">
-            <em>EYVE example:</em> "We use the gyro sensor for all straight-line navigation and a PID loop to self-correct during turns. When we first wrote the PID, we thought it was broken, the robot kept oscillating. Turns out our 'D' value was ten times too high. Once we tuned it down the robot became incredibly consistent. We also had one full code wipe three weeks before competition. We rebuilt it in two sessions because we'd documented everything."
-          </div>
-        </div>
-      </div>
-
-      <!-- Robot Section 5: Innovation -->
-      <div class="script-section-card" id="ssc-robot-5">
-        <div class="ssc-header" onclick="toggleScriptSection('robot-5')">
-          <div class="ssc-num">5</div>
-          <div class="ssc-title">Innovation Highlight: Your Most Creative Idea</div>
-          <div class="ssc-time-badge">~30 sec</div>
-          <div class="ssc-wordcount" id="wc-robot-5">0 words</div>
-          <div class="ssc-chevron">&#9654;</div>
-        </div>
-        <div class="ssc-body">
-          <div class="ssc-tip">
-            <strong>What to cover:</strong> Pick one thing, a design, a piece of code, a process, that you're genuinely proud of because it was clever or unexpected.
-            <ul>
-              <li>What problem were you trying to solve?</li>
-              <li>What's the innovative solution?</li>
-              <li>Why is this idea better than the obvious approach?</li>
-            </ul>
-          </div>
-          <textarea class="ssc-textarea" id="robot-s5" placeholder="The most innovative thing about our robot is ___. We came up with this because ___. It works by ___, which is different from the normal approach of ___."
-            oninput="updatePresWordCount('robot-s5','wc-robot-5',65,'robot')"></textarea>
-          <div class="ssc-wc-row">
-            <div class="ssc-wc" id="wc-robot-5-detail">0 words ≈ 0s &nbsp;(target: ~30s)</div>
-            <button class="ssc-example-toggle" onclick="toggleExample('ex-robot-5')">&#9997; See EYVE example</button>
-          </div>
-          <div class="ssc-example" id="ex-robot-5">
-            <em>EYVE example:</em> "Our most innovative idea was using the color sensor to read a piece of colored tape on the mat as a 'checkpoint', so each run recalibrates its position at that point, not just at the start. Most teams calibrate once. We calibrate mid-run, which catches drift before it becomes a problem."
-          </div>
-        </div>
-      </div>
-
-      <!-- Robot Section 6: Reflection -->
-      <div class="script-section-card" id="ssc-robot-6">
-        <div class="ssc-header" onclick="toggleScriptSection('robot-6')">
-          <div class="ssc-num">6</div>
-          <div class="ssc-title">Reflection: What Would You Do Differently?</div>
-          <div class="ssc-time-badge">~30 sec</div>
-          <div class="ssc-wordcount" id="wc-robot-6">0 words</div>
-          <div class="ssc-chevron">&#9654;</div>
-        </div>
-        <div class="ssc-body">
-          <div class="ssc-tip">
-            <strong>What to cover:</strong> Judges respect teams that can honestly evaluate their own work, this isn't about admitting failure, it's about showing engineering maturity.
-            <ul>
-              <li>One thing you'd change if you could start over</li>
-              <li>What you learned from a mistake or failed design</li>
-              <li>What you're taking into next season</li>
-            </ul>
-          </div>
-          <textarea class="ssc-textarea" id="robot-s6" placeholder="If we started over, we'd ___. We learned that ___ the hard way when ___. Next season we'll ___."
-            oninput="updatePresWordCount('robot-s6','wc-robot-6',65,'robot')"></textarea>
-          <div class="ssc-wc-row">
-            <div class="ssc-wc" id="wc-robot-6-detail">0 words ≈ 0s &nbsp;(target: ~30s)</div>
-            <button class="ssc-example-toggle" onclick="toggleExample('ex-robot-6')">&#9997; See EYVE example</button>
-          </div>
-          <div class="ssc-example" id="ex-robot-6">
-            <em>EYVE example:</em> "If we started over, we'd document every build decision in writing from Day 1, not just photos. We had to guess why we made some choices in October by December. That cost us time. Next season, every change gets a one-sentence note in the journal: what we changed and why."
-          </div>
-        </div>
-      </div>
-
-    </div><!-- end pres-robot -->
-
-  </div><!-- end tab-inner -->
+  </div>
 </section>
 
-<section id="planner">
-  <div class="section-banner">
-    <div class="section-eyebrow eyebrow-green">Season Tool</div>
-    <h2>Meeting Planner</h2>
-    <p>Enter your schedule and get a meeting-by-meeting curriculum for your entire season, covering Robot Game, Innovation Project, and Core Values.</p>
-  </div>
-  <div class="content">
-
-    <div class="planner-card">
-      <div class="planner-form">
-
-        <div class="planner-field">
-          <label class="planner-label">How many times a week does your team meet?</label>
-          <div class="popt-row" id="opt-perweek">
-            <button class="popt active" data-val="1" onclick="setPOpt(this,'perweek')">1×</button>
-            <button class="popt" data-val="2" onclick="setPOpt(this,'perweek')">2×</button>
-            <button class="popt" data-val="3" onclick="setPOpt(this,'perweek')">3×</button>
-            <button class="popt" data-val="4" onclick="setPOpt(this,'perweek')">4×</button>
-            <button class="popt" data-val="5" onclick="setPOpt(this,'perweek')">5×</button>
-          </div>
-        </div>
-
-        <div class="planner-field">
-          <label class="planner-label">Weeks until your first competition: <span id="wks-display" class="planner-pill">12 weeks</span></label>
-          <input type="range" class="planner-range" id="planner-weeks" min="4" max="24" value="12"
-            oninput="document.getElementById('wks-display').textContent=this.value+' weeks'">
+mentById('wks-display').textContent=this.value+' weeks'">
           <div class="planner-range-ends"><span>4 wks</span><span>24 wks</span></div>
         </div>
 
@@ -4570,119 +4310,90 @@
   }
 
   // ── PRESENTATIONS ──
-  function switchPresTab(tab, btn) {
-    document.querySelectorAll('.pres-tab-btn').forEach(b => b.classList.remove('pt-active'));
-    if (btn) btn.classList.add('pt-active');
-    document.querySelectorAll('.pres-panel').forEach(p => p.classList.remove('pt-show'));
-    const panel = document.getElementById('pres-' + tab);
-    if (panel) panel.classList.add('pt-show');
-  }
-
-  function toggleScriptSection(id) {
-    const card = document.getElementById('ssc-' + id);
-    if (!card) return;
-    card.classList.toggle('ssc-open');
-  }
-
-  function toggleExample(id) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.style.display = el.style.display === 'block' ? 'none' : 'block';
-  }
-
-  // words per second for kids speaking (~120 wpm = 2 words/sec)
-  const WPS = 2.0;
-
-  function updatePresWordCount(areaId, displayId, targetSecs, panel) {
-    const area = document.getElementById(areaId);
-    const detail = document.getElementById(displayId + '-detail');
-    const badge = document.getElementById(displayId);
-    if (!area) return;
-    const words = area.value.trim() ? area.value.trim().split(/\s+/).length : 0;
-    const secs = Math.round(words / WPS);
-    const mm = Math.floor(secs / 60);
-    const ss = secs % 60;
-    const timeStr = mm + ':' + (ss < 10 ? '0' : '') + ss;
-    if (badge) badge.textContent = words + ' w';
-    if (detail) {
-      detail.textContent = words + ' words ≈ ' + timeStr + '  (target: ~' + targetSecs + 's)';
-      detail.className = 'ssc-wc ' + (secs > targetSecs * 1.25 ? 'wc-over' : secs > 0 ? 'wc-ok' : '');
+  function switchOutlineArea(area, btn) {
+    document.querySelectorAll('.outline-area-btn').forEach(b => b.classList.remove('oa-active','oa-teal'));
+    if (btn) {
+      btn.classList.add('oa-active');
+      if (area === 'ip') btn.classList.add('oa-teal');
     }
-    updateTotalTime(panel);
+    document.querySelectorAll('.outline-panel').forEach(p => p.classList.remove('op-show'));
+    const panel = document.getElementById('outline-' + area);
+    if (panel) panel.classList.add('op-show');
   }
 
-  function updateTotalTime(panel) {
-    const prefix = panel === 'ip' ? 'ip-s' : 'robot-s';
-    const count = panel === 'ip' ? 7 : 6;
-    let total = 0;
-    for (let i = 1; i <= count; i++) {
-      const area = document.getElementById(prefix + i);
-      if (area && area.value.trim()) {
-        total += area.value.trim().split(/\s+/).length;
-      }
-    }
-    const secs = Math.round(total / WPS);
-    const mm = Math.floor(secs / 60);
-    const ss = secs % 60;
-    const el = document.getElementById(panel + '-total-time');
-    if (el) {
-      el.textContent = mm + ':' + (ss < 10 ? '0' : '') + ss;
-      el.style.color = secs > 300 ? 'var(--bronze)' : secs > 0 ? 'var(--green)' : 'var(--gold)';
-    }
-  }
+  function buildOutlinePreview(type) {
+    const previewEl = document.getElementById('outline-preview-' + type);
+    if (!previewEl) return;
 
-  function previewScript(type) {
-    const sections = type === 'ip'
-      ? [{id:'ip-s1',label:'Hook'},{id:'ip-s2',label:'The Problem'},{id:'ip-s3',label:'Research'},{id:'ip-s4',label:'Our Solution'},{id:'ip-s5',label:'Testing & Improvement'},{id:'ip-s6',label:'Sharing'},{id:'ip-s7',label:'Closing'}]
-      : [{id:'robot-s1',label:'Team & Strategy'},{id:'robot-s2',label:'Mission Strategy'},{id:'robot-s3',label:'Robot Design'},{id:'robot-s4',label:'Programming'},{id:'robot-s5',label:'Innovation Highlight'},{id:'robot-s6',label:'Reflection'}];
+    const sections = type === 'ip' ? [
+      { label:'The Problem',           ids:['ip-1-a','ip-1-b'],             color:'#00d4b4' },
+      { label:'Research and Experts',  ids:['ip-2-a','ip-2-b','ip-2-c'],    color:'#00d4b4' },
+      { label:'Your Solution',         ids:['ip-3-a','ip-3-b','ip-3-c'],    color:'#00d4b4' },
+      { label:'Testing and Improvement', ids:['ip-4-a','ip-4-b'],           color:'#00d4b4' },
+      { label:'Sharing Beyond FLL',    ids:['ip-5-a','ip-5-b'],             color:'#00d4b4' },
+    ] : [
+      { label:'Mission Strategy',      ids:['rb-1-a','rb-1-b'],             color:'#3b9eff' },
+      { label:'Robot Build',           ids:['rb-2-a','rb-2-b','rb-2-c'],    color:'#3b9eff' },
+      { label:'Programming',           ids:['rb-3-a','rb-3-b','rb-3-c'],    color:'#3b9eff' },
+      { label:'Innovation Highlight',  ids:['rb-4-a'],                      color:'#3b9eff' },
+    ];
 
-    const title = type === 'ip' ? 'Innovation Project Presentation' : 'Robot Design Presentation';
-    let html = '<div class="spb-head"><div class="spb-title">&#127908; ' + title + '</div><button class="spb-close" onclick="closeScriptPreview()">&#10005;</button></div><div class="spb-body">';
+    const title = type === 'ip' ? 'Innovation Project Outline' : 'Robot Design Outline';
+    let html = '<div class="op-head">' + title + '</div>';
 
     sections.forEach(function(s) {
-      const area = document.getElementById(s.id);
-      const text = area ? area.value.trim() : '';
-      html += '<div class="spb-section"><div class="spb-section-label">' + s.label + '</div>';
-      html += text
-        ? '<div class="spb-section-text">' + text.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</div>'
-        : '<div class="spb-section-empty">(not written yet)</div>';
+      const bullets = s.ids.map(function(id) {
+        const el = document.getElementById(id);
+        const val = el ? el.value.trim() : '';
+        if (!val) return '';
+        return '<div class="op-bullet">' + val + '</div>';
+      }).join('');
+
+      if (!bullets) return;
+      html += '<div class="op-section">';
+      html += '<div class="op-section-lbl" style="color:' + s.color + '">' + s.label + '</div>';
+      html += bullets;
       html += '</div>';
     });
-    html += '</div><div class="spb-footer"><button class="pres-action-btn pab-ghost" onclick="closeScriptPreview()">Close</button><button class="pres-action-btn pab-primary" onclick="printScript(\'' + type + '\')">&#128438; Print</button></div>';
 
-    let overlay = document.getElementById('script-preview-overlay');
-    if (!overlay) {
-      overlay = document.createElement('div');
-      overlay.id = 'script-preview-overlay';
-      overlay.className = 'script-preview-overlay';
-      overlay.innerHTML = '<div class="script-preview-box" id="script-preview-box"></div>';
-      overlay.addEventListener('click', function(e){ if(e.target === overlay) closeScriptPreview(); });
-      document.body.appendChild(overlay);
+    if (html === '<div class="op-head">' + title + '</div>') {
+      html += '<div class="op-empty">Fill in at least one field above to build your outline.</div>';
     }
-    document.getElementById('script-preview-box').innerHTML = html;
-    overlay.style.display = 'block';
+
+    previewEl.innerHTML = html;
+    previewEl.classList.add('op-visible');
+    previewEl.scrollIntoView({ behavior:'smooth', block:'start' });
   }
 
-  function closeScriptPreview() {
-    const overlay = document.getElementById('script-preview-overlay');
-    if (overlay) overlay.style.display = 'none';
-  }
+  function printOutline(type) {
+    const sections = type === 'ip' ? [
+      { label:'The Problem',           ids:['ip-1-a','ip-1-b'] },
+      { label:'Research and Experts',  ids:['ip-2-a','ip-2-b','ip-2-c'] },
+      { label:'Your Solution',         ids:['ip-3-a','ip-3-b','ip-3-c'] },
+      { label:'Testing and Improvement', ids:['ip-4-a','ip-4-b'] },
+      { label:'Sharing Beyond FLL',    ids:['ip-5-a','ip-5-b'] },
+    ] : [
+      { label:'Mission Strategy',      ids:['rb-1-a','rb-1-b'] },
+      { label:'Robot Build',           ids:['rb-2-a','rb-2-b','rb-2-c'] },
+      { label:'Programming',           ids:['rb-3-a','rb-3-b','rb-3-c'] },
+      { label:'Innovation Highlight',  ids:['rb-4-a'] },
+    ];
 
-  function printScript(type) {
-    const sections = type === 'ip'
-      ? [{id:'ip-s1',label:'Hook'},{id:'ip-s2',label:'The Problem'},{id:'ip-s3',label:'Research'},{id:'ip-s4',label:'Our Solution'},{id:'ip-s5',label:'Testing & Improvement'},{id:'ip-s6',label:'Sharing'},{id:'ip-s7',label:'Closing'}]
-      : [{id:'robot-s1',label:'Team & Strategy'},{id:'robot-s2',label:'Mission Strategy'},{id:'robot-s3',label:'Robot Design'},{id:'robot-s4',label:'Programming'},{id:'robot-s5',label:'Innovation Highlight'},{id:'robot-s6',label:'Reflection'}];
-
-    const title = type === 'ip' ? 'Innovation Project Presentation Script' : 'Robot Design Presentation Script';
-    let body = '<html><head><title>' + title + '</title><style>body{font-family:Georgia,serif;max-width:700px;margin:40px auto;color:#111;line-height:1.7} h1{font-size:1.4rem;border-bottom:2px solid #333;padding-bottom:.5rem} .sec{margin-bottom:1.8rem} .sec-label{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#555;margin-bottom:.3rem} .sec-text{font-size:1rem;white-space:pre-wrap} .empty{color:#aaa;font-style:italic} @media print{body{margin:20px}}</style></head><body>';
+    const title = type === 'ip' ? 'Innovation Project Outline' : 'Robot Design Outline';
+    let body = '<html><head><title>' + title + '</title><style>@page{margin:.6in}body{font-family:Georgia,serif;max-width:680px;margin:0 auto;color:#111;font-size:13px}h1{font-size:1.2rem;border-bottom:2px solid #333;padding-bottom:.4rem;margin-bottom:1.2rem}.sec{margin-bottom:1.2rem}.sec-lbl{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#555;margin-bottom:.3rem}.bullet{padding:.2rem 0 .2rem 1rem;position:relative;font-size:.95rem;line-height:1.6}.bullet::before{content:"";position:absolute;left:0;top:.7rem;width:.35rem;height:.35rem;border-radius:50%;background:#999}.empty{color:#aaa;font-style:italic}</style></head><body>';
     body += '<h1>' + title + '</h1>';
-    sections.forEach(function(s){
-      const area = document.getElementById(s.id);
-      const text = area ? area.value.trim() : '';
-      body += '<div class="sec"><div class="sec-label">' + s.label + '</div>';
-      body += text ? '<div class="sec-text">' + text.replace(/</g,'&lt;') + '</div>' : '<div class="empty">(blank)</div>';
+
+    sections.forEach(function(s) {
+      const vals = s.ids.map(function(id){
+        const el = document.getElementById(id);
+        return el ? el.value.trim() : '';
+      }).filter(Boolean);
+      if (!vals.length) return;
+      body += '<div class="sec"><div class="sec-lbl">' + s.label + '</div>';
+      vals.forEach(function(v){ body += '<div class="bullet">' + v.replace(/</g,'&lt;') + '</div>'; });
       body += '</div>';
     });
+
     body += '</body></html>';
     const w = window.open('','_blank');
     w.document.write(body);
@@ -4690,14 +4401,13 @@
     w.print();
   }
 
-  function clearScript(type) {
-    if (!confirm('Clear all ' + (type === 'ip' ? 'Innovation Project' : 'Robot Design') + ' script sections?')) return;
-    const prefix = type === 'ip' ? 'ip-s' : 'robot-s';
-    const count = type === 'ip' ? 7 : 6;
-    for (let i = 1; i <= count; i++) {
-      const area = document.getElementById(prefix + i);
-      if (area) { area.value = ''; updatePresWordCount(prefix + i, 'wc-' + type + '-' + i, 0, type); }
-    }
+  function clearOutline(type) {
+    const prefix = type === 'ip' ? 'ip-' : 'rb-';
+    document.querySelectorAll('[id^="' + prefix + '"]').forEach(function(el) {
+      if (el.tagName === 'INPUT') el.value = '';
+    });
+    const prev = document.getElementById('outline-preview-' + type);
+    if (prev) { prev.innerHTML = ''; prev.classList.remove('op-visible'); }
   }
 
 
