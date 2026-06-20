@@ -4348,7 +4348,7 @@
     } else if (g.extra_section === 'checklist') {
       const checks = ['My specific task for today:', 'Something I want to try:', 'Something I want to ask the team:'];
       extraHtml = '<div class="ws-extra-section"><div class="ws-section-title">' + g.extra_label + '</div>'
-        + checks.map(c => '<div class="ws-check-row"><span class="ws-checkbox">☐</span><span class="ws-check-txt">' + c + '</span><div class="ws-check-line"></div></div>').join('')
+        + checks.map(c => '<div class="ws-check-row"><span class="ws-checkbox">[ ]</span><span class="ws-check-txt">' + c + '</span><div class="ws-check-line"></div></div>').join('')
         + '</div>';
     } else if (g.extra_section === 'connection' || g.extra_section === 'plan' || g.extra_section === 'mentor') {
       extraHtml = '<div class="ws-extra-section"><div class="ws-section-title">' + g.extra_label + '</div><div class="ws-line"></div><div class="ws-line"></div><div class="ws-line"></div></div>';
@@ -4357,7 +4357,7 @@
     // Rating
     let ratingHtml = '';
     if (g.rating_type === 'stars') {
-      ratingHtml = '<div class="ws-rating"><span class="ws-rating-lbl">' + g.rating_label + '</span> ☆ ☆ ☆ ☆ ☆</div>';
+      ratingHtml = '<div class="ws-rating"><span class="ws-rating-lbl">' + g.rating_label + '</span><span class="ws-scale"> 1 &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 3 &nbsp;&nbsp;&nbsp; 4 &nbsp;&nbsp;&nbsp; 5</span></div>';
     } else {
       ratingHtml = '<div class="ws-rating"><span class="ws-rating-lbl">' + g.rating_label + '</span> <span class="ws-scale">1 &nbsp;&nbsp; 2 &nbsp;&nbsp; 3 &nbsp;&nbsp; 4 &nbsp;&nbsp; 5</span></div>';
     }
@@ -4371,22 +4371,17 @@
       + '</div>'
       // Area badges + date
       + '<div class="ws-subheader"><div class="ws-area-badges">' + areaBadges + '</div><div class="ws-date-line">Date: _______________</div></div>'
-      // Mission brief
-      + '<div class="ws-section ws-mission">'
-      + '<div class="ws-section-title" style="color:' + pColor + '">&#127919; Mission Briefing</div>'
-      + '<div class="ws-brief-text">' + pc.context + '</div>'
-      + '<div class="ws-focus-box" style="border-color:' + aColor + ';background:' + aColor + '11"><strong>Your focus today:</strong> ' + focusDesc + '</div>'
-      + '</div>'
+
       // Warm-up activity
       + '<div class="ws-section">'
-      + '<div class="ws-section-title" style="color:' + aColor + '">&#9889; Warm-Up Challenge</div>'
+      + '<div class="ws-section-title" style="color:' + aColor + '">Warm-Up</div>'
       + '<div class="ws-activity-prompt">' + g.warmup_prompt + '</div>'
       + '<div class="ws-activity-task">' + activity + '</div>'
       + '<div class="ws-line"></div><div class="ws-line"></div>'
       + '</div>'
       // Notes
       + '<div class="ws-section">'
-      + '<div class="ws-section-title">&#128221; ' + g.notes_header + '</div>'
+      + '<div class="ws-section-title">' + g.notes_header + '</div>'
       + lines
       + '</div>'
       // Extra section
@@ -4410,7 +4405,7 @@
       body { font-family: 'Segoe UI', Arial, sans-serif; background:#fff; color:#222; font-size:13px; }
       .ws-page {
         max-width:780px; margin:0 auto; padding:0;
-        page-break-after:always; min-height:100vh;
+        page-break-after:always;
         display:flex; flex-direction:column; border:2px solid #e0e0e0;
         margin-bottom:24px; border-radius:8px; overflow:hidden;
       }
@@ -4535,20 +4530,31 @@
         white-space:nowrap; transition:background .15s;
       }
       .ws-print-btn:hover { background:#1d4ed8; }
-      @page { margin: 0; }
+      @page { margin: 0.45in 0.5in; size: letter; }
       @media print {
-        body { padding: 0.5in; margin: 0; }
-        .ws-print-bar { display:none; }
+        body { font-size:11px; margin:0; padding:0; background:#fff; }
+        .ws-print-bar { display:none !important; }
         .ws-page {
           page-break-after:always; break-after:page;
-          border:none; margin:0; border-radius:0;
-          max-width:100%; min-height:auto;
+          border:none !important; margin:0 !important; border-radius:0 !important;
+          max-width:100% !important; min-height:0 !important;
+          box-shadow:none !important;
         }
         .ws-page:last-child { page-break-after:auto; break-after:auto; }
         .ws-agenda-page {
           page-break-after:always; break-after:page;
-          border:none; margin:0; border-radius:0; max-width:100%;
+          border:none !important; margin:0 !important;
+          border-radius:0 !important; max-width:100% !important;
+          box-shadow:none !important;
         }
+        .ws-section { padding:9px 16px !important; }
+        .ws-line { margin:5px 0 !important; height:20px !important; }
+        .ws-header-bar { padding:10px 16px !important; }
+        .ws-subheader { padding:5px 16px !important; }
+        .ws-footer { padding:8px 16px !important; }
+        .ws-section-title { margin-bottom:5px !important; }
+        .ws-reflect-item { margin-bottom:4px !important; }
+        .ws-extra-section { padding:9px 16px !important; }
       }
     `;
   }
