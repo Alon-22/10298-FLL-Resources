@@ -3971,124 +3971,124 @@
   const WS_PHASE_CONTEXT = {
     foundation: {
       title: 'Season Kickoff',
-      context: 'This is the very beginning of your FLL season. You are learning what the challenge is all about, forming your team, and starting to think about your robot and your Innovation Project.',
-      robot_focus: 'Reading the game guide and figuring out which missions are worth the most points.',
-      project_focus: 'Identifying a problem in the real world that connects to this year\'s FLL theme.',
-      cv_focus: 'Getting to know your team, deciding on roles, and writing your first journal entry.',
+      context: 'This is the beginning of the FLL season. Your team is learning the challenge, establishing roles, and starting to plan your robot strategy and Innovation Project.',
+      robot_focus: 'Reading the game guide and understanding which missions are available and how they score.',
+      project_focus: 'Identifying a real-world problem that connects to this season\'s FLL theme.',
+      cv_focus: 'Learning your team roles, establishing how you will work together, and starting your journal.',
     },
     build: {
-      title: 'Build & Research Phase',
-      context: 'Now the real work begins. You\'re coding robot runs, researching your project topic, and testing ideas. Things will break — that\'s part of the process.',
-      robot_focus: 'Programming and testing robot missions. Log every run, even the ones that fail.',
-      project_focus: 'Deep-diving into research, connecting with experts, and identifying solutions.',
-      cv_focus: 'Keeping your team journal, supporting teammates, and showing Gracious Professionalism.',
+      title: 'Build and Research Phase',
+      context: 'The team is building robot runs, conducting research for the Innovation Project, and testing ideas. Failure is part of engineering. Document everything.',
+      robot_focus: 'Programming and testing robot missions. Record every run result, including the ones that do not work.',
+      project_focus: 'Researching the problem in depth, reaching out to experts, and identifying possible solutions.',
+      cv_focus: 'Maintaining your team journal, supporting teammates, and practicing Gracious Professionalism.',
     },
     develop: {
-      title: 'Develop & Refine',
-      context: 'You\'re adding depth to everything — more missions, a stronger prototype, and a presentation that tells a story. It\'s time to make good work great.',
-      robot_focus: 'Adding more missions, improving consistency, and solving attachment challenges.',
-      project_focus: 'Developing your innovative solution, gathering feedback, and refining your presentation.',
-      cv_focus: 'Practicing your judging presentation and making sure everyone on the team has a voice.',
+      title: 'Develop and Strengthen',
+      context: 'The team is adding depth and quality to existing work. More missions, a stronger prototype, and a clearer presentation. The goal is to improve what you already have.',
+      robot_focus: 'Adding missions, improving run consistency, and solving mechanical or programming challenges.',
+      project_focus: 'Developing your innovative solution, collecting feedback from testers, and refining your presentation.',
+      cv_focus: 'Practicing your judging presentation and ensuring every team member has a clear speaking role.',
     },
     refine: {
       title: 'Refinement Phase',
-      context: 'You\'re polishing what you have, not adding new things. Practice makes perfect — especially under pressure.',
-      robot_focus: 'Running consistent practice rounds and timing yourselves.',
-      project_focus: 'Rehearsing your Innovation Project presentation until it feels natural.',
-      cv_focus: 'Mock judging, reviewing your portfolio, and celebrating how far you\'ve come.',
+      context: 'The team is focused on quality, not new additions. Practice under realistic conditions and be honest about what still needs work.',
+      robot_focus: 'Running timed practice rounds and tracking consistency across attempts.',
+      project_focus: 'Rehearsing the Innovation Project presentation until the content and flow are natural.',
+      cv_focus: 'Conducting mock judging sessions and reviewing the team portfolio together.',
     },
     prep: {
-      title: 'Competition Prep',
-      context: 'Competition day is almost here. Your job now is to stay calm, trust your preparation, and be the best teammates you can be.',
-      robot_focus: 'Final robot checks, packing your materials, and reviewing the match schedule.',
-      project_focus: 'Final rehearsal of your presentation — know your key points cold.',
-      cv_focus: 'Remember Gracious Professionalism. Cheer for other teams. Be the team everyone remembers.',
+      title: 'Competition Preparation',
+      context: 'Competition is approaching. The work is done. The focus now is preparation, logistics, and arriving ready to perform your best.',
+      robot_focus: 'Final robot inspection, packing materials, and reviewing the match day schedule.',
+      project_focus: 'Final run-through of the presentation. Know your key points without notes.',
+      cv_focus: 'Review what Gracious Professionalism looks like at competition. Support other teams. Represent your work with confidence.',
     },
   };
 
   const WS_GRADE_CFG = {
     4: {
       label: '4th Grade',
-      emoji: '⭐',
-      warmup_prompt: 'Quick warm-up! Draw or write one thing you already know about today\'s topic:',
-      notes_header: 'My Notes (write OR draw!)',
+      emoji: '',
+      warmup_prompt: 'Write or draw one thing you already know about what your team is working on today:',
+      notes_header: 'My Notes',
       notes_lines: 5,
       reflect_label: 'After the Meeting',
       reflect_prompts: [
         'One thing I learned today:',
-        'Something I want to know more about:',
-        'My favorite part was:',
+        'Something I want to find out more about:',
+        'One thing I did to help the team:',
       ],
       extra_section: 'draw',
-      extra_label: 'Draw It! Sketch your robot, your project idea, or something from today\'s meeting:',
+      extra_label: 'Sketch It: Draw your robot, a design idea, or something from today\'s meeting.',
       rating_label: 'How did today\'s meeting go?',
       rating_type: 'stars',
     },
     5: {
       label: '5th Grade',
-      emoji: '🚀',
-      warmup_prompt: 'Before we start — write down one question you have going into today\'s meeting:',
+      emoji: '',
+      warmup_prompt: 'Write one question you have going into today\'s meeting:',
       notes_header: 'Meeting Notes',
       notes_lines: 6,
-      reflect_label: 'Reflect',
+      reflect_label: 'Reflection',
       reflect_prompts: [
-        'The most important thing I did today:',
-        'Something I struggled with (and how I tried to fix it):',
+        'The most important thing I worked on today:',
+        'Something I found difficult, and what I tried:',
         'One way I helped a teammate today:',
       ],
       extra_section: 'checklist',
-      extra_label: 'My Goals for Today (check them off as you go!)',
+      extra_label: 'Goals for Today',
       rating_label: 'Rate today\'s meeting:',
       rating_type: 'stars',
     },
     6: {
       label: '6th Grade',
-      emoji: '🔬',
-      warmup_prompt: 'Pre-meeting check-in: Based on the meeting title, what do you predict we will accomplish today?',
-      notes_header: 'Notes & Observations',
+      emoji: '',
+      warmup_prompt: 'Based on the meeting topic, what do you predict the team will accomplish today?',
+      notes_header: 'Notes and Observations',
       notes_lines: 7,
       reflect_label: 'Post-Meeting Reflection',
       reflect_prompts: [
-        'What did we actually accomplish versus what I predicted?',
-        'What\'s one decision the team made today, and do you agree with it?',
-        'What\'s the most important next step before the next meeting?',
+        'What did the team actually accomplish, compared to what you predicted?',
+        'Describe one decision the team made today. Do you agree with it? Why or why not?',
+        'What is the most important task before the next meeting?',
       ],
       extra_section: 'connection',
-      extra_label: 'Real-World Connection: How does what you did today connect to something in the real world?',
+      extra_label: 'Real-World Connection: How does today\'s work connect to something outside of FLL?',
       rating_label: 'How productive was today\'s meeting?',
       rating_type: 'scale',
     },
     7: {
       label: '7th Grade',
-      emoji: '⚙️',
-      warmup_prompt: 'What was the outcome of the last meeting, and what does today need to build on?',
-      notes_header: 'Technical Notes & Analysis',
+      emoji: '',
+      warmup_prompt: 'What was accomplished at the last meeting, and what does today need to build on?',
+      notes_header: 'Technical Notes and Analysis',
       notes_lines: 8,
-      reflect_label: 'Analysis & Next Steps',
+      reflect_label: 'Analysis and Next Steps',
       reflect_prompts: [
         'What specific progress did the team make toward competition today?',
-        'What\'s one thing that isn\'t working, and what are two possible fixes?',
-        'What decision or responsibility will you own before the next meeting?',
+        'Identify one thing that is not working. List two possible solutions.',
+        'What task or responsibility will you personally own before the next meeting?',
       ],
       extra_section: 'plan',
-      extra_label: 'My Action Plan: What specific task am I owning before next meeting?',
+      extra_label: 'Action Plan: What specific task are you responsible for before next meeting?',
       rating_label: 'Team effectiveness today (1-5):',
       rating_type: 'scale',
     },
     8: {
       label: '8th Grade',
-      emoji: '🏆',
-      warmup_prompt: 'As a senior team member: what\'s the most important thing the team needs to accomplish today, and how will you help make that happen?',
-      notes_header: 'Documentation & Leadership Notes',
+      emoji: '',
+      warmup_prompt: 'What is the most important thing the team needs to accomplish today, and what is your specific role in making that happen?',
+      notes_header: 'Documentation and Leadership Notes',
       notes_lines: 9,
       reflect_label: 'Leadership Reflection',
       reflect_prompts: [
-        'How did you contribute to the team\'s progress today — specifically?',
-        'Did any teammate need support today? How did you (or could you have) helped?',
-        'If you were presenting this meeting\'s work to the judges right now, what would you say?',
+        'How did you contribute to the team\'s progress today? Be specific.',
+        'Did any teammate need support today? How did you respond, or how could you have?',
+        'If you had to present today\'s work to the judges right now, what would you say?',
       ],
       extra_section: 'mentor',
-      extra_label: 'Mentoring Note: What did you teach or explain to a younger team member today?',
+      extra_label: 'Coaching Note: What did you explain or teach to a teammate today?',
       rating_label: 'Leadership self-assessment:',
       rating_type: 'scale',
     },
@@ -4097,25 +4097,70 @@
   // Per-area, per-grade warm-up activities
   const WS_AREA_ACTIVITIES = {
     robot: {
-      4: ['Draw the field table and circle the missions you want to try today.', 'List 3 things a robot needs to do to complete a mission (in your own words).'],
-      5: ['Write the name of one mission and the steps the robot needs to take to complete it.', 'Sketch a robot attachment you think could work for today\'s mission.'],
-      6: ['Describe the logic of one robot run in plain English — what happens step by step?', 'List what you\'ll test today and how you\'ll know if it worked.'],
-      7: ['Write a hypothesis: if we change [X] in the code/build, we predict [Y] will happen.', 'Document the current state of your robot run scores and what\'s blocking improvement.'],
-      8: ['Evaluate the team\'s current robot strategy: what\'s the highest-value change we could make today?', 'Write a quality-check checklist for this meeting\'s robot testing.'],
+      4: [
+        'On the field map (or from memory), circle the missions your team is focusing on today.',
+        'In your own words, describe what the robot has to do to complete one mission.',
+      ],
+      5: [
+        'Write the name of one mission and list the steps the robot needs to take, in order.',
+        'Sketch an attachment design you think could work for a mission your team is attempting.',
+      ],
+      6: [
+        'Describe the logic of one robot run in plain English. What does the robot do at each step?',
+        'Write down what your team plans to test today and how you will know if it worked.',
+      ],
+      7: [
+        'Write a hypothesis: if we change [X] in the code or build, we predict [Y] will happen. Explain your reasoning.',
+        'Record your current run scores. What is the main factor limiting improvement right now?',
+      ],
+      8: [
+        'Evaluate your team\'s robot strategy. What is the single highest-value improvement available today?',
+        'Write a quality-check list for this session. What does a successful meeting look like?',
+      ],
     },
     project: {
-      4: ['Write 3 words that describe the problem your project is trying to solve.', 'Draw someone who has the problem your project addresses. What does their day look like?'],
-      5: ['Write 2 facts you already know about your project topic and 1 question you still have.', 'What makes your solution different from what already exists?'],
-      6: ['Summarize your innovative solution in 2 sentences — without using any jargon.', 'Who did you talk to (or want to talk to) as an expert? What would you ask them?'],
-      7: ['Assess your current project research: what\'s the strongest evidence you have? What\'s missing?', 'Write the "so what" of your project — why should the judges care about your solution?'],
-      8: ['Critique your own innovation: what\'s the weakest part of your argument, and how do you address it?', 'Write the opening 30 seconds of your judging presentation from memory.'],
+      4: [
+        'Write three words that describe the problem your project is trying to solve.',
+        'Think of someone who deals with this problem every day. What does their situation look like?',
+      ],
+      5: [
+        'Write two facts you already know about your project topic and one question you still have.',
+        'In one sentence, explain how your solution is different from what already exists.',
+      ],
+      6: [
+        'Summarize your innovative solution in two sentences without using technical jargon.',
+        'Who have you talked to as an expert? What did they say that changed how you think about the problem?',
+      ],
+      7: [
+        'Review your research. What is the strongest evidence supporting your solution? What is still missing?',
+        'Write the core argument of your project: why should anyone care about your solution?',
+      ],
+      8: [
+        'Critique your own innovation. What is the weakest part of your argument, and how does your team address it?',
+        'Write the opening 30 seconds of your judging presentation from memory.',
+      ],
     },
     cv: {
-      4: ['What does "Gracious Professionalism" mean to you? Write or draw your answer.', 'Write one thing you appreciate about a teammate today.'],
-      5: ['Describe a time your team disagreed on something. How did you solve it?', 'What\'s one way you could make today\'s meeting more fun for everyone?'],
-      6: ['Reflect: does everyone on your team have a clear role? Who might need more support?', 'Write an example of Gracious Professionalism you could show at competition.'],
-      7: ['Analyze your team\'s current dynamic: what\'s working well and what could improve?', 'How does your team handle it when something goes wrong? Is that the best approach?'],
-      8: ['As a leader: identify one teammate who\'s struggling and write a plan to support them.', 'Draft a 3-sentence "team values" statement that captures how your team works together.'],
+      4: [
+        'What does Gracious Professionalism mean to you? Write or draw your answer.',
+        'Write one thing you appreciate about a teammate today.',
+      ],
+      5: [
+        'Describe a time your team disagreed on something. How did you work it out?',
+        'What is one thing you could do today to make the meeting more productive for everyone?',
+      ],
+      6: [
+        'Does everyone on your team have a clear role right now? Is there anyone who needs more support?',
+        'Describe one specific way your team has shown Gracious Professionalism recently.',
+      ],
+      7: [
+        'What is the team\'s biggest strength right now? What is one area that still needs work?',
+        'How are decisions made on your team? Is that process working well for everyone?',
+      ],
+      8: [
+        'What would a newer team member say about your team culture right now? Be honest.',
+        'Identify one teammate who deserves recognition this meeting. What will you do about it?',
+      ],
     },
   };
 
@@ -4142,16 +4187,15 @@
 
     const css = buildWorksheetCSS();
     const win = window.open('', '_blank');
-    const title = 'Worksheets — Meeting ' + meetingNum + ': ' + meeting.bp.title;
+    const title = 'Worksheets - Meeting ' + meetingNum + ': ' + meeting.bp.title;
     win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + title + '</title><style>' + css + '</style></head><body>' + pages + '</body></html>');
     win.document.close();
-    setTimeout(() => win.print(), 700);
   }
 
   function buildOneWorksheet(name, grade, meeting, primaryArea, areas, studentIndex) {
     const g   = WS_GRADE_CFG[grade] || WS_GRADE_CFG[6];
     const pc  = WS_PHASE_CONTEXT[meeting.phase] || WS_PHASE_CONTEXT.build;
-    const AREA_LABEL_WS = { robot:'🤖 Robot Game', project:'🔬 Innovation Project', cv:'🤝 Core Values' };
+    const AREA_LABEL_WS = { robot:'Robot Game', project:'Innovation Project', cv:'Core Values' };
     const AREA_COLOR    = { robot:'#3b9eff', project:'#00d4b4', cv:'#a78bfa' };
     const phaseColor    = { foundation:'#3b9eff', build:'#00d4b4', develop:'#a78bfa', refine:'#f0c040', prep:'#34d399' };
     const pColor = phaseColor[meeting.phase] || '#3b9eff';
