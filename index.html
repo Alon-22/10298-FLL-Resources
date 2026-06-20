@@ -2720,11 +2720,22 @@
     // Score: how well does student i fit area?
     function studentAreaScore(i, area) {
       const d = memberData[i];
-      if (!d) return 0;
       let s = 0;
-      AREA_SKILLS[area].forEach(sk => { if (d.skills.has(sk)) s += 3; });
-      if (d.exp[area] === 'exp')  s += 2;
-      if (d.exp[area] === 'some') s += 1;
+      if (d) {
+        AREA_SKILLS[area].forEach(sk => { if (d.skills.has(sk)) s += 3; });
+        if (d.exp[area] === 'exp')  s += 2;
+        if (d.exp[area] === 'some') s += 1;
+      }
+      // Rotation incentive: students underexposed to this area get a bonus
+      if (studentAreaCounts && studentAreaCounts[i]) {
+        const counts = studentAreaCounts[i];
+        const minCount = Math.min(counts.robot, counts.project, counts.cv);
+        const thisCount = counts[area] || 0;
+        // Big bonus if never done this area; smaller bonus if done it fewer times than others
+        if (thisCount === 0 && minCount === 0) s += 4; // all equal at zero — let skills decide with slight nudge
+        else if (thisCount === 0) s += 8;              // hasn't done this area at all — strongly prefer
+        else s += Math.max(0, (minCount - thisCount + 1)) * 3; // underrepresented areas get a boost
+      }
       return s;
     }
 
@@ -2791,6 +2802,15 @@
         slots[i] = { area:topArea, color:AREA_COLOR[topArea], role:AREA_LABEL[topArea]+' support',
           tasks:['Assist with ' + AREA_LABEL[topArea].toLowerCase() + ' tasks and document progress.'] };
       }
+    }
+
+    // Update rotation tracker
+    if (studentAreaCounts) {
+      slots.forEach((slot, i) => {
+        if (slot && studentAreaCounts[i]) {
+          studentAreaCounts[i][slot.area] = (studentAreaCounts[i][slot.area] || 0) + 1;
+        }
+      });
     }
 
     // Render
@@ -3152,8 +3172,63 @@
   };
   const AREA_LABEL = { robot:'Robot', project:'Project', cv:'Core Values' };
 
+  function buildRotationSummary(totalMeetings) {
+    if (!studentAreaCounts) return '';
+    const n = plannerState.teamsize;
+    if (!n) return '';
+    ensureMemberData(n);
+    const areas = ['robot', 'project', 'cv'];
+    const areaColors = { robot:'var(--blue)', project:'var(--teal)', cv:'var(--purple,#9b7fd4)' };
+    const areaLabels = { robot:'Robot', project:'Project', cv:'Core Values' };
+
+    let rows = '';
+    for (let i = 0; i < n; i++) {
+      const name = getMemberName(i);
+      const counts = studentAreaCounts[i] || { robot:0, project:0, cv:0 };
+      const cells = areas.map(a => {
+        const ct = counts[a] || 0;
+        const pct = totalMeetings > 0 ? Math.round(ct / totalMeetings * 100) : 0;
+        const bg = ct === 0
+          ? 'rgba(220,80,80,.1)' : ct < 3
+          ? 'rgba(240,192,64,.1)' : 'rgba(0,212,180,.1)';
+        const col = ct === 0 ? '#e05252' : ct < 3 ? 'var(--gold)' : areaColors[a];
+        return '<td style="padding:.35rem .6rem;text-align:center;background:'+ bg +';color:'+ col +';font-weight:700;font-size:.82rem;border-radius:4px;">'
+          + (ct === 0 ? 'none' : ct + (ct === 1 ? ' time' : ' times'))
+          + '</td>';
+      }).join('<td style="width:.4rem"></td>');
+      rows += '<tr><td style="padding:.3rem .7rem .3rem 0;font-size:.84rem;color:var(--text);white-space:nowrap;font-weight:600">'+ name +'</td>'
+        + '<td style="width:.4rem"></td>' + cells + '</tr>';
+    }
+
+    const headers = areas.map(a =>
+      '<th style="padding:.3rem .6rem;font-size:.72rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:'+ areaColors[a] +';text-align:center">'+ areaLabels[a] +'</th>'
+    ).join('<th style="width:.4rem"></th>');
+
+    const allCovered = Array.from({length:n}, (_,i) => {
+      const ct = studentAreaCounts[i] || {};
+      return areas.every(a => (ct[a]||0) > 0);
+    }).every(Boolean);
+
+    const badge = allCovered
+      ? '<span style="font-size:.75rem;background:rgba(0,212,180,.15);color:var(--teal);padding:.2rem .65rem;border-radius:20px;font-weight:700;margin-left:.75rem">All areas covered</span>'
+      : '<span style="font-size:.75rem;background:rgba(220,80,80,.1);color:#e05252;padding:.2rem .65rem;border-radius:20px;font-weight:700;margin-left:.75rem">Some gaps to fill</span>';
+
+    return '<div class="planner-card" style="margin-bottom:1.5rem">'
+      + '<div style="display:flex;align-items:center;flex-wrap:wrap;gap:.4rem;margin-bottom:.9rem">'
+      + '<div style="font-weight:800;font-size:.92rem;color:var(--text)">Student Rotation</div>' + badge
+      + '</div>'
+      + '<div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.85rem;line-height:1.55">'
+      + 'Every student should lead each area at least once. Red means no exposure yet. Yellow means limited. Assignments balance skill-fit with rotation so no one is stuck in one role all season.'
+      + '</div>'
+      + '<div style="overflow-x:auto"><table style="border-collapse:separate;border-spacing:.3rem">'
+      + '<thead><tr><th></th><th style="width:.4rem"></th>' + headers + '</tr></thead>'
+      + '<tbody>' + rows + '</tbody></table></div>'
+      + '</div>';
+  }
+
   function generateCurriculum() {
     const perWeek = plannerState.perweek;
+    const n = plannerState.teamsize || 0;
     const weeks   = parseInt(document.getElementById('planner-weeks').value);
     const hours   = plannerState.hours;
     const total   = perWeek * weeks;
@@ -3165,6 +3240,10 @@
       if (i < PHASE_ORDER.length-1) { alloc[p]=Math.max(1,Math.round(total*raw[p])); used+=alloc[p]; }
       else { alloc[p]=Math.max(1,total-used); }
     });
+
+    // Reset rotation tracker
+    studentAreaCounts = {};
+    for (let i = 0; i < n; i++) studentAreaCounts[i] = { robot: 0, project: 0, cv: 0 };
 
     const schedule = [];
     PHASE_ORDER.forEach(phase => {
@@ -3239,7 +3318,7 @@
       + '</div>';
 
     out.innerHTML = tabs
-      + '<div id="curriculum-view">' + html + '</div>'
+      + '<div id="curriculum-view">' + buildRotationSummary(total) + html + '</div>'
       + '<div id="tracker-view" style="display:none">' + buildTrackerHTML() + '</div>';
 
     // Apply any loaded progress to UI
@@ -3325,6 +3404,7 @@
   let currentScheduleOpts = {};
   let meetingProgress = {};
   let currentView = 'curriculum';
+  let studentAreaCounts = null; // rotation tracker, reset each generateCurriculum call
 
   function toggleMentorMode() {
     const cb = document.getElementById('mentor-toggle-cb');
