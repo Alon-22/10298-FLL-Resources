@@ -3180,11 +3180,26 @@
         if (!slot) return '';
         const name = getMemberName(i);
         const bgColor = slot.area==='robot' ? 'rgba(59,158,255,.13)' : slot.area==='project' ? 'rgba(0,212,180,.11)' : 'rgba(167,139,250,.12)';
-        const taskText = slot.tasks.slice(0,2).join(' / ');
-        return '<div class="student-row">'
+        const rowId = 'brow-' + i + '-' + Math.random().toString(36).slice(2,6);
+        const allSlotTasks = slot.tasks || [];
+        const taskPreview = allSlotTasks[0] ? allSlotTasks[0].slice(0,72)+(allSlotTasks[0].length>72?'…':'') : '';
+        const fullRowTasks = allSlotTasks.map((t,ti) =>
+          '<div style="display:flex;gap:.4rem;margin-bottom:.25rem">'
+          +'<span style="flex-shrink:0;font-weight:700;color:'+slot.color+';font-size:.72rem;min-width:1rem">'+(ti+1)+'.</span>'
+          +'<span style="font-size:.78rem;color:var(--text-muted)">'+t+'</span></div>'
+        ).join('');
+        const expandBtn = (allSlotTasks.length>1||allSlotTasks[0]?.length>72)
+          ? '<button onclick="var el=document.getElementById(\''+rowId+'\');var btn=this;var open=el.style.display!==\'none\';el.style.display=open?\'none\':\'block\';btn.textContent=open?\'▼\':\'▲\';" '
+            +'style="background:none;border:none;cursor:pointer;font-size:.7rem;color:var(--blue);padding:0 .3rem;font-family:inherit;vertical-align:middle">▼</button>'
+          : '';
+        const expandable = (allSlotTasks.length>1||allSlotTasks[0]?.length>72)
+          ? '<div id="'+rowId+'" style="display:none;border-left:2px solid '+slot.color+';padding-left:.5rem;margin-top:.3rem;grid-column:1/-1">'+fullRowTasks+'</div>'
+          : '';
+        return '<div class="student-row" style="flex-wrap:wrap">'
           +'<span class="student-name">'+name+'</span>'
           +'<span class="student-role-badge" style="background:'+bgColor+';color:'+slot.color+'">'+slot.role+'</span>'
-          +'<span class="student-task-text">'+taskText+'</span>'
+          +'<span class="student-task-text">'+taskPreview+expandBtn+'</span>'
+          +(expandable ? '<div style="width:100%;padding:.2rem .4rem 0">'+expandable+'</div>' : '')
           +'</div>';
       }).join('');
       const headNote = membersDetailed ? 'Who does what' : 'Suggested split (add student details above for personalized assignments)';
@@ -3255,7 +3270,9 @@
         ? ' <span style="font-size:.68rem;background:rgba(240,192,64,.15);color:var(--gold);padding:.1rem .45rem;border-radius:10px;font-weight:700">expert lead</span>'
           + (leadIsOccasional ? ' <span style="font-size:.68rem;background:rgba(240,192,64,.08);color:var(--gold);padding:.1rem .45rem;border-radius:10px;font-weight:600;border:1px solid rgba(240,192,64,.3)">occasional</span>' : '')
         : '';
-      const taskText = leadIdx.slot.tasks.slice(0,2).join('; ');
+      const allTasks = leadIdx.slot.tasks;
+      const taskPreview = allTasks[0] ? allTasks[0].slice(0,80) + (allTasks[0].length > 80 ? '…' : '') : '';
+      const streamId = 'stream-' + wk + '-' + area + '-' + Math.random().toString(36).slice(2,7);
       const expertOccNote = (isLead && leadIsOccasional)
         ? '<div style="font-size:.74rem;margin-top:.3rem;color:var(--text-muted);font-style:italic">'
           + 'If here: takes lead. '
@@ -3263,16 +3280,37 @@
           + '</div>'
         : '';
 
-      let memberRows = '<div style="font-weight:700;font-size:.83rem;color:'+AREA_COL[area]+';margin-bottom:.3rem">'
+      // All members summary (everyone in this stream)
+      const allNames = members.map(m => getMemberName(m.i));
+      const allNamesPills = allNames.map(n2 => '<span style="display:inline-block;background:rgba(128,128,128,.1);border-radius:10px;padding:.1rem .5rem;font-size:.72rem;margin:.1rem .15rem 0 0;color:var(--text-muted)">'+n2+'</span>').join('');
+      const allNamesSummary = '<div style="margin-bottom:.45rem">'+allNamesPills+'</div>';
+
+      // Full task list (expandable)
+      const fullTasksHtml = allTasks.map((t,ti) =>
+        '<div style="display:flex;gap:.5rem;margin-bottom:.3rem">'
+        +'<span style="flex-shrink:0;font-weight:700;color:'+AREA_COL[area]+';font-size:.75rem;min-width:1.2rem">'+(ti+1)+'.</span>'
+        +'<span style="font-size:.8rem;color:var(--text-muted)">'+t+'</span></div>'
+      ).join('');
+
+      const taskBlock = '<div>'
+        +'<div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.3rem">'+taskPreview+'</div>'
+        +(allTasks.length > 1 || allTasks[0]?.length > 80 ?
+          '<button onclick="var el=document.getElementById(\''+streamId+'\');var btn=this;var open=el.style.display!==\'none\';el.style.display=open?\'none\':\'block\';btn.textContent=open?\'▼ Show steps\':\'▲ Hide steps\';" '
+          +'style="background:none;border:none;cursor:pointer;font-size:.73rem;color:var(--blue);padding:0;font-family:inherit;font-weight:600;margin-bottom:.2rem">▼ Show steps</button>'
+          +'<div id="'+streamId+'" style="display:none;border-left:2px solid '+AREA_COL[area]+';padding-left:.6rem;margin-top:.3rem">'+fullTasksHtml+'</div>'
+          : '');
+
+      let memberRows = allNamesSummary
+        + '<div style="font-weight:700;font-size:.83rem;color:'+AREA_COL[area]+';margin-bottom:.25rem">'
         + leadName + leadBadge + '</div>'
-        + '<div style="font-size:.8rem;color:var(--text-muted);margin-bottom:.4rem">' + taskText + '</div>'
+        + taskBlock
         + expertOccNote;
 
       // Additional members in this stream (learning from lead)
       if (members.length > 1) {
         const learners = members.slice(1).map(m => getMemberName(m.i)).join(', ');
         const learnerLabel = expMode==='experienced' ? 'working alongside' : 'paired with lead';
-        memberRows += '<div style="font-size:.77rem;color:var(--text-dim);font-style:italic">'+learnerLabel+': '+learners+'</div>';
+        memberRows += '<div style="font-size:.77rem;color:var(--text-dim);font-style:italic;margin-top:.3rem">'+learnerLabel+': '+learners+'</div>';
       }
 
       html += '<div style="background:'+AREA_BG[area]+';border:1px solid rgba(128,128,128,.12);border-radius:var(--radius-sm);padding:.6rem .85rem;margin-bottom:.5rem">'
