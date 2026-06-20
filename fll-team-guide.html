@@ -1396,7 +1396,124 @@
     @media (max-width: 640px) {
       .priority-grid { grid-template-columns: 1fr; }
     }
-  </style>
+  
+    /* ── MISSION MAP ── */
+    .mmap-section {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .mmap-section h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.6rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .02em; color: var(--text); margin-bottom: .4rem;
+    }
+    .mmap-section > p { font-size: .9rem; margin-bottom: 1.25rem; }
+
+    .mmap-run-bar {
+      display: flex; align-items: center; gap: .5rem;
+      flex-wrap: wrap; margin-bottom: .75rem;
+    }
+    .mmap-run-tab {
+      padding: .38rem .9rem; border-radius: 20px;
+      font-size: .82rem; font-weight: 700; cursor: pointer;
+      border: 2px solid var(--run-color, var(--blue));
+      color: var(--run-color, var(--blue));
+      background: transparent;
+      font-family: inherit; transition: all .15s;
+    }
+    .mmap-run-tab.active {
+      background: var(--run-color, var(--blue));
+      color: #fff;
+    }
+    .mmap-add-btn {
+      padding: .38rem .9rem; border-radius: 20px;
+      font-size: .82rem; font-weight: 700; cursor: pointer;
+      border: 2px dashed var(--border-bright);
+      color: var(--text-muted); background: transparent;
+      font-family: inherit; transition: all .15s;
+    }
+    .mmap-add-btn:hover { border-color: var(--blue); color: var(--blue); }
+
+    .mmap-toolbar {
+      display: flex; flex-wrap: wrap; align-items: center;
+      gap: .5rem; padding: .6rem .75rem;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); margin-bottom: .75rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .mmap-tgroup {
+      display: flex; gap: .35rem; align-items: center;
+    }
+    .mmap-tgroup + .mmap-tgroup {
+      padding-left: .5rem;
+      border-left: 1px solid var(--border);
+    }
+    .mmap-tool {
+      padding: .35rem .7rem; border-radius: var(--radius-sm);
+      font-size: .8rem; font-weight: 600; cursor: pointer;
+      border: 1px solid var(--border);
+      color: var(--text-muted); background: var(--bg-card2);
+      font-family: inherit; transition: all .12s;
+    }
+    .mmap-tool:hover { border-color: var(--blue); color: var(--blue); }
+    .mmap-tool.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+    .mmap-sz {
+      width: 30px; height: 30px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; line-height: 1; cursor: pointer;
+      border: 1px solid var(--border); background: var(--bg-card2);
+      color: var(--text-muted); transition: all .12s;
+    }
+    .mmap-sz:hover { border-color: var(--blue); }
+    .mmap-sz.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+    .mmap-btn {
+      padding: .35rem .7rem; border-radius: var(--radius-sm);
+      font-size: .8rem; font-weight: 600; cursor: pointer;
+      border: 1px solid var(--border); background: var(--bg-card2);
+      color: var(--text-muted); font-family: inherit; transition: all .12s;
+    }
+    .mmap-btn:hover { border-color: var(--blue); color: var(--blue); }
+    .mmap-export {
+      background: var(--blue); color: #fff; border-color: var(--blue);
+    }
+    .mmap-export:hover { opacity: .88; color: #fff; }
+
+    .mmap-canvas-wrap {
+      position: relative; border-radius: var(--radius);
+      overflow: hidden; border: 2px solid var(--border);
+      box-shadow: var(--shadow); cursor: crosshair;
+    }
+    .mmap-canvas-wrap canvas { display: block; width: 100%; height: auto; }
+    #mmapDraw {
+      position: absolute; top: 0; left: 0;
+    }
+
+    .mmap-legend {
+      display: flex; gap: .75rem; flex-wrap: wrap;
+      margin-top: .65rem; align-items: center;
+    }
+    .mmap-legend-item {
+      display: flex; align-items: center; gap: .4rem;
+      font-size: .8rem; font-weight: 600; color: var(--text-muted);
+      cursor: pointer; padding: .25rem .5rem;
+      border-radius: 20px; border: 1px solid transparent;
+      transition: all .12s;
+    }
+    .mmap-legend-item:hover, .mmap-legend-item.active {
+      background: var(--bg-card2); border-color: var(--border);
+      color: var(--text);
+    }
+    .mmap-legend-dot {
+      width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+    }
+    .mmap-hint {
+      font-size: .78rem; color: var(--text-dim);
+      margin-top: .5rem;
+    }
+</style>
 </head>
 <body>
 
@@ -1436,6 +1553,7 @@
   </div>
   <div class="nav-links">
     <a class="active" data-tab="home" href="?tab=home" onclick="event.preventDefault();show('home',this)">Overview</a>
+    <a data-tab="robot-design" href="?tab=robot-design" onclick="event.preventDefault();show('robot-design',this)">Robot Design</a>
     <a data-tab="robot" href="?tab=robot" onclick="event.preventDefault();show('robot',this)">Robot Game</a>
     <a data-tab="project" href="?tab=project" onclick="event.preventDefault();show('project',this)">Innovation Project</a>
     <a data-tab="values" href="?tab=values" onclick="event.preventDefault();show('values',this)">Core Values</a>
@@ -1667,21 +1785,15 @@
 </section>
 
 
-<!-- ═══════ ROBOT GAME ═══════ -->
-<section id="robot">
+<!-- ═══════ ROBOT DESIGN ═══════ -->
+<section id="robot-design">
   <div class="section-banner">
     <div class="section-eyebrow eyebrow-blue">Area 01</div>
-    <h2>The Robot Game</h2>
-    <p>Your robot gets 2.5 minutes per run to complete missions completely on its own. Most competitions give you three runs and count your best two. There are many missions on the board — most teams define a scope: a focused set of missions they can run reliably, rather than attempting everything and failing half of them.</p>
+    <h2>Robot Design</h2>
+    <p>How you build your robot matters as much as what you build. This section covers the design process, engineering decisions, and how to document your work for judges.</p>
   </div>
 
   <div class="content">
-
-    <!-- What is the robot game -->
-    <div class="bright-box blue" style="margin-bottom:1.5rem;">
-      <h3>How the robot game works</h3>
-      <p>The game table is a 4 by 8 foot mat with mission models built from LEGO pieces. Before each run, you place your robot at a launch pad, press start, and step back. You can't touch it again until it comes back to base. After the run a referee counts your score. Between runs you make changes in the pit area, then go again. Every team at every competition uses the same table.</p>
-    </div>
 
     <!-- Core principle -->
     <div style="margin-bottom:1.75rem;">
@@ -1715,31 +1827,24 @@
     </div>
 
     <!-- Getting started steps -->
-    <h3 style="color:var(--text);margin-bottom:1rem;">Where to start: your first 4 weeks</h3>
+    <h3 style="color:var(--text);margin-bottom:1rem;">Where to start: building your robot</h3>
     <div class="step-list">
       <div class="step-item">
         <div class="step-num-circle blue">1</div>
-        <div>
-          <h3>Survey all missions and decide what to cut</h3>
-          <p>Every FLL season has many missions — often 15 to 20 or more. Your team's job is to go through every single one, understand what it requires, and decide which ones to cut. The goal is not to do as few as possible — it's to attempt as many as you can execute reliably. Cut the ones that are too risky or not worth the setup time, and go after the rest.</p>
-        </div>
-      </div>
-      <div class="step-item">
-        <div class="step-num-circle blue">2</div>
         <div>
           <h3>Build your robot as small as possible</h3>
           <p>Aim for a compact, sturdy base about the size of a large paperback book. Don't add mission-specific attachments yet. Just get the robot driving straight and turning accurately before anything else.</p>
         </div>
       </div>
       <div class="step-item">
-        <div class="step-num-circle blue">3</div>
+        <div class="step-num-circle blue">2</div>
         <div>
           <h3>Write code for one mission and test it 10 times in a row</h3>
           <p>Don't try to code everything at once. Pick one mission, write the code, and run it ten times. Count how many times it succeeds. If it's below 7 out of 10, fix the problem before moving on. Only move to the next mission once this one is reliable. This is how you build up to many missions without losing consistency.</p>
         </div>
       </div>
       <div class="step-item">
-        <div class="step-num-circle blue">4</div>
+        <div class="step-num-circle blue">3</div>
         <div>
           <h3>Add missions one at a time, always checking consistency</h3>
           <p>Every time you add a new mission sequence, re-test your earlier missions too. Adding new code can sometimes break what was already working. Catching this early saves you from big surprises at competition.</p>
@@ -1747,18 +1852,14 @@
       </div>
     </div>
 
-    <!-- Tips by level -->
+    <!-- Design tips by level -->
     <div class="level-band start">
       <span class="lvl-badge">Getting started</span>
-      <span class="lvl-title">Focus on these first</span>
+      <span class="lvl-title">Build and document</span>
       <span class="lvl-who">First-year teams</span>
     </div>
     <div class="level-body">
       <div class="card-grid">
-        <div class="info-card">
-          <h3>Survey all missions — then cut strategically</h3>
-          <p>FLL seasons typically have 15–20+ missions on the board. Your goal is to attempt as many as your team can execute reliably — not to pick the fewest. Go through every mission, figure out which ones to cut (too hard, too risky, not worth the points), and then go after the rest. Reliable execution beats an ambitious attempt that fails. Judges will ask why you skipped certain missions — having a real answer is part of your Robot Design score.</p>
-        </div>
         <div class="info-card">
           <h3>Take notes after every practice run</h3>
           <p>Keep a notebook or shared doc. After each run, write down what worked, what failed, and what you're changing next. Judges will want to see this journal.</p>
@@ -1767,20 +1868,12 @@
           <h3>Keep attachments simple and light</h3>
           <p>For your first season, focus on using your robot's built-in motors and sensors before adding complex attachments. Simple solutions that work beat clever solutions that break.</p>
         </div>
-        <div class="info-card">
-          <h3>Know your expected score before you compete</h3>
-          <p>For every mission you plan to attempt, write down its point value. Add them up and memorize your expected total. Walk into competition knowing exactly what you are going for. If judges ask your expected score and you cannot answer, that signals a lack of strategy.</p>
-        </div>
-      </div>
-      <div class="callout teal" style="margin-bottom:0;">
-        <div class="cl-label">First competition goal</div>
-        <p>Finish at least one mission in every single run. That's your first goal. A team that scores 20 points in all three runs shows more than a team that nails one run and fails the other two.</p>
       </div>
     </div>
 
     <div class="level-band level">
       <span class="lvl-badge">Next level</span>
-      <span class="lvl-title">When you're ready to push further</span>
+      <span class="lvl-title">Engineering process</span>
       <span class="lvl-who">Returning or advancing teams</span>
     </div>
     <div class="level-body">
@@ -1797,14 +1890,6 @@
         <div class="info-card">
           <h3>Build mission-specific attachments</h3>
           <p>One attachment per mission is more reliable than a multi-function arm. Keep them lightweight. Heavy attachments slow your robot and throw off its turning accuracy.</p>
-        </div>
-        <div class="info-card">
-          <h3>Plan a full run strategy on paper</h3>
-          <p>Map out which missions go in each run, their point values, and your run order. Build in a backup plan for if a mission fails mid-run. Document which missions you cut and why — judges frequently ask about this, and "we didn't get to it" is a weak answer. Knowing your full strategy on paper prevents panicking at the table.</p>
-        </div>
-        <div class="info-card">
-          <h3>Track consistency percentage per mission</h3>
-          <p>If you're finishing a mission less than 70% of the time, fix it or drop it. A mission you can't complete reliably will cost you more than it's worth.</p>
         </div>
         <div class="info-card">
           <h3>Research advanced coding techniques</h3>
@@ -1829,6 +1914,130 @@
   </div>
 </section>
 
+<!-- ═══════ ROBOT GAME ═══════ -->
+<section id="robot">
+  <div class="section-banner">
+    <div class="section-eyebrow eyebrow-blue">Area 01</div>
+    <h2>The Robot Game</h2>
+    <p>Your robot gets 2.5 minutes per run to complete missions completely on its own. Most competitions give you three runs and count your best two. There are many missions on the board — most teams define a scope: a focused set of missions they can run reliably, rather than attempting everything and failing half of them.</p>
+  </div>
+
+  <div class="content">
+
+    <!-- What is the robot game -->
+    <div class="bright-box blue" style="margin-bottom:1.5rem;">
+      <h3>How the robot game works</h3>
+      <p>The game table is a 4 by 8 foot mat with mission models built from LEGO pieces. Before each run, you place your robot at a launch pad, press start, and step back. You can't touch it again until it comes back to base. After the run a referee counts your score. Between runs you make changes in the pit area, then go again. Every team at every competition uses the same table.</p>
+    </div>
+
+    <!-- Mission selection -->
+    <h3 style="color:var(--text);margin-bottom:1rem;">How to pick your missions</h3>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num-circle blue">1</div>
+        <div>
+          <h3>Survey all missions first</h3>
+          <p>Every FLL season has many missions — often 15 to 20 or more. Your team's job is to go through every single one and understand what it requires. Don't skip any — sometimes the ones that look hard are worth a lot of points for surprisingly little effort.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num-circle blue">2</div>
+        <div>
+          <h3>Attempt as many as you can execute reliably</h3>
+          <p>The goal is not to do as few missions as possible — it's to attempt as many as your team can execute reliably. Cut the ones that are too risky or not worth the setup time, and go after the rest. Judges will ask why you skipped certain missions — having a real answer is part of your Robot Design score.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num-circle blue">3</div>
+        <div>
+          <h3>Plan your runs on paper before coding</h3>
+          <p>Map out which missions go in each run, their point values, and your run order. Build in a backup plan for if a mission fails mid-run. Document which missions you cut and why — "we didn't get to it" is a weak answer. Knowing your full strategy on paper prevents panicking at the table.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mission tips by level -->
+    <div class="level-band start">
+      <span class="lvl-badge">Getting started</span>
+      <span class="lvl-title">Mission strategy basics</span>
+      <span class="lvl-who">First-year teams</span>
+    </div>
+    <div class="level-body">
+      <div class="card-grid">
+        <div class="info-card">
+          <h3>Survey all missions — then cut strategically</h3>
+          <p>FLL seasons typically have 15–20+ missions on the board. Go through every mission, figure out which ones to cut (too hard, too risky, not worth the points), and then go after the rest. Reliable execution beats an ambitious attempt that fails.</p>
+        </div>
+        <div class="info-card">
+          <h3>Know your expected score before you compete</h3>
+          <p>For every mission you plan to attempt, write down its point value. Add them up and memorize your expected total. Walk into competition knowing exactly what you are going for. If judges ask your expected score and you cannot answer, that signals a lack of strategy.</p>
+        </div>
+      </div>
+      <div class="callout teal" style="margin-bottom:0;">
+        <div class="cl-label">First competition goal</div>
+        <p>Finish at least one mission in every single run. That's your first goal. A team that scores 20 points in all three runs shows more than a team that nails one run and fails the other two.</p>
+      </div>
+    </div>
+
+    <div class="level-band level">
+      <span class="lvl-badge">Next level</span>
+      <span class="lvl-title">Refine your run strategy</span>
+      <span class="lvl-who">Returning or advancing teams</span>
+    </div>
+    <div class="level-body">
+      <div class="card-grid">
+        <div class="info-card">
+          <h3>Plan a full run strategy on paper</h3>
+          <p>Before every practice session, map your robot's path for each run. Knowing your mission order, approximate timing, and decision points gives you something concrete to improve from session to session.</p>
+        </div>
+        <div class="info-card">
+          <h3>Track consistency percentage per mission</h3>
+          <p>If you're finishing a mission less than 70% of the time, fix it or drop it. A mission you can't complete reliably will cost you more than it's worth.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mission Path Planner map -->
+    <div class="mmap-section">
+      <h3>Mission Path Planner</h3>
+      <p>Map your robot's route for each run. Draw directly on the field, then export or print to show judges your strategy.</p>
+
+      <div class="mmap-run-bar" id="mmapRuns"></div>
+
+      <div class="mmap-toolbar">
+        <div class="mmap-tgroup">
+          <button class="mmap-tool active" onclick="mmSetTool('pen',this)">✏ Draw</button>
+          <button class="mmap-tool" onclick="mmSetTool('line',this)">╱ Line</button>
+          <button class="mmap-tool" onclick="mmSetTool('arrow',this)">→ Arrow</button>
+          <button class="mmap-tool" onclick="mmSetTool('eraser',this)">⌫ Erase</button>
+        </div>
+        <div class="mmap-tgroup">
+          <button class="mmap-sz" onclick="mmSetSize(3,this)">·</button>
+          <button class="mmap-sz active" onclick="mmSetSize(6,this)">•</button>
+          <button class="mmap-sz" onclick="mmSetSize(11,this)">●</button>
+        </div>
+        <div class="mmap-tgroup">
+          <button class="mmap-btn" onclick="mmUndo()">↩ Undo</button>
+          <button class="mmap-btn" onclick="mmClear()">✕ Clear run</button>
+        </div>
+        <div class="mmap-tgroup">
+          <button class="mmap-btn mmap-export" onclick="mmExport('current')">↓ Export run</button>
+          <button class="mmap-btn mmap-export" onclick="mmExport('all')">↓ All runs</button>
+          <button class="mmap-btn" onclick="mmPrint()">⎙ Print</button>
+        </div>
+      </div>
+
+      <div class="mmap-canvas-wrap" id="mmapWrap">
+        <canvas id="mmapField"></canvas>
+        <canvas id="mmapDraw"></canvas>
+      </div>
+
+      <div class="mmap-legend" id="mmapLegend"></div>
+      <p class="mmap-hint">Numbered circles = generic mission areas. Each run gets its own color. Export as PNG to show judges on a tablet.</p>
+    </div>
+
+  </div>
+</section>
 
 <!-- ═══════ INNOVATION PROJECT ═══════ -->
 <section id="project">
@@ -5277,6 +5486,287 @@
     if (dd) dd.style.display = 'none';
   });
 
+
+
+  /* ── MISSION MAP ── */
+  (function(){
+    const ASPECT = 2.07;
+    let runs=[
+      {name:'Run 1',color:'#EF4444',strokes:[]},
+      {name:'Run 2',color:'#2563EB',strokes:[]},
+      {name:'Run 3',color:'#F59E0B',strokes:[]},
+    ];
+    let cur=0, tool='pen', sz=6, drawing=false, lastPt=null, startPt=null, tmpData=null;
+    let fCtx,dCtx,fC,dC,W=0,H=0;
+
+    function pt(e){
+      const s=e.touches?e.touches[0]:e;
+      const r=dC.getBoundingClientRect();
+      return[(s.clientX-r.left)*(W/r.width),(s.clientY-r.top)*(H/r.height)];
+    }
+
+    function drawField(){
+      const g=fCtx;
+      const pad=6;
+
+      // ── Light mat background ──
+      g.fillStyle='#d8d8d8'; g.fillRect(0,0,W,H);
+
+      // ── Subtle grid ──
+      g.strokeStyle='rgba(0,0,0,0.07)'; g.lineWidth=1; g.setLineDash([4,8]);
+      for(let x=W/8;x<W;x+=W/8){g.beginPath();g.moveTo(x,0);g.lineTo(x,H);g.stroke();}
+      for(let y=H/4;y<H;y+=H/4){g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke();}
+      g.setLineDash([]);
+
+      // ── Outer field border ──
+      g.strokeStyle='rgba(0,0,0,0.45)'; g.lineWidth=Math.max(2,W*0.003);
+      g.strokeRect(pad,pad,W-pad*2,H-pad*2);
+
+      // ── Home zones: L-shape with quarter-circle at bottom inner corner ──
+      // vArmW = thin vertical strip width; arcR = quarter-circle radius at bottom
+      // The arc connects the vertical strip inner edge to the bottom edge,
+      // so at the bottom the zone extends out to vArmW + arcR from the side.
+      const vArmW = W * 0.075;
+      const arcR  = H * 0.44;   // large radius to match FLL proportions
+
+      function drawHome(side, label, fillColor, strokeColor) {
+        const isLeft = side === 'left';
+        g.save();
+        g.beginPath();
+        if(isLeft){
+          // Left home: thin vertical strip + quarter circle sweeping from
+          // the inner edge of the strip (at bottom) out to the bottom of the field.
+          // Inner boundary: straight down from top to (pad+vArmW, H-pad-arcR),
+          // then quarter-circle arc centered at (pad+vArmW, H-pad) from -π/2 to 0.
+          g.moveTo(pad, pad);                          // top-left mat corner
+          g.lineTo(pad+vArmW, pad);                    // top of inner strip edge
+          g.lineTo(pad+vArmW, H-pad-arcR);             // down inner strip to arc start
+          g.arc(pad+vArmW, H-pad, arcR, -Math.PI/2, 0); // quarter circle → ends at (pad+vArmW+arcR, H-pad)
+          g.lineTo(pad, H-pad);                        // along bottom back to left
+        } else {
+          // Mirror for right side
+          g.moveTo(W-pad, pad);
+          g.lineTo(W-pad-vArmW, pad);
+          g.lineTo(W-pad-vArmW, H-pad-arcR);
+          g.arc(W-pad-vArmW, H-pad, arcR, -Math.PI/2, -Math.PI, true); // CCW quarter circle
+          g.lineTo(W-pad, H-pad);
+        }
+        g.closePath();
+
+        // Fill
+        g.fillStyle=fillColor;
+        g.fill();
+        // Stroke
+        g.strokeStyle=strokeColor;
+        g.lineWidth=2.5;
+        g.stroke();
+
+        // Label: position near bottom-center of the quarter-circle area
+        const fs = Math.max(10, H*0.062);
+        g.font = `bold ${fs}px Inter,sans-serif`;
+        g.fillStyle = 'rgba(0,0,0,0.7)';
+        g.textAlign = 'center'; g.textBaseline = 'middle';
+        // Center label at roughly the midpoint of the arc area
+        const lx = isLeft ? pad+vArmW*0.5+arcR*0.3 : W-pad-vArmW*0.5-arcR*0.3;
+        const ly = H - pad - arcR*0.28;
+        g.fillText(label, lx, ly);
+        const sFs = Math.max(7, H*0.038);
+        g.font = `${sFs}px Inter,sans-serif`;
+        g.fillStyle = 'rgba(0,0,0,0.4)';
+        g.fillText('HOME', lx, ly - fs*0.9);
+
+        g.restore();
+      }
+
+      drawHome('left',  'RED',  'rgba(220,60,60,0.12)',  '#c0392b');
+      drawHome('right', 'BLUE', 'rgba(40,100,220,0.12)', '#2563EB');
+
+      // ── Dashed launch boundary (inner edge of arc at widest point) ──
+      const maxHomeW = vArmW + arcR;
+      g.strokeStyle='rgba(0,0,0,0.2)'; g.lineWidth=1.5; g.setLineDash([5,6]);
+      g.beginPath(); g.moveTo(pad+maxHomeW, pad); g.lineTo(pad+maxHomeW, H-pad); g.stroke();
+      g.beginPath(); g.moveTo(W-pad-maxHomeW, pad); g.lineTo(W-pad-maxHomeW, H-pad); g.stroke();
+      g.setLineDash([]);
+
+      // ── Mission markers (in play area between launch lines) ──
+      const px0=(maxHomeW)/W, px1=1-(maxHomeW)/W, pw=px1-px0;
+      const ms=[
+        [px0+pw*0.06,0.12],[px0+pw*0.20,0.10],[px0+pw*0.35,0.10],
+        [px0+pw*0.52,0.10],[px0+pw*0.67,0.10],[px0+pw*0.81,0.12],
+        [px0+pw*0.95,0.12],
+        [px0+pw*0.10,0.42],[px0+pw*0.27,0.38],[px0+pw*0.44,0.35],
+        [px0+pw*0.60,0.40],[px0+pw*0.75,0.38],[px0+pw*0.92,0.42],
+        [px0+pw*0.35,0.72],[px0+pw*0.60,0.72],
+      ];
+      const mr=Math.max(14,W*0.019), numFs=Math.max(8,H*0.052);
+      ms.forEach(([fx,fy],i)=>{
+        const mx=fx*W, my=fy*H;
+        g.fillStyle='#777';
+        g.beginPath(); g.roundRect(mx-mr,my-mr*0.72,mr*2,mr*1.44,4); g.fill();
+        g.strokeStyle='#444'; g.lineWidth=1.5;
+        g.beginPath(); g.roundRect(mx-mr,my-mr*0.72,mr*2,mr*1.44,4); g.stroke();
+        g.fillStyle='#fff';
+        g.font=`bold ${numFs}px Inter,sans-serif`;
+        g.textAlign='center'; g.textBaseline='middle';
+        g.fillText(String(i+1).padStart(2,'0'),mx,my);
+      });
+
+      // ── Field label ──
+      g.fillStyle='rgba(0,0,0,0.28)';
+      g.font=`${Math.max(8,H*0.038)}px Inter,sans-serif`;
+      g.textAlign='right'; g.textBaseline='top';
+      g.fillText('FLL FIELD — PLANNING VIEW',W-10,10);
+    }
+
+    function redraw(){
+      dCtx.clearRect(0,0,W,H);
+      runs[cur].strokes.forEach(s=>stroke(dCtx,s));
+    }
+
+    function stroke(c,s){
+      if(!s.pts||s.pts.length<1)return;
+      c.save();
+      c.strokeStyle=s.color; c.lineWidth=s.sz; c.lineCap='round'; c.lineJoin='round';
+      if(s.tool==='eraser'){c.globalCompositeOperation='destination-out';c.lineWidth=s.sz*4;}
+      if(s.tool==='pen'||s.tool==='eraser'){
+        c.beginPath();c.moveTo(s.pts[0][0],s.pts[0][1]);
+        for(let i=1;i<s.pts.length;i++)c.lineTo(s.pts[i][0],s.pts[i][1]);
+        c.stroke();
+      }else{
+        const p0=s.pts[0],p1=s.pts[s.pts.length-1];
+        c.beginPath();c.moveTo(p0[0],p0[1]);c.lineTo(p1[0],p1[1]);c.stroke();
+        if(s.tool==='arrow')arrowHead(c,p0,p1,s.sz,s.color);
+      }
+      c.restore();
+    }
+
+    function arrowHead(c,a,b,sz,col){
+      const dx=b[0]-a[0],dy=b[1]-a[1],len=Math.sqrt(dx*dx+dy*dy);
+      if(len<2)return;
+      const ang=Math.atan2(dy,dx),hs=Math.max(12,sz*3.5);
+      c.save();c.fillStyle=col;
+      c.translate(b[0],b[1]);c.rotate(ang);
+      c.beginPath();c.moveTo(0,0);c.lineTo(-hs,-hs/2.5);c.lineTo(-hs,hs/2.5);
+      c.closePath();c.fill();c.restore();
+    }
+
+    function tabs(){
+      const el=document.getElementById('mmapRuns');
+      if(!el)return;
+      el.innerHTML=runs.map((r,i)=>`<button class="mmap-run-tab ${i===cur?'active':''}" style="--run-color:${r.color}" onclick="mmSwitchRun(${i})">${r.name}</button>`).join('')
+        +`<button class="mmap-add-btn" onclick="addMapRun()">+ Run</button>`;
+    }
+    function legend(){
+      const el=document.getElementById('mmapLegend');
+      if(!el)return;
+      el.innerHTML=runs.map((r,i)=>`<span class="mmap-legend-item ${i===cur?'active':''}" onclick="mmSwitchRun(${i})"><span class="mmap-legend-dot" style="background:${r.color}"></span>${r.name}</span>`).join('');
+    }
+
+    window.mmSetTool=function(t,btn){tool=t;document.querySelectorAll('.mmap-tool').forEach(b=>b.classList.remove('active'));btn.classList.add('active');dC.style.cursor=t==='eraser'?'cell':'crosshair';};
+    window.mmSetSize=function(s,btn){sz=s;document.querySelectorAll('.mmap-sz').forEach(b=>b.classList.remove('active'));btn.classList.add('active');};
+    window.mmUndo=function(){const r=runs[cur];if(r.strokes.length){r.strokes.pop();redraw();}};
+    window.mmClear=function(){if(confirm('Clear this run?')){runs[cur].strokes=[];redraw();}};
+    window.mmSwitchRun=function(i){cur=i;redraw();tabs();legend();};
+    window.addMapRun=function(){
+      const palette=['#EF4444','#2563EB','#F59E0B','#8B5CF6','#10B981','#EC4899','#06B6D4'];
+      runs.push({name:'Run '+(runs.length+1),color:palette[runs.length%palette.length],strokes:[]});
+      cur=runs.length-1;redraw();tabs();legend();
+    };
+
+    function composite(mode){
+      const o=document.createElement('canvas');o.width=W;o.height=H;
+      const oc=o.getContext('2d');
+      oc.drawImage(fC,0,0);
+      const toShow=mode==='all'?runs:[runs[cur]];
+      toShow.forEach(r=>r.strokes.forEach(s=>stroke(oc,s)));
+      if(mode==='all'){
+        toShow.forEach((r,i)=>{
+          oc.fillStyle=r.color;oc.fillRect(12,12+i*22,26,10);
+          oc.fillStyle='#fff';oc.font='bold 11px Inter,sans-serif';
+          oc.textAlign='left';oc.textBaseline='middle';
+          oc.fillText(r.name,44,17+i*22);
+        });
+      }
+      return o;
+    }
+
+    window.mmExport=function(mode){
+      const o=composite(mode);
+      const a=document.createElement('a');
+      a.download=mode==='all'?'mission-paths-all-runs.png':'mission-path-'+runs[cur].name.toLowerCase().replace(' ','-')+'.png';
+      a.href=o.toDataURL('image/png');a.click();
+    };
+    window.mmPrint=function(){
+      const o=composite('all');
+      const w=window.open('','_blank');
+      w.document.write('<html><head><title>Mission Path Plan</title><style>body{margin:0}img{width:100%;display:block}</style></head><body><img src="'+o.toDataURL()+'"></body></html>');
+      w.document.close();w.focus();setTimeout(()=>w.print(),500);
+    };
+
+    window.initMissionMap=function(){
+      fC=document.getElementById('mmapField');
+      dC=document.getElementById('mmapDraw');
+      if(!fC||!dC)return;
+      fCtx=fC.getContext('2d');dCtx=dC.getContext('2d');
+      const wrap=document.getElementById('mmapWrap');
+      W=Math.max(600,wrap.clientWidth);
+      H=Math.round(W/ASPECT);
+      [fC,dC].forEach(cv=>{cv.width=W;cv.height=H;});
+      drawField();tabs();legend();
+
+      function onDown(e){
+        e.preventDefault();drawing=true;
+        startPt=lastPt=pt(e);
+        tmpData=dCtx.getImageData(0,0,W,H);
+        if(tool==='pen'||tool==='eraser')
+          runs[cur].strokes.push({tool,color:runs[cur].color,sz,pts:[startPt]});
+      }
+      function onMove(e){
+        if(!drawing)return;e.preventDefault();
+        const p=pt(e),r=runs[cur];
+        if(tool==='pen'||tool==='eraser'){
+          const s=r.strokes[r.strokes.length-1];
+          if(s){s.pts.push(p);dCtx.save();dCtx.strokeStyle=s.color;dCtx.lineWidth=tool==='eraser'?s.sz*4:s.sz;dCtx.lineCap='round';dCtx.lineJoin='round';if(tool==='eraser')dCtx.globalCompositeOperation='destination-out';dCtx.beginPath();dCtx.moveTo(lastPt[0],lastPt[1]);dCtx.lineTo(p[0],p[1]);dCtx.stroke();dCtx.restore();}
+        }else{
+          if(tmpData)dCtx.putImageData(tmpData,0,0);
+          dCtx.save();dCtx.strokeStyle=r.color;dCtx.lineWidth=sz;dCtx.lineCap='round';
+          dCtx.beginPath();dCtx.moveTo(startPt[0],startPt[1]);dCtx.lineTo(p[0],p[1]);dCtx.stroke();
+          if(tool==='arrow')arrowHead(dCtx,startPt,p,sz,r.color);
+          dCtx.restore();
+        }
+        lastPt=p;
+      }
+      function onUp(e){
+        if(!drawing)return;drawing=false;
+        const p=e.changedTouches?pt(e.changedTouches[0]):lastPt;
+        if(tool==='line'||tool==='arrow'){runs[cur].strokes.push({tool,color:runs[cur].color,sz,pts:[startPt,p]});redraw();}
+        tmpData=null;
+      }
+      dC.addEventListener('mousedown',onDown);
+      dC.addEventListener('mousemove',onMove);
+      dC.addEventListener('mouseup',onUp);
+      dC.addEventListener('mouseleave',onUp);
+      dC.addEventListener('touchstart',onDown,{passive:false});
+      dC.addEventListener('touchmove',onMove,{passive:false});
+      dC.addEventListener('touchend',onUp,{passive:false});
+    };
+  })();
+
+  // Init mission map when robot tab is first opened
+  (function(){
+    const origShow = window.show;
+    let mmInit = false;
+    window.show = function(id, btn){
+      origShow(id, btn);
+      if(id === 'robot' && !mmInit){ mmInit=true; setTimeout(initMissionMap, 50); }
+    };
+    // Also init if robot is the starting tab
+    window.addEventListener('DOMContentLoaded', function(){
+      if(document.getElementById('robot').classList.contains('active')){
+        setTimeout(initMissionMap, 100);
+      }
+    });
+  })();
 
 </script>
 <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
