@@ -1556,7 +1556,7 @@
     <div class="faq">
       <div class="faq-item">
         <h3>You don't need to be perfect. You need to be consistent.</h3>
-        <p>Three missions that work every single run will outscore ten missions that fail half the time. Judges also care about how you worked through problems, not just how polished the final result looks.</p>
+        <p>A focused scope of missions that work every single run will outscore a long list of missions that fail half the time. There is no minimum or maximum number of missions you need to attempt. Judges care about how well you understood and executed your strategy, not how many missions you tried.</p>
       </div>
       <div class="faq-item">
         <h3>All three areas are judged equally. Don't ignore any of them.</h3>
@@ -1598,7 +1598,7 @@
   <div class="section-banner">
     <div class="section-eyebrow eyebrow-blue">Area 01</div>
     <h2>The Robot Game</h2>
-    <p>Your robot gets 2.5 minutes per run to complete as many missions as it can, completely on its own. Most competitions give you three runs and count your best two. Points come from finishing missions, not from how fast you finish.</p>
+    <p>Your robot gets 2.5 minutes per run to complete missions completely on its own. Most competitions give you three runs and count your best two. There are many missions on the board — most teams define a scope: a focused set of missions they can run reliably, rather than attempting everything and failing half of them.</p>
   </div>
 
   <div class="content">
@@ -1646,8 +1646,8 @@
       <div class="step-item">
         <div class="step-num-circle blue">1</div>
         <div>
-          <h3>Read the game guide and identify 3–5 "easy" missions</h3>
-          <p>Every season's game has missions that range from simple to complex. Start by identifying the ones that seem most achievable and build your strategy around those. You can always add harder missions later.</p>
+          <h3>Read the game guide and choose your scope</h3>
+          <p>Every season has many missions ranging from simple to very complex. Your team's job is to decide which ones are realistic given your time, team size, and experience. Start with a small set of achievable missions and build your strategy around those. You can always expand scope later — but you can't get back time spent on missions you were never going to finish.</p>
         </div>
       </div>
       <div class="step-item">
@@ -1660,8 +1660,8 @@
       <div class="step-item">
         <div class="step-num-circle blue">3</div>
         <div>
-          <h3>Write code for one mission and test it 10 times in a row</h3>
-          <p>Don't try to code everything at once. Pick one mission, write the code, and run it ten times. Count how many times it succeeds. If it's below 7 out of 10, fix the problem before moving to the next mission.</p>
+          <h3>Write code for one in-scope mission and test it 10 times in a row</h3>
+          <p>Don't try to code everything at once. Pick one mission from your defined scope, write the code, and run it ten times. Count how many times it succeeds. If it's below 7 out of 10, fix the problem before moving on. Only add new missions to your scope once existing ones are reliable.</p>
         </div>
       </div>
       <div class="step-item">
@@ -1682,8 +1682,8 @@
     <div class="level-body">
       <div class="card-grid">
         <div class="info-card">
-          <h3>Target 3 missions, not 10</h3>
-          <p>Three missions you complete every single run will beat ten missions you attempt inconsistently. Your first goal is reliability, not maximum points.</p>
+          <h3>Define your scope early, then protect it</h3>
+          <p>There are many missions on the board. Most are not in your scope this season, and that is fine. Pick a small set of missions your team can complete reliably every single run. A narrow scope executed well will outscore an ambitious scope executed poorly. Judges will ask why you chose certain missions and skipped others — that reasoning is part of your Robot Design score.</p>
         </div>
         <div class="info-card">
           <h3>Take notes after every practice run</h3>
@@ -1695,7 +1695,7 @@
         </div>
         <div class="info-card">
           <h3>Know your expected score before you compete</h3>
-          <p>Calculate exactly how many points your 3–5 missions are worth. Walk into competition with that number memorized. Knowing your strategy shows judges you're organized.</p>
+          <p>Add up the exact point values for every mission in your scope. Walk into competition with that number memorized. If judges ask your expected score and you do not know it, that is a red flag. Knowing your scope and its value shows you have a real strategy.</p>
         </div>
       </div>
       <div class="callout teal" style="margin-bottom:0;">
@@ -1725,8 +1725,8 @@
           <p>One attachment per mission is more reliable than a multi-function arm. Keep them lightweight. Heavy attachments slow your robot and throw off its turning accuracy.</p>
         </div>
         <div class="info-card">
-          <h3>Plan a full run strategy on paper</h3>
-          <p>Map out which missions you'll attempt in each run, their point values, and a backup plan if a mission fails mid-run. Paper strategy before game day prevents panicking at the table.</p>
+          <h3>Plan a full run strategy on paper, scope and all</h3>
+          <p>Map out which in-scope missions go in each run, their point values, and a backup plan if one fails mid-run. Also document which missions are out of scope and why — judges frequently ask "what did you decide not to attempt?" and expect a real answer, not silence. Paper strategy before game day prevents panicking at the table.</p>
         </div>
         <div class="info-card">
           <h3>Track consistency percentage per mission</h3>
@@ -1746,7 +1746,7 @@
       <ul class="checklist" style="margin-top:.75rem;">
         <li><span class="ck teal">✓</span>Can every team member explain the robot's design choices, not just the person who built it?</li>
         <li><span class="ck teal">✓</span>Do you have photos or a journal documenting how the robot evolved over the season?</li>
-        <li><span class="ck teal">✓</span>Can you explain why you chose the missions you did and what your expected point total is?</li>
+        <li><span class="ck teal">✓</span>Can you explain your scope — which missions you chose, why, what your expected score is, and what you decided not to attempt and why?</li>
         <li><span class="ck teal">✓</span>When something went wrong (it always does), can you explain the problem and how you fixed it?</li>
         <li><span class="ck teal">✓</span>Does your code have any interesting or clever techniques worth explaining to judges?</li>
       </ul>
@@ -2600,8 +2600,7 @@
   /* ── SEASON PLANNER ── */
 
   const plannerState = { perweek: 1, hours: 1.5, teamsize: 4, experience: 'beginner', mentorCount: 1 };
-  mentorData.push({ name: '', skills: {}, availability: 'always' }); // default 1 coach/mentor
-  let mentorData = []; // [{ name, area, availability }]
+  let mentorData = [{ name: '', skills: {}, availability: 'always' }]; // default 1 coach/mentor
   const teamGoals = new Set();
 
   // ── MEMBER DATA ──
@@ -3331,16 +3330,16 @@
   const BLUEPRINTS = [
     // ── FOUNDATION ──
     { phase:'foundation', title:'Season kickoff', priority:1, tasks:[
-      { text:'Read the game guide as a team. Mark every mission easy, medium, or hard.', area:'robot', mins:20, tier:'core' },
+      { text:'Read the game guide as a team. For every mission, mark it: in scope (we can do this), stretch (maybe later), or out of scope (not this season). Write down your reasoning.', area:'robot', mins:20, tier:'core' },
       { text:'Assign roles: robot lead, project lead, note-taker, presenter. Write them in your journal.', area:'cv', mins:10, tier:'core' },
       { text:'Start your team journal. Write today\'s date, who\'s here, and everyone\'s role.', area:'cv', mins:10, tier:'core' },
       { text:'Brainstorm 5+ specific problems related to this year\'s theme. Don\'t filter yet.', area:'project', mins:20, tier:'std' },
       { text:'Set team norms: when you disagree, how will you decide? Write it down.', area:'cv', mins:10, tier:'std' },
       { text:'Watch a recorded FLL match from a past season so everyone knows what competition looks like.', area:'robot', mins:15, tier:'ext' },
-      { text:'Map the game table on paper and label every mission zone.', area:'robot', mins:15, tier:'ext' },
+      { text:'Map the game table on paper. Label your in-scope mission zones and mark out-of-scope ones so the team knows where to focus.', area:'robot', mins:15, tier:'ext' },
     ]},
     { phase:'foundation', title:'Understand the game', priority:1, tasks:[
-      { text:'Go through each mission, write its point value, and circle your top 5 easiest. This is your starting strategy.', area:'robot', mins:25, tier:'core' },
+      { text:'Go through each mission, write its point value, and decide: in scope or out of scope. Start with 3-5 missions your team can realistically run reliably. Document why you skipped the others. This is your starting strategy.', area:'robot', mins:25, tier:'core' },
       { text:'Write the 5 chosen missions and expected total score in your journal.', area:'robot', mins:10, tier:'core' },
       { text:'Look at this year\'s Innovation Project theme. Pick your top 2 topic ideas to research next meeting.', area:'project', mins:15, tier:'std' },
       { text:'Assign one topic to each member. They\'ll bring back 2 facts at the next meeting.', area:'project', mins:10, tier:'std' },
@@ -3407,7 +3406,7 @@
     { phase:'build', title:'Prototype development', priority:1, tasks:[
       { text:'Work on your prototype. Goal: demonstrate the core function by end of session.', area:'project', mins:30, tier:'core' },
       { text:'List what works, what doesn\'t, and what you\'d change next. Write it in your journal.', area:'project', mins:10, tier:'core' },
-      { text:'Quick robot check: run each mission once and note pass or fail.', area:'robot', mins:10, tier:'core' },
+      { text:'Quick robot check: run each in-scope mission once and note pass or fail.', area:'robot', mins:10, tier:'core' },
       { text:'Write a problems-and-solutions log entry about one challenge you hit and how you worked around it.', area:'project', mins:15, tier:'std' },
       { text:'Code and test Mission 3 on the robot.', area:'robot', mins:25, tier:'std' },
       { text:'Write your team\'s conflict resolution process: when you disagree, how do you decide?', area:'cv', mins:15, tier:'ext' },
@@ -3447,16 +3446,16 @@
     { phase:'develop', title:'Prototype iteration', priority:1, tasks:[
       { text:'Review all expert feedback received and list 3 specific changes to make to your prototype.', area:'project', mins:15, tier:'core' },
       { text:'Make at least one of those changes today. Test it. Document what happened.', area:'project', mins:25, tier:'core' },
-      { text:'Quick robot run: all missions once, record pass or fail.', area:'robot', mins:10, tier:'core' },
+      { text:'Quick robot run: every in-scope mission once, record pass or fail.', area:'robot', mins:10, tier:'core' },
       { text:'Contact a second expert: target someone with a different background from the first.', area:'project', mins:20, tier:'std' },
-      { text:'Run all missions 5 times each. Calculate and record success rates.', area:'robot', mins:20, tier:'std' },
+      { text:'Run each in-scope mission 5 times. Calculate and record success rates. Any mission under 70% either gets fixed or gets dropped from scope.', area:'robot', mins:20, tier:'std' },
       { text:'Practice this answer as a team: "Tell us about a challenge you faced and how you handled it."', area:'cv', mins:15, tier:'ext' },
     ]},
     { phase:'develop', title:'Add Mission 3 or 4', priority:1, tasks:[
       { text:'Code and test your next mission. Run it 10 times and log results.', area:'robot', mins:30, tier:'core' },
       { text:'Re-test all previous missions to confirm nothing broke. Record in journal.', area:'robot', mins:15, tier:'core' },
       { text:'Calculate your new total expected score and write it down.', area:'robot', mins:5, tier:'core' },
-      { text:'Write your current run strategy: every mission, which run you attempt it in, and why.', area:'robot', mins:15, tier:'std' },
+      { text:'Write your current run strategy: every in-scope mission, which run it goes in, and why. Also list out-of-scope missions and the reason you skipped them.', area:'robot', mins:15, tier:'std' },
       { text:'Update the prototype with any changes from recent feedback or testing.', area:'project', mins:20, tier:'std' },
       { text:'Share your project with a second outside audience that is a different type of group from your first share. If you shared with family, now share with a community member, teacher, or organization. Judges need evidence of multiple different groups.', area:'project', mins:15, tier:'std' },
     ]},
@@ -3469,7 +3468,7 @@
       { text:'Team bonding: do one fun activity and write a journal entry about it.', area:'cv', mins:20, tier:'ext' },
     ]},
     { phase:'develop', title:'Run strategy on paper', priority:1, tasks:[
-      { text:'Write your full run strategy: every mission, its point value, which run it goes in.', area:'robot', mins:20, tier:'core' },
+      { text:'Write your full run strategy: every in-scope mission, its point value, which run it goes in. Add a column for out-of-scope missions with one-line explanations.', area:'robot', mins:20, tier:'core' },
       { text:'Calculate total expected score. Know this number. Every team member should know it.', area:'robot', mins:10, tier:'core' },
       { text:'Identify your 3 riskiest missions. What\'s your backup if one fails mid-run?', area:'robot', mins:15, tier:'core' },
       { text:'Review prototype: does anything need changing based on feedback so far?', area:'project', mins:15, tier:'std' },
@@ -3481,18 +3480,18 @@
       { text:'Practice your project explanation: 90 seconds, no notes. Then discuss: what was clear, what wasn\'t?', area:'project', mins:15, tier:'core' },
       { text:'Practice: "How does your team make decisions when you disagree?" Everyone answers.', area:'cv', mins:15, tier:'core' },
       { text:'Write your Inclusion statement: what does inclusion mean for your specific team?', area:'cv', mins:20, tier:'std' },
-      { text:'Run all missions back-to-back and record total score.', area:'robot', mins:15, tier:'std' },
+      { text:'Run all in-scope missions back-to-back and record your total scope score.', area:'robot', mins:15, tier:'std' },
       { text:'Contact a third expert: target a decision-maker (official, director, principal).', area:'project', mins:15, tier:'ext' },
     ]},
     { phase:'develop', title:'Portfolio check-in', priority:2, tasks:[
       { text:'Check your journal: is every meeting documented? Fill any gaps now.', area:'cv', mins:15, tier:'core' },
       { text:'List every expert you\'ve contacted with one sentence on what they contributed to your thinking.', area:'project', mins:15, tier:'core' },
-      { text:'Run all missions and record success rates for this phase.', area:'robot', mins:15, tier:'core' },
+      { text:'Run all in-scope missions and record success rates for this phase.', area:'robot', mins:15, tier:'core' },
       { text:'Review member spotlights: does everyone have something written? Finish incomplete ones.', area:'cv', mins:15, tier:'std' },
       { text:'Review your Discovery statement: is it specific? Does it have evidence?', area:'cv', mins:15, tier:'std' },
     ]},
     { phase:'develop', title:'Consistency push', priority:2, tasks:[
-      { text:'Run every mission 10 times. Record exact success rates. Anything under 70%: fix it.', area:'robot', mins:35, tier:'core' },
+      { text:'Run every in-scope mission 10 times. Record exact success rates. Anything under 70%: fix it or cut it from scope.', area:'robot', mins:35, tier:'core' },
       { text:'Make one targeted fix per failing mission. Test again.', area:'robot', mins:15, tier:'core' },
       { text:'Update your expected score calculation based on improved rates.', area:'robot', mins:5, tier:'core' },
       { text:'If prototype isn\'t demo-ready yet, set a hard deadline: which session will it be done?', area:'project', mins:10, tier:'std' },
@@ -3501,7 +3500,7 @@
 
     // ── REFINE ──
     { phase:'refine', title:'Full run simulation', priority:1, tasks:[
-      { text:'Run all missions back-to-back twice. Simulate two real competition runs.', area:'robot', mins:25, tier:'core' },
+      { text:'Run your full in-scope mission set back-to-back twice. Simulate two real competition runs.', area:'robot', mins:25, tier:'core' },
       { text:'Time yourself: are you finishing within 2.5 minutes? If not, cut or simplify one mission.', area:'robot', mins:10, tier:'core' },
       { text:'Write what you\'d change between Run 1 and Run 2. Make one adjustment and run again.', area:'robot', mins:10, tier:'core' },
       { text:'Practice the Innovation Project presentation. 3-4 minutes, no notes.', area:'project', mins:20, tier:'std' },
@@ -3514,13 +3513,13 @@
       { text:'"Your robot fails mid-run. What do you do?" Discuss your actual answer.', area:'robot', mins:10, tier:'core' },
       { text:'Debrief: which answers were strong? Which need work?', area:'robot', mins:10, tier:'core' },
       { text:'Fix any robot issues surfaced in the mock session.', area:'robot', mins:20, tier:'std' },
-      { text:'Run all missions and record pre-competition success rates.', area:'robot', mins:15, tier:'std' },
+      { text:'Run all in-scope missions. Record pre-competition success rates. Anything under 70% should be cut from scope now.', area:'robot', mins:15, tier:'std' },
     ]},
     { phase:'refine', title:'Mock judging: Innovation Project', priority:1, tasks:[
       { text:'Run full project presentation for someone outside the team. Let them ask questions.', area:'project', mins:15, tier:'core' },
       { text:'Write down every question they asked. Prepare answers to any you fumbled.', area:'project', mins:15, tier:'core' },
       { text:'Ask them: "Does the problem feel real? Does the solution make sense?" Record their answers.', area:'project', mins:10, tier:'core' },
-      { text:'Quick robot run: all missions, record results.', area:'robot', mins:10, tier:'core' },
+      { text:'Quick robot run: all in-scope missions, record results.', area:'robot', mins:10, tier:'core' },
       { text:'Refine the presentation based on feedback. Make sure every member can answer: "Why does your project matter?"', area:'project', mins:20, tier:'std' },
       { text:'Mock Core Values session: full 10 minutes with questions and a short team activity.', area:'cv', mins:15, tier:'ext' },
     ]},
@@ -3529,7 +3528,7 @@
       { text:'Practice questions: "How do you decide? What did you learn? Who helped you outside the team? What was fun?"', area:'cv', mins:10, tier:'core' },
       { text:'Debrief: who spoke well? Who needs more practice? Which questions need better answers?', area:'cv', mins:10, tier:'core' },
       { text:'Fix one robot issue from this week.', area:'robot', mins:15, tier:'core' },
-      { text:'Run all missions. Write out your final run strategy, every run, every mission.', area:'robot', mins:20, tier:'std' },
+      { text:'Run all in-scope missions. Write out your final run strategy: every run, every in-scope mission, in order.', area:'robot', mins:20, tier:'std' },
       { text:'Check every required portfolio item: journal, expert log, spotlights, discovery, conflict resolution, inclusion.', area:'cv', mins:15, tier:'std' },
     ]},
     { phase:'refine', title:'Polish and finalize', priority:2, tasks:[
@@ -3557,7 +3556,7 @@
       { text:'Walk through your expert log together: each contact, their background, what they told you, and what changed in your project because of it. Judges ask about this specifically.', area:'project', mins:10, tier:'std' },
     ]},
     { phase:'prep', title:'Competition week: full rehearsal', priority:1, tasks:[
-      { text:'Light robot practice: run all missions once. No major changes this week.', area:'robot', mins:15, tier:'core' },
+      { text:'Light robot practice: run all in-scope missions once. No major changes this week.', area:'robot', mins:15, tier:'core' },
       { text:'Quick project presentation run-through. No feedback, just run it clean.', area:'project', mins:10, tier:'core' },
       { text:'Quick Core Values Q&A: each person answers one question.', area:'cv', mins:10, tier:'core' },
       { text:'Pack your competition bag: robot, laptop, extension cord, portfolio, prototype.', area:'robot', mins:15, tier:'core' },
@@ -3565,7 +3564,7 @@
       { text:'Talk through: what happens if the robot fails mid-run? What is the backup plan?', area:'robot', mins:10, tier:'std' },
     ]},
     { phase:'prep', title:'Day-before check', priority:1, tasks:[
-      { text:'Run your top 2 missions once each. Do not change anything.', area:'robot', mins:15, tier:'core' },
+      { text:'Run your two highest-confidence in-scope missions once each. Do not change anything.', area:'robot', mins:15, tier:'core' },
       { text:'Confirm journal, expert log, and spotlights are all complete.', area:'cv', mins:10, tier:'core' },
       { text:'Go over competition day logistics: arrival time, where to set up, who carries what.', area:'robot', mins:10, tier:'core' },
       { text:'Team conversation: how will you treat other teams at competition?', area:'cv', mins:10, tier:'core' },
@@ -3573,7 +3572,7 @@
       { text:'Final project review: can you demo the prototype? Is the presentation ready?', area:'project', mins:15, tier:'std' },
     ]},
     { phase:'prep', title:'Final team session', priority:2, tasks:[
-      { text:'Run each mission once. Confirm your run order is still the right call.', area:'robot', mins:15, tier:'core' },
+      { text:'Run each in-scope mission once. Confirm your scope and run order are still the right call. If something is consistently failing, now is the time to cut it.', area:'robot', mins:15, tier:'core' },
       { text:'Each person shares one thing they are proud of from this season.', area:'cv', mins:15, tier:'core' },
       { text:'Go over the packing list one last time. Confirm who brings what.', area:'robot', mins:10, tier:'core' },
       { text:'Write a final journal entry: what are you going into competition with?', area:'cv', mins:10, tier:'std' },
