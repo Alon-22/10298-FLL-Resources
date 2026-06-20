@@ -2741,6 +2741,8 @@
             <button class="popt" data-val="8" onclick="setPOpt(this,'teamsize');updateTeamCards()">8</button>
             <button class="popt" data-val="9" onclick="setPOpt(this,'teamsize');updateTeamCards()">9</button>
             <button class="popt" data-val="10" onclick="setPOpt(this,'teamsize');updateTeamCards()">10</button>
+            <button class="popt" data-val="9" onclick="setPOpt(this,'teamsize');updateTeamCards()">9</button>
+            <button class="popt" data-val="10" onclick="setPOpt(this,'teamsize');updateTeamCards()">10</button>
           </div>
         </div>
 
@@ -3081,14 +3083,13 @@
 
     // Build a list of (taskIndex, area, shortText) ordered core-first
     const taskList = tasks.map((t, ti) => ({
-      ti, area: t.area,
-      short: t.text.length > 65 ? t.text.slice(0, 62).replace(/\W+$/, '') + '…' : t.text,
+      ti, area: t.area, text: t.text,
     }));
 
     const assignedStudents = new Set();
 
     // Pass 1: assign one best-fit student per task (greedy)
-    taskList.forEach(({ area, short }, ti) => {
+    taskList.forEach(({ area, text }, ti) => {
       let best = -1, bestScore = -1;
       for (let i = 0; i < n; i++) {
         if (assignedStudents.has(i)) continue;
@@ -3101,7 +3102,7 @@
         slots[best] = {
           area, color: AREA_COLOR[area],
           role: AREA_LABEL[area] + ' ' + (alreadyLead ? 'assist' : ROLE_SUFFIX[area]),
-          tasks: [short],
+          tasks: [text],
         };
       }
     });
@@ -3116,8 +3117,7 @@
           if (slots[i] && slots[i].area === t.area) { target = i; break; }
         }
         if (target === -1) target = 0;
-        const short = t.text.length > 65 ? t.text.slice(0, 62).replace(/\W+$/, '') + '…' : t.text;
-        if (slots[target]) slots[target].tasks.push(short);
+        if (slots[target]) slots[target].tasks.push(t.text);
       });
     }
 
@@ -3214,7 +3214,7 @@
           if (expOcc.length) parts.push('<strong style="color:var(--gold)">' + expOcc.join(', ') + '</strong> — occasional <em style="color:var(--gold)">expert</em> (workstream upgrade when present)');
           if (regOcc.length) parts.push('<strong style="color:var(--gold)">' + regOcc.join(', ') + '</strong> — occasional');
         }
-        const likelyNames = mostStudents;
+        const likelyNames = likelyStudents.map(i => getMemberName(i));
         if (likelyNames.length) parts.push('<strong style="color:var(--blue)">' + likelyNames.join(', ') + '</strong> — most meetings');
         attNote = '<div style="font-size:.76rem;color:var(--text-muted);margin-top:.4rem;padding:.4rem .6rem;background:rgba(240,192,64,.06);border-radius:var(--radius-sm);border-left:2px solid rgba(240,192,64,.3)">'
           + 'Variable attendance: ' + parts.join(' / ')
