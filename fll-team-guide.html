@@ -4488,14 +4488,17 @@
   function googleTranslateElementInit() {
     new google.translate.TranslateElement({
       pageLanguage: 'en',
-      includedLanguages: 'ar,es,he,kk,zh-CN,zh-TW',
+      includedLanguages: 'ar,es,iw,kk,zh-CN,zh-TW',
       autoDisplay: false,
     }, 'google_translate_element');
   }
 
   function getGoogTransCookie() {
     const m = document.cookie.match(/(?:^|;)\s*googtrans=\/en\/([^;]+)/);
-    return m ? m[1] : 'en';
+    if (!m) return 'en';
+    // Map Google's internal codes back to our UI codes
+    const reverseMap = { iw: 'he' };
+    return reverseMap[m[1]] || m[1];
   }
 
   // On load: restore button state from cookie
@@ -4519,13 +4522,15 @@
     dd.style.display = dd.style.display === 'block' ? 'none' : 'block';
   }
 
+  // Google Translate uses legacy codes for some languages
+  const GT_CODE_MAP = { he: 'iw' };
+
   function translateTo(lang, label, btn) {
     document.getElementById('translate-dropdown').style.display = 'none';
     const exp = 'expires=Thu, 01 Jan 1970 00:00:00 UTC';
     const hosts = [location.hostname, '.' + location.hostname, ''];
 
     if (lang === 'en') {
-      // Clear googtrans cookie on all domain variants then reload
       hosts.forEach(function(h) {
         const d = h ? '; domain=' + h : '';
         document.cookie = 'googtrans=; ' + exp + '; path=/' + d + ';';
@@ -4534,10 +4539,11 @@
       return;
     }
 
-    // Set cookie for target language then reload
+    // Map to Google's internal code (e.g. Hebrew: he -> iw)
+    const gtCode = GT_CODE_MAP[lang] || lang;
     hosts.forEach(function(h) {
       const d = h ? '; domain=' + h : '';
-      document.cookie = 'googtrans=/en/' + lang + '; path=/' + d + ';';
+      document.cookie = 'googtrans=/en/' + gtCode + '; path=/' + d + ';';
     });
     location.reload();
   }
