@@ -1,0 +1,3159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FLL Getting Started Guide</title>
+  <style>
+    :root {
+      --bg:          #0e1c30;
+      --bg-mid:      #132336;
+      --bg-card:     #172b42;
+      --bg-card2:    #1a3050;
+      --border:      #2a4060;
+      --border-bright: #3a5a80;
+      --blue:        #3b9eff;
+      --blue-dim:    #1e5fa0;
+      --blue-glow:   rgba(59,158,255,.18);
+      --blue-glow2:  rgba(59,158,255,.08);
+      --teal:        #00d4b4;
+      --teal-glow:   rgba(0,212,180,.12);
+      --purple:      #a78bfa;
+      --text:        #eef3fc;
+      --text-muted:  #7fa0c0;
+      --text-dim:    #4a6880;
+      --bronze:      #f08040; --bronze-bg: rgba(240,128,64,.14);
+      --silver:      #90b8d8; --silver-bg: rgba(144,184,216,.12);
+      --gold:        #f0c040; --gold-bg:   rgba(240,192,64,.12);
+      --green:       #34d399; --green-bg:  rgba(52,211,153,.1);
+      --radius:      12px;
+      --radius-sm:   7px;
+      --nav-h:       60px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 15px;
+    }
+
+    h1 { font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.1; font-weight: 800; letter-spacing: -.03em; }
+    h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); line-height: 1.2; font-weight: 700; letter-spacing: -.02em; }
+    h3 { font-size: 1rem; line-height: 1.3; font-weight: 700; }
+    p  { color: var(--text-muted); }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      height: var(--nav-h);
+      background: rgba(14,28,48,.94);
+      backdrop-filter: blur(20px) saturate(1.5);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+      padding: 0 1.5rem; gap: 1rem;
+    }
+    .nav-logo {
+      font-weight: 900; font-size: .95rem; color: var(--text);
+      letter-spacing: -.02em; white-space: nowrap; flex-shrink: 0;
+      display: flex; align-items: center; gap: .6rem;
+    }
+    .nav-pill {
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+      border-radius: 8px; padding: .3rem .65rem;
+      font-size: .8rem; font-weight: 900; color: #fff; letter-spacing: 0;
+    }
+    .nav-links { display: flex; gap: .1rem; }
+    .nav-links button {
+      background: none; border: none; cursor: pointer;
+      color: var(--text-muted); padding: .45rem .9rem;
+      border-radius: var(--radius-sm); font-size: .85rem;
+      font-family: inherit; font-weight: 500;
+      transition: color .15s, background .15s; white-space: nowrap;
+    }
+    .nav-links button:hover { color: var(--text); background: rgba(255,255,255,.06); }
+    .nav-links button.active { color: var(--blue); background: var(--blue-glow2); font-weight: 600; }
+
+    /* ── SECTIONS ── */
+    section { display: none; }
+    section.active { display: block; }
+
+    /* ── HERO ── */
+    .hero-wrap {
+      position: relative; overflow: hidden;
+      padding: 5rem 2rem 4.5rem;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 70% at 80% 50%, rgba(0,212,180,.09) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 20% 40%, rgba(59,158,255,.15) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 50% at 50% 100%, rgba(167,139,250,.07) 0%, transparent 60%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0; pointer-events: none; opacity: .12;
+      background-image: linear-gradient(var(--border) 1px, transparent 1px),
+                        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 44px 44px;
+    }
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: 1080px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.1fr 1fr; gap: 3.5rem; align-items: center;
+    }
+    @media(max-width:760px){ .hero-inner { grid-template-columns: 1fr; } .hero-panels { display: none; } }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 1.25rem;
+    }
+    .hero-tag::before { content:''; display:block; width:20px; height:2px; background:var(--teal); }
+
+    .hero h1 { color: var(--text); margin-bottom: 1rem; }
+    .hero h1 em { font-style: normal; color: var(--blue); }
+    .hero p { font-size: 1.05rem; max-width: 480px; margin-bottom: 2rem; color: var(--text-muted); }
+
+    .hero-btns { display: flex; gap: .75rem; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .7rem 1.5rem; border-radius: var(--radius);
+      font-size: .875rem; font-weight: 700; cursor: pointer;
+      border: none; font-family: inherit;
+      transition: transform .12s, box-shadow .15s, opacity .15s;
+      text-decoration: none; white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue) 0%, #1a78e0 100%);
+      color: #fff; box-shadow: 0 4px 18px rgba(59,158,255,.3);
+    }
+    .btn-primary:hover { box-shadow: 0 6px 24px rgba(59,158,255,.45); }
+    .btn-teal {
+      background: linear-gradient(135deg, var(--teal) 0%, #00b096 100%);
+      color: #0a1a10; box-shadow: 0 4px 18px rgba(0,212,180,.25);
+    }
+    .btn-ghost {
+      background: transparent; color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--border-bright); }
+
+    /* ── HERO PANELS ── */
+    .hero-panels { display: flex; flex-direction: column; gap: .75rem; }
+    .hero-panel {
+      background: rgba(23,43,66,.8);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      display: flex; align-items: center; gap: 1rem;
+      backdrop-filter: blur(8px);
+      transition: border-color .15s;
+    }
+    .hero-panel:hover { border-color: var(--border-bright); }
+    .hero-panel-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .95rem; font-weight: 900; flex-shrink: 0;
+    }
+    .hero-panel-icon.r { background: var(--blue-glow); color: var(--blue); border: 1px solid rgba(59,158,255,.3); }
+    .hero-panel-icon.i { background: var(--teal-glow); color: var(--teal); border: 1px solid rgba(0,212,180,.3); }
+    .hero-panel-icon.cv { background: rgba(167,139,250,.12); color: var(--purple); border: 1px solid rgba(167,139,250,.3); }
+    .hp-title { font-size: .875rem; font-weight: 700; color: var(--text); margin-bottom: .1rem; }
+    .hp-sub { font-size: .78rem; color: var(--text-muted); }
+
+    /* ── SECTION WRAPPERS ── */
+    .section-banner {
+      padding: 4rem 2rem 0;
+      max-width: 1080px; margin: 0 auto;
+    }
+    .section-eyebrow {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: .7rem; font-weight: 800; letter-spacing: .13em;
+      text-transform: uppercase; margin-bottom: .875rem;
+    }
+    .section-eyebrow::before { content:''; display:block; width:16px; height:2px; }
+    .eyebrow-blue { color: var(--blue); } .eyebrow-blue::before { background: var(--blue); }
+    .eyebrow-teal { color: var(--teal); } .eyebrow-teal::before { background: var(--teal); }
+    .eyebrow-purple { color: var(--purple); } .eyebrow-purple::before { background: var(--purple); }
+    .section-banner h2 { color: var(--text); margin-bottom: .6rem; }
+    .section-banner > p { font-size: 1rem; max-width: 600px; }
+
+    /* ── CONTENT ── */
+    .content { max-width: 1080px; margin: 0 auto; padding: 2rem 2rem 5rem; }
+
+    /* ── INTRO CARDS (large, bright) ── */
+    .intro-cards {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem; margin-bottom: 2rem;
+    }
+    .intro-card {
+      border-radius: var(--radius); padding: 1.75rem;
+      border: 1px solid transparent;
+      position: relative; overflow: hidden;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .intro-card:hover { transform: translateY(-2px); }
+    .intro-card.blue {
+      background: linear-gradient(135deg, rgba(59,158,255,.15) 0%, rgba(59,158,255,.06) 100%);
+      border-color: rgba(59,158,255,.3);
+      box-shadow: 0 0 0 0 rgba(59,158,255,0);
+    }
+    .intro-card.blue:hover { box-shadow: 0 8px 32px rgba(59,158,255,.15); }
+    .intro-card.teal {
+      background: linear-gradient(135deg, rgba(0,212,180,.13) 0%, rgba(0,212,180,.05) 100%);
+      border-color: rgba(0,212,180,.28);
+    }
+    .intro-card.teal:hover { box-shadow: 0 8px 32px rgba(0,212,180,.12); }
+    .intro-card.purple {
+      background: linear-gradient(135deg, rgba(167,139,250,.13) 0%, rgba(167,139,250,.05) 100%);
+      border-color: rgba(167,139,250,.28);
+    }
+    .intro-card.purple:hover { box-shadow: 0 8px 32px rgba(167,139,250,.12); }
+    .intro-card.green {
+      background: linear-gradient(135deg, rgba(52,211,153,.13) 0%, rgba(52,211,153,.05) 100%);
+      border-color: rgba(52,211,153,.28);
+    }
+    .intro-card .ic-label {
+      font-size: .68rem; font-weight: 800; letter-spacing: .12em;
+      text-transform: uppercase; margin-bottom: .75rem;
+    }
+    .intro-card.blue  .ic-label { color: var(--blue); }
+    .intro-card.teal  .ic-label { color: var(--teal); }
+    .intro-card.purple .ic-label { color: var(--purple); }
+    .intro-card.green .ic-label { color: var(--green); }
+    .intro-card h3 { color: var(--text); font-size: 1rem; margin-bottom: .4rem; }
+    .intro-card p { font-size: .875rem; }
+
+    /* ── STEP LIST ── */
+    .step-list { display: flex; flex-direction: column; gap: .75rem; margin-bottom: 2rem; }
+    .step-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.25rem 1.5rem;
+      transition: border-color .15s;
+    }
+    .step-item:hover { border-color: var(--border-bright); }
+    .step-num-circle {
+      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 900; margin-top: .1rem;
+    }
+    .step-num-circle.blue { background: var(--blue-glow); color: var(--blue); border: 1.5px solid rgba(59,158,255,.4); }
+    .step-num-circle.teal { background: var(--teal-glow); color: var(--teal); border: 1.5px solid rgba(0,212,180,.4); }
+    .step-num-circle.purple { background: rgba(167,139,250,.12); color: var(--purple); border: 1.5px solid rgba(167,139,250,.4); }
+    .step-item h3 { color: var(--text); font-size: .925rem; margin-bottom: .25rem; }
+    .step-item p { font-size: .85rem; }
+
+    /* ── TIMELINE ── */
+    .timeline {
+      position: relative;
+      display: flex; flex-direction: column; gap: 0;
+      margin-bottom: 2rem;
+    }
+    .tl-item {
+      display: flex; gap: 1.25rem;
+      padding-bottom: 1.5rem;
+      position: relative;
+    }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-left {
+      display: flex; flex-direction: column; align-items: center;
+      flex-shrink: 0; width: 36px;
+    }
+    .tl-dot {
+      width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; margin-top: .35rem;
+    }
+    .tl-dot.blue { background: var(--blue); box-shadow: 0 0 8px rgba(59,158,255,.6); }
+    .tl-dot.teal { background: var(--teal); box-shadow: 0 0 8px rgba(0,212,180,.5); }
+    .tl-dot.gold { background: var(--gold); box-shadow: 0 0 8px rgba(240,192,64,.5); }
+    .tl-dot.green { background: var(--green); box-shadow: 0 0 8px rgba(52,211,153,.5); }
+    .tl-line {
+      flex: 1; width: 2px; background: var(--border); margin: 4px 0;
+    }
+    .tl-item:last-child .tl-line { display: none; }
+    .tl-month {
+      font-size: .7rem; font-weight: 800; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--text-dim); margin-bottom: .2rem;
+    }
+    .tl-item h3 { color: var(--text); font-size: .9rem; margin-bottom: .2rem; }
+    .tl-item p { font-size: .82rem; }
+
+    /* ── CARD GRID ── */
+    .card-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; margin-bottom: 1.25rem;
+    }
+    .info-card {
+      background: var(--bg-card); padding: 1.35rem;
+      display: flex; flex-direction: column; gap: .4rem;
+      transition: background .15s;
+    }
+    .info-card:hover { background: var(--bg-card2); }
+    .info-card h3 { font-size: .825rem; font-weight: 700; color: var(--text); }
+    .info-card p { font-size: .825rem; }
+    .info-card .ic-accent { font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; margin-top: .35rem; }
+    .ic-accent.blue { color: var(--blue); }
+    .ic-accent.teal { color: var(--teal); }
+    .ic-accent.gold { color: var(--gold); }
+
+    /* ── TIP CARD ── */
+    .tip-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1rem;
+      transition: border-color .15s;
+    }
+    .tip-card:hover { border-color: var(--border-bright); }
+    .tip-card h3 { color: var(--text); font-size: .95rem; margin-bottom: .4rem; }
+    .tip-card p { font-size: .875rem; }
+
+    /* ── CALLOUT ── */
+    .callout {
+      border-left: 3px solid var(--blue);
+      background: linear-gradient(90deg, var(--blue-glow) 0%, rgba(59,158,255,.03) 100%);
+      padding: 1rem 1.25rem 1rem 1.5rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 1.25rem 0;
+    }
+    .callout.teal { border-left-color: var(--teal); background: linear-gradient(90deg, var(--teal-glow) 0%, rgba(0,212,180,.03) 100%); }
+    .callout.purple { border-left-color: var(--purple); background: linear-gradient(90deg, rgba(167,139,250,.12) 0%, transparent 100%); }
+    .callout .cl-label {
+      font-size: .68rem; font-weight: 800; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--blue); margin-bottom: .35rem;
+    }
+    .callout.teal .cl-label { color: var(--teal); }
+    .callout.purple .cl-label { color: var(--purple); }
+    .callout p { font-size: .875rem; color: var(--text); }
+
+    /* ── BRIGHT HIGHLIGHT ── */
+    .bright-box {
+      border-radius: var(--radius); padding: 1.5rem 1.75rem;
+      margin-bottom: 1.5rem; border: 1px solid transparent;
+    }
+    .bright-box.blue { background: var(--blue-glow); border-color: rgba(59,158,255,.25); }
+    .bright-box.teal { background: var(--teal-glow); border-color: rgba(0,212,180,.22); }
+    .bright-box.gold { background: var(--gold-bg); border-color: rgba(240,192,64,.25); }
+    .bright-box h3 { color: var(--text); font-size: .95rem; margin-bottom: .5rem; }
+    .bright-box p { font-size: .875rem; }
+
+    /* ── LEVEL BAND ── */
+    .level-band {
+      display: flex; align-items: center; gap: .75rem;
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius) var(--radius) 0 0;
+      border: 1px solid transparent;
+    }
+    .level-band.start { background: rgba(240,128,64,.1); border-color: rgba(240,128,64,.3); }
+    .level-band.level { background: rgba(144,184,216,.1); border-color: rgba(144,184,216,.3); }
+    .level-band.champ { background: rgba(240,192,64,.1); border-color: rgba(240,192,64,.3); }
+    .lvl-badge {
+      font-size: .68rem; font-weight: 900; letter-spacing: .1em;
+      text-transform: uppercase; padding: .3rem .7rem; border-radius: var(--radius-sm);
+    }
+    .level-band.start .lvl-badge { background: var(--bronze); color: #fff; }
+    .level-band.level .lvl-badge { background: var(--silver); color: var(--bg); }
+    .level-band.champ .lvl-badge { background: var(--gold);   color: var(--bg); }
+    .level-band .lvl-title { font-weight: 700; font-size: .95rem; color: var(--text); }
+    .level-band .lvl-who { font-size: .8rem; color: var(--text-muted); margin-left: auto; }
+    @media(max-width:480px){ .level-band .lvl-who { display:none; } }
+
+    .level-body {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-top: none; border-radius: 0 0 var(--radius) var(--radius);
+      padding: 1.75rem; margin-bottom: 1.75rem;
+    }
+
+    /* ── CHECKLIST ── */
+    .checklist { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+    .checklist li {
+      display: flex; align-items: flex-start; gap: .75rem;
+      font-size: .875rem; color: var(--text-muted);
+    }
+    .checklist li .ck {
+      width: 18px; height: 18px; border-radius: 5px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: .15rem; font-size: .6rem; font-weight: 900;
+    }
+    .checklist li .ck.blue { background: var(--blue-glow); color: var(--blue); border: 1.5px solid rgba(59,158,255,.4); }
+    .checklist li .ck.teal { background: var(--teal-glow); color: var(--teal); border: 1.5px solid rgba(0,212,180,.4); }
+    .checklist li .ck.purple { background: rgba(167,139,250,.12); color: var(--purple); border: 1.5px solid rgba(167,139,250,.4); }
+
+    /* ── COMPARE ── */
+    .compare {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; margin-bottom: 1.25rem;
+    }
+    @media(max-width:500px){ .compare { grid-template-columns: 1fr; } }
+    .compare-col { padding: 1.25rem 1.5rem; background: var(--bg-card); }
+    .compare-col.good .cmp-label { color: var(--teal); }
+    .compare-col.bad  .cmp-label { color: #f87171; }
+    .cmp-label {
+      font-size: .68rem; font-weight: 800; letter-spacing: .1em;
+      text-transform: uppercase; margin-bottom: .75rem;
+      padding-bottom: .5rem; border-bottom: 1px solid var(--border);
+    }
+    .compare-col ul { list-style: none; display: flex; flex-direction: column; gap: .4rem; }
+    .compare-col ul li { font-size: .82rem; color: var(--text-muted); display: flex; gap: .5rem; align-items: flex-start; }
+    .compare-col.good ul li::before { content:'+'; color: var(--teal); font-weight: 800; flex-shrink:0; }
+    .compare-col.bad  ul li::before { content:'−'; color: #f87171; font-weight: 800; flex-shrink:0; }
+
+    /* ── SECTION DIVIDER ── */
+    .section-divider {
+      height: 2px; margin: 2rem 0;
+      background: linear-gradient(90deg, var(--blue) 0%, var(--teal) 50%, transparent 100%);
+      border: none; opacity: .4;
+    }
+
+    hr { border: none; border-top: 1px solid var(--border); margin: 1.75rem 0; }
+
+    /* ── FAQ ── */
+    .faq { display: flex; flex-direction: column; gap: .75rem; margin-bottom: 2rem; }
+    .faq-item {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.25rem 1.5rem;
+    }
+    .faq-item h3 { color: var(--text); font-size: .9rem; margin-bottom: .35rem; }
+    .faq-item p { font-size: .85rem; }
+
+    /* ── STAT STRIP ── */
+    .stat-strip {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; margin-bottom: 2rem;
+    }
+    .stat-box { background: var(--bg-card); padding: 1.5rem 1.25rem; text-align: center; }
+    .stat-box .n { font-size: 2rem; font-weight: 900; letter-spacing: -.04em; line-height: 1; }
+    .stat-box .n.blue { color: var(--blue); }
+    .stat-box .n.teal { color: var(--teal); }
+    .stat-box .n.gold { color: var(--gold); }
+    .stat-box .n.purple { color: var(--purple); }
+    .stat-box .l { font-size: .73rem; color: var(--text-muted); margin-top: .35rem; line-height: 1.35; }
+
+    /* ── VALUES CARDS ── */
+    .values-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem; margin-bottom: 1.5rem;
+    }
+    .val-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.4rem;
+      transition: border-color .15s, transform .15s;
+    }
+    .val-card:hover { border-color: var(--border-bright); transform: translateY(-1px); }
+    .val-card .vl { font-size: .68rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .5rem; }
+    .val-card h3 { color: var(--text); font-size: .9rem; margin-bottom: .3rem; }
+    .val-card p { font-size: .82rem; }
+    .val-card .vl.blue   { color: var(--blue); }
+    .val-card .vl.teal   { color: var(--teal); }
+    .val-card .vl.gold   { color: var(--gold); }
+    .val-card .vl.green  { color: var(--green); }
+    .val-card .vl.purple { color: var(--purple); }
+    .val-card .vl.bronze { color: var(--bronze); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border); padding: 2.5rem 2rem; text-align: center;
+    }
+    footer p { font-size: .8rem; }
+
+    @media(max-width:640px){
+      .content { padding: 1.5rem 1.25rem 4rem; }
+      .section-banner { padding: 2.5rem 1.25rem 0; }
+      nav { padding: 0 1rem; gap: .4rem; }
+      .nav-links button { padding: .4rem .55rem; font-size: .78rem; }
+      .hero-wrap { padding: 3.5rem 1.25rem 3rem; }
+    }
+  </style>
+
+  <style>
+    /* ── PLANNER ── */
+    .eyebrow-green { color: var(--green); }
+    .eyebrow-green::before { background: var(--green); }
+
+    .planner-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .planner-form { display: flex; flex-direction: column; gap: 1.75rem; }
+    .planner-field { display: flex; flex-direction: column; gap: .65rem; }
+    .planner-label { font-weight: 600; color: var(--text); font-size: .97rem; }
+    .planner-pill {
+      display: inline-block;
+      background: var(--green-bg);
+      color: var(--green);
+      border: 1px solid rgba(52,211,153,.3);
+      border-radius: 20px;
+      padding: .15rem .65rem;
+      font-size: .85rem;
+      font-weight: 700;
+      margin-left: .4rem;
+    }
+    .popt-row { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .popt {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      padding: .5rem 1.1rem;
+      font-size: .92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .18s;
+    }
+    .popt:hover { border-color: var(--green); color: var(--green); }
+    .popt.active {
+      background: rgba(52,211,153,.14);
+      border-color: var(--green);
+      color: var(--green);
+    }
+    .planner-range {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border-bright);
+      outline: none;
+      cursor: pointer;
+    }
+    .planner-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--green);
+      cursor: pointer;
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 8px rgba(52,211,153,.4);
+    }
+    .planner-range-ends {
+      display: flex;
+      justify-content: space-between;
+      font-size: .78rem;
+      color: var(--text-dim);
+      margin-top: .2rem;
+    }
+    .planner-btn {
+      background: var(--green);
+      color: #0a1f14;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: .75rem 1.75rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .18s, transform .18s;
+      align-self: flex-start;
+    }
+    .planner-btn:hover { opacity: .88; transform: translateY(-1px); }
+
+    /* CURRICULUM OUTPUT */
+    .curr-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .curr-stat {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1rem;
+      text-align: center;
+    }
+    .curr-stat-num {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--green);
+      line-height: 1;
+    }
+    .curr-stat-lbl { font-size: .82rem; color: var(--text-muted); margin-top: .3rem; }
+
+    .curr-phases {
+      display: flex;
+      gap: .5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .curr-phase-chip {
+      border-radius: 20px;
+      padding: .35rem 1rem;
+      font-size: .82rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .curr-week-group { margin-bottom: 1.25rem; }
+    .curr-week-head {
+      font-size: .8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--text-dim);
+      margin-bottom: .5rem;
+      padding-left: .25rem;
+    }
+    .curr-meeting {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: .6rem;
+      overflow: hidden;
+    }
+    .curr-meeting-head {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .9rem 1.1rem;
+      cursor: pointer;
+      user-select: none;
+      transition: background .15s;
+    }
+    .curr-meeting-head:hover { background: var(--bg-card2); }
+    .curr-meeting-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .curr-meeting-title { font-weight: 600; color: var(--text); flex: 1; font-size: .95rem; }
+    .curr-area-tags { display: flex; gap: .35rem; flex-wrap: wrap; }
+    .curr-tag {
+      font-size: .72rem;
+      font-weight: 700;
+      padding: .18rem .5rem;
+      border-radius: 4px;
+    }
+    .curr-tag-robot { background: rgba(59,158,255,.15); color: var(--blue); }
+    .curr-tag-project { background: rgba(0,212,180,.12); color: var(--teal); }
+    .curr-tag-cv { background: rgba(167,139,250,.13); color: var(--purple); }
+    .curr-tag-phase {
+      background: rgba(52,211,153,.12);
+      color: var(--green);
+      font-size: .7rem;
+      padding: .15rem .45rem;
+    }
+    .curr-chevron {
+      color: var(--text-dim);
+      font-size: .8rem;
+      transition: transform .2s;
+      flex-shrink: 0;
+    }
+    .curr-meeting.open .curr-chevron { transform: rotate(90deg); }
+    .curr-meeting-body {
+      display: none;
+      padding: 0 1.1rem 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .curr-meeting.open .curr-meeting-body { display: block; }
+    .curr-task-list { list-style: none; padding: 0; margin: .75rem 0 0; display: flex; flex-direction: column; gap: .55rem; }
+    .curr-task {
+      display: flex;
+      align-items: flex-start;
+      gap: .65rem;
+      font-size: .9rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .curr-task-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      margin-top: .45rem;
+      flex-shrink: 0;
+    }
+    .curr-task-dot-robot { background: var(--blue); }
+    .curr-task-dot-project { background: var(--teal); }
+    .curr-task-dot-cv { background: var(--purple); }
+    .curr-task-time {
+      font-size: .77rem;
+      color: var(--text-dim);
+      white-space: nowrap;
+      margin-left: auto;
+      padding-left: .5rem;
+    }
+    .curr-note {
+      margin-top: .85rem;
+      padding: .6rem .8rem;
+      background: var(--blue-glow2);
+      border-left: 2px solid var(--blue-dim);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: .83rem;
+      color: var(--text-muted);
+    }
+    .curr-short-season {
+      background: rgba(240,128,64,.1);
+      border: 1px solid rgba(240,128,64,.3);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      color: var(--bronze);
+      font-size: .9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* PRIORITY SLIDERS */
+    .planner-sublabel {
+      font-size: .85rem;
+      color: var(--text-muted);
+      margin: -.3rem 0 .25rem;
+    }
+    .priority-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .75rem;
+    }
+    .priority-card {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: .65rem;
+      transition: border-color .15s;
+    }
+    .priority-card.robot-card  { border-top: 2px solid var(--blue); }
+    .priority-card.project-card { border-top: 2px solid var(--teal); }
+    .priority-card.cv-card     { border-top: 2px solid var(--purple); }
+    .priority-area-name {
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .pri-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .pri-dot-robot   { background: var(--blue); }
+    .pri-dot-project { background: var(--teal); }
+    .pri-dot-cv      { background: var(--purple); }
+    .priority-range {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+    .priority-range.robot-range   { background: rgba(59,158,255,.3); }
+    .priority-range.project-range { background: rgba(0,212,180,.25); }
+    .priority-range.cv-range      { background: rgba(167,139,250,.25); }
+    .priority-range.robot-range::-webkit-slider-thumb   { -webkit-appearance:none; width:16px;height:16px;border-radius:50%;background:var(--blue);cursor:pointer;border:2px solid var(--bg);box-shadow:0 0 8px rgba(59,158,255,.4); }
+    .priority-range.project-range::-webkit-slider-thumb { -webkit-appearance:none; width:16px;height:16px;border-radius:50%;background:var(--teal);cursor:pointer;border:2px solid var(--bg);box-shadow:0 0 8px rgba(0,212,180,.4); }
+    .priority-range.cv-range::-webkit-slider-thumb      { -webkit-appearance:none; width:16px;height:16px;border-radius:50%;background:var(--purple);cursor:pointer;border:2px solid var(--bg);box-shadow:0 0 8px rgba(167,139,250,.4); }
+    .priority-pct {
+      font-size: 1.6rem;
+      font-weight: 800;
+      text-align: center;
+      line-height: 1;
+    }
+    .priority-pct.robot-pct   { color: var(--blue); }
+    .priority-pct.project-pct { color: var(--teal); }
+    .priority-pct.cv-pct      { color: var(--purple); }
+    .priority-pct-label {
+      font-size: .72rem;
+      color: var(--text-dim);
+      text-align: center;
+      margin-top: .15rem;
+    }
+    .priority-warn {
+      border-radius: var(--radius-sm);
+      padding: .75rem 1rem;
+      font-size: .87rem;
+      line-height: 1.5;
+      margin-top: .5rem;
+    }
+    .priority-warn-yellow { background: rgba(240,192,64,.1); border: 1px solid rgba(240,192,64,.35); color: var(--gold); }
+    .priority-warn-red    { background: rgba(230,60,50,.1);  border: 1px solid rgba(230,60,50,.35);  color: #e87060; }
+
+    /* GOAL CHIPS */
+    .goal-chips { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .goal-chip {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 20px;
+      padding: .4rem 1rem;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .18s;
+    }
+    .goal-chip:hover { border-color: var(--purple); color: var(--purple); }
+    .goal-chip.active {
+      background: rgba(167,139,250,.13);
+      border-color: var(--purple);
+      color: var(--purple);
+    }
+
+    /* CURRICULUM HEADER NOTES */
+    .curr-goal-note {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(167,139,250,.08);
+      border: 1px solid rgba(167,139,250,.2);
+      border-radius: var(--radius-sm);
+      padding: .6rem .9rem;
+      font-size: .84rem;
+      color: var(--text-muted);
+      margin-bottom: .75rem;
+    }
+    .curr-goal-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--purple);
+      flex-shrink: 0;
+    }
+
+
+    /* TEAM SIZE & MEMBERS */
+    .toggle-row { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; }
+    .toggle-switch { position:relative; width:46px; height:26px; flex-shrink:0; margin-top:.2rem; }
+    .toggle-switch input { opacity:0; width:0; height:0; }
+    .toggle-slider {
+      position:absolute; inset:0;
+      background:var(--border-bright); border-radius:13px;
+      cursor:pointer; transition:background .2s;
+    }
+    .toggle-slider::before {
+      content:''; position:absolute; left:3px; top:3px;
+      width:20px; height:20px; border-radius:50%;
+      background:var(--text-dim); transition:transform .2s, background .2s;
+    }
+    .toggle-switch input:checked + .toggle-slider { background:rgba(52,211,153,.35); }
+    .toggle-switch input:checked + .toggle-slider::before { transform:translateX(20px); background:var(--green); }
+
+    .member-cards-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(210px, 1fr));
+      gap:.6rem;
+      margin-top:.75rem;
+    }
+    .member-card {
+      background:var(--bg-card2); border:1px solid var(--border);
+      border-radius:var(--radius); overflow:hidden;
+    }
+    .member-card-head {
+      display:flex; align-items:center; gap:.5rem;
+      padding:.55rem .8rem;
+      background:var(--bg-card); border-bottom:1px solid var(--border);
+    }
+    .member-num {
+      width:22px; height:22px; border-radius:50%;
+      background:var(--blue-glow); border:1px solid var(--blue-dim);
+      font-size:.72rem; font-weight:700; color:var(--blue);
+      display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    }
+    .member-name-input {
+      background:transparent; border:none; outline:none;
+      color:var(--text); font-size:.87rem; font-weight:600; width:100%;
+    }
+    .member-name-input::placeholder { color:var(--text-dim); }
+    .member-card-body { padding:.7rem .8rem; display:flex; flex-direction:column; gap:.55rem; }
+    .member-section-lbl {
+      font-size:.7rem; font-weight:700; text-transform:uppercase;
+      letter-spacing:.07em; color:var(--text-dim);
+    }
+    .member-exp-row { display:flex; flex-direction:column; gap:.35rem; }
+    .exp-area-row { display:flex; align-items:center; gap:.4rem; }
+    .exp-area-lbl { font-size:.73rem; color:var(--text-muted); width:52px; flex-shrink:0; }
+    .exp-btns { display:flex; gap:.22rem; }
+    .exp-btn {
+      font-size:.68rem; font-weight:600; padding:.18rem .44rem;
+      border-radius:4px; border:1px solid var(--border);
+      background:var(--bg-card); color:var(--text-dim);
+      cursor:pointer; transition:all .15s;
+    }
+    .exp-btn:hover { border-color:var(--border-bright); color:var(--text-muted); }
+    .exp-btn.active-new  { background:rgba(240,128,64,.12); border-color:var(--bronze); color:var(--bronze); }
+    .exp-btn.active-some { background:rgba(144,184,216,.1); border-color:var(--silver); color:var(--silver); }
+    .exp-btn.active-exp  { background:rgba(240,192,64,.1);  border-color:var(--gold);   color:var(--gold); }
+    .member-skills-row { display:flex; flex-wrap:wrap; gap:.27rem; }
+    .skill-chip {
+      font-size:.69rem; font-weight:600; padding:.2rem .52rem;
+      border-radius:10px; border:1px solid var(--border);
+      background:var(--bg-card); color:var(--text-dim);
+      cursor:pointer; transition:all .15s;
+    }
+    .skill-chip:hover { border-color:var(--border-bright); color:var(--text-muted); }
+    .skill-chip.active { background:rgba(59,158,255,.12); border-color:var(--blue); color:var(--blue); }
+
+    /* TEAM SNAPSHOT OUTPUT */
+    .curr-team-snapshot {
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--radius); padding:1.1rem 1.25rem; margin-bottom:1.25rem;
+    }
+    .curr-team-title {
+      font-size:.78rem; font-weight:700; text-transform:uppercase;
+      letter-spacing:.08em; color:var(--text-dim); margin-bottom:.7rem;
+    }
+    .curr-team-members { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .curr-member-pill {
+      background:var(--bg-card2); border:1px solid var(--border);
+      border-radius:var(--radius-sm); padding:.4rem .75rem;
+    }
+    .curr-member-pill-name { font-weight:600; color:var(--text); font-size:.85rem; }
+    .curr-member-pill-roles { color:var(--text-dim); font-size:.73rem; margin-top:.1rem; }
+    .curr-role-note {
+      margin-top:.6rem; padding:.45rem .7rem;
+      background:rgba(52,211,153,.05);
+      border-left:2px solid rgba(52,211,153,.28);
+      border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+      font-size:.79rem; color:var(--text-muted);
+    }
+
+
+    /* STUDENT BREAKDOWN per meeting */
+    .student-breakdown {
+      margin-top: .75rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      font-size: .83rem;
+    }
+    .student-breakdown-head {
+      font-size: .7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--text-dim);
+      padding: .38rem .8rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .student-row {
+      display: flex; align-items: baseline; gap: .55rem;
+      padding: .45rem .8rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .student-row:last-child { border-bottom: none; }
+    .student-row:nth-child(even) { background: rgba(255,255,255,.015); }
+    .student-name {
+      font-weight: 700; color: var(--text);
+      min-width: 75px; max-width: 110px;
+      flex-shrink: 0;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .student-role-badge {
+      font-size: .69rem; font-weight: 700;
+      padding: .12rem .45rem; border-radius: 3px;
+      flex-shrink: 0; white-space: nowrap;
+    }
+    .student-task-text { color: var(--text-muted); line-height: 1.4; flex: 1; }
+
+
+    /* MENTOR MODE */
+    .curr-mentor-bar {
+      display: flex; align-items: center; gap: .85rem;
+      padding: .85rem 1.1rem;
+      background: rgba(167,139,250,.07);
+      border: 1px solid rgba(167,139,250,.22);
+      border-radius: var(--radius);
+      margin-bottom: 1.25rem;
+      cursor: pointer;
+    }
+    .curr-mentor-bar:hover { background: rgba(167,139,250,.11); }
+    .curr-mentor-bar-label { font-weight: 700; color: var(--purple); font-size: .93rem; }
+    .curr-mentor-bar-sub { font-size: .8rem; color: var(--text-dim); margin-top: .1rem; }
+
+    .mentor-section {
+      margin-top: .75rem;
+      border: 1px solid rgba(167,139,250,.25);
+      border-radius: var(--radius-sm);
+      background: rgba(167,139,250,.04);
+      overflow: hidden;
+    }
+    .mentor-section-head {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .42rem .8rem;
+      background: rgba(167,139,250,.1);
+      border-bottom: 1px solid rgba(167,139,250,.18);
+      font-size: .7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--purple);
+    }
+    .mentor-body {
+      padding: .8rem .9rem;
+      display: flex; flex-direction: column; gap: .7rem;
+    }
+    .mentor-block { display: flex; flex-direction: column; gap: .25rem; }
+    .mentor-block-label {
+      font-size: .68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .07em; color: var(--text-dim);
+    }
+    .mentor-quote {
+      font-size: .85rem; color: var(--text-muted); line-height: 1.55;
+      font-style: italic; border-left: 2px solid rgba(167,139,250,.35);
+      padding-left: .6rem; margin-left: .1rem;
+    }
+    .mentor-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .35rem; }
+    .mentor-list li { display: flex; gap: .45rem; font-size: .84rem; color: var(--text-muted); line-height: 1.45; }
+    .mentor-list li .ml-icon { flex-shrink: 0; margin-top: .05rem; }
+    .mentor-student-list { display: flex; flex-direction: column; gap: .45rem; }
+    .mentor-student-item { font-size: .83rem; color: var(--text-muted); line-height: 1.45; }
+    .mentor-student-item strong { color: var(--text); font-weight: 700; }
+
+
+    /* VIEW SWITCHER */
+    .view-tabs { display:flex; gap:.5rem; margin-bottom:1.25rem; flex-wrap:wrap; align-items:center; }
+    .view-tab {
+      background:var(--bg-card2); border:1px solid var(--border); color:var(--text-muted);
+      border-radius:var(--radius-sm); padding:.5rem 1.1rem; font-size:.88rem; font-weight:600;
+      cursor:pointer; transition:all .18s;
+    }
+    .view-tab:hover { border-color:var(--border-bright); color:var(--text); }
+    .view-tab.active { background:var(--bg-card); border-color:var(--blue); color:var(--blue); }
+    .export-tab {
+      background:var(--bg-card2); border:1px solid var(--border); color:var(--text-muted);
+      border-radius:var(--radius-sm); padding:.5rem 1.1rem; font-size:.88rem; font-weight:600;
+      cursor:pointer; transition:all .18s; margin-left:auto;
+    }
+    .export-tab:hover { border-color:var(--teal); color:var(--teal); }
+
+    /* TRACKER HEADER */
+    .tracker-header {
+      display:flex; gap:1.25rem; align-items:flex-start;
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--radius); padding:1.25rem 1.5rem;
+      margin-bottom:1.25rem; flex-wrap:wrap;
+    }
+    .tracker-progress-section { flex:1; min-width:200px; }
+    .tracker-pct-row { display:flex; align-items:baseline; gap:.4rem; }
+    .tracker-pct-num { font-size:2.8rem; font-weight:800; color:var(--green); line-height:1; }
+    .tracker-pct-label { font-size:.85rem; color:var(--text-muted); }
+    .tracker-bar-wrap { margin:.5rem 0 .3rem; }
+    .tracker-bar { height:14px; background:var(--border); border-radius:7px; overflow:hidden; }
+    .tracker-bar-fill {
+      height:100%; width:0%;
+      background:linear-gradient(90deg, var(--teal), var(--green));
+      border-radius:7px; transition:width .6s cubic-bezier(.4,0,.2,1);
+    }
+    .tracker-sub-label { font-size:.8rem; color:var(--text-muted); }
+    .tracker-save-col { display:flex; flex-direction:column; align-items:flex-end; gap:.4rem; margin-left:auto; }
+    .save-btn {
+      background:var(--green); color:#0a1f14; border:none;
+      border-radius:var(--radius-sm); padding:.65rem 1.3rem;
+      font-size:.9rem; font-weight:700; cursor:pointer;
+      transition:opacity .18s, transform .15s, background .2s;
+    }
+    .save-btn:hover { opacity:.88; transform:translateY(-1px); }
+    .save-btn.saved-flash { background:var(--teal); }
+    .last-saved-txt { font-size:.77rem; color:var(--text-dim); transition:color .3s; }
+
+    /* PHASE PROGRESS CHIPS */
+    .phase-prog-row { display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:1.25rem; }
+    .phase-prog-chip {
+      border-radius:var(--radius-sm); padding:.45rem .85rem;
+      font-weight:600; transition:all .3s;
+    }
+    .phase-prog-name { font-size:.72rem; opacity:.8; }
+    .phase-prog-count { font-size:1.05rem; font-weight:800; }
+    .phase-prog-chip.phase-complete { box-shadow:0 0 14px rgba(52,211,153,.35); }
+
+    /* GANTT */
+    .gantt-wrap {
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--radius); padding:1rem 1.25rem;
+      margin-bottom:1.25rem; overflow-x:auto;
+    }
+    .gantt-head-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:.6rem; }
+    .gantt-title-txt { font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--text-dim); }
+    .gantt-legend { display:flex; gap:.75rem; font-size:.72rem; color:var(--text-dim); }
+    .gantt-legend-item { display:flex; align-items:center; gap:.25rem; }
+    .gantt-legend-dot { width:10px; height:10px; border-radius:3px; }
+    .gantt-table { border-collapse:collapse; }
+    .gantt-table td, .gantt-table th { padding:2px 3px; }
+    .gantt-phase-lbl { font-size:.71rem; font-weight:700; padding-right:.6rem !important; white-space:nowrap; }
+    .gantt-wk-lbl { font-size:.62rem; color:var(--text-dim); font-weight:600; text-align:center; }
+    .gantt-cell { text-align:center; vertical-align:middle; }
+    .gantt-block {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:26px; height:26px; border-radius:6px;
+      font-size:.64rem; font-weight:700; cursor:pointer;
+      transition:all .15s; user-select:none; margin:1px;
+    }
+    .gantt-block:hover { transform:scale(1.2); z-index:1; position:relative; }
+    .g-todo { background:var(--border); color:var(--text-dim); }
+    .g-prog { background:rgba(59,158,255,.22); color:var(--blue); border:1px solid rgba(59,158,255,.5); }
+    .g-done { background:rgba(52,211,153,.22); color:var(--green); border:1px solid rgba(52,211,153,.5); }
+
+    /* MEETING LIST */
+    .tracker-list { display:flex; flex-direction:column; gap:.65rem; }
+    .tracker-week-group { }
+    .tracker-week-head {
+      display:flex; align-items:center; justify-content:space-between;
+      font-size:.75rem; font-weight:700; text-transform:uppercase;
+      letter-spacing:.08em; color:var(--text-dim);
+      padding:.4rem .2rem; margin-bottom:.3rem;
+    }
+    .mark-week-btn {
+      background:transparent; border:1px solid var(--border); color:var(--text-dim);
+      border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:600;
+      cursor:pointer; transition:all .18s;
+    }
+    .mark-week-btn:hover { border-color:var(--green); color:var(--green); }
+    .tracker-meeting-row {
+      display:flex; align-items:center; gap:.75rem;
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--radius); padding:.7rem 1rem;
+      transition:all .22s;
+    }
+    .tracker-meeting-row.s-prog { border-color:rgba(59,158,255,.4); background:rgba(59,158,255,.04); }
+    .tracker-meeting-row.s-done { opacity:.6; background:rgba(52,211,153,.05); border-color:rgba(52,211,153,.2); }
+    .tracker-meeting-num {
+      width:28px; height:28px; border-radius:50%;
+      background:var(--bg-card2); border:1px solid var(--border);
+      font-size:.75rem; font-weight:700; color:var(--text-muted);
+      display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    }
+    .tracker-meeting-info { flex:1; min-width:0; }
+    .tracker-meeting-title { font-weight:600; color:var(--text); font-size:.92rem; }
+    .tracker-meeting-tags { display:flex; gap:.28rem; flex-wrap:wrap; margin-top:.2rem; }
+    .t-tag { font-size:.68rem; font-weight:700; padding:.1rem .4rem; border-radius:3px; }
+    .status-btn {
+      display:flex; align-items:center; gap:.4rem;
+      border-radius:var(--radius-sm); padding:.38rem .85rem;
+      font-size:.82rem; font-weight:700; cursor:pointer;
+      border:1px solid var(--border); transition:all .18s;
+      white-space:nowrap; flex-shrink:0; background:var(--bg-card2);
+    }
+    .status-btn:hover { transform:translateY(-1px); }
+    .s-btn-not { color:var(--text-dim); }
+    .s-btn-not:hover { border-color:var(--border-bright); color:var(--text-muted); }
+    .s-btn-prog { background:rgba(59,158,255,.1); border-color:var(--blue); color:var(--blue); }
+    .s-btn-done { background:rgba(52,211,153,.1); border-color:var(--green); color:var(--green); }
+    @keyframes pop { 0%{transform:scale(1)} 40%{transform:scale(1.3)} 100%{transform:scale(1)} }
+    .pop-anim { animation:pop .22s ease; }
+
+    /* CELEBRATION */
+    .celebration-banner {
+      background:linear-gradient(135deg, rgba(52,211,153,.18), rgba(240,192,64,.15));
+      border:1px solid rgba(52,211,153,.5); border-radius:var(--radius);
+      padding:1.5rem; text-align:center; font-size:1.25rem; font-weight:800;
+      color:var(--text); margin-bottom:1.25rem; display:none; letter-spacing:.02em;
+    }
+    @keyframes popIn { 0%{transform:scale(.85);opacity:0} 100%{transform:scale(1);opacity:1} }
+    .celebration-banner.show { display:block; animation:popIn .4s cubic-bezier(.34,1.56,.64,1) forwards; }
+
+    @media (max-width: 640px) {
+      .priority-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-pill">FLL</div>
+    Getting Started
+  </div>
+  <div class="nav-links">
+    <button class="active" onclick="show('home',this)">Overview</button>
+    <button onclick="show('robot',this)">Robot Game</button>
+    <button onclick="show('project',this)">Innovation Project</button>
+    <button onclick="show('values',this)">Core Values</button>
+    <button onclick="show('planner',this)">Season Planner</button>
+  </div>
+</nav>
+
+
+<!-- ═══════ HOME ═══════ -->
+<section id="home" class="active">
+  <div class="hero-wrap">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-inner hero">
+      <div>
+        <div class="hero-tag">For first-time FLL teams</div>
+        <h1>Everything you need to <em>start</em> your FLL season.</h1>
+        <p>FIRST LEGO League has a lot of moving parts. This guide breaks each judged area down into plain terms so you know what's expected and where to begin.</p>
+        <div class="hero-btns">
+          <button class="btn btn-primary" onclick="show('robot',navBtns[1])">Start with the Robot Game</button>
+          <button class="btn btn-teal" onclick="show('project',navBtns[2])">Innovation Project</button>
+        </div>
+      </div>
+      <div class="hero-panels">
+        <div class="hero-panel">
+          <div class="hero-panel-icon r">R</div>
+          <div>
+            <div class="hp-title">Robot Game</div>
+            <div class="hp-sub">Build and program a robot to complete missions autonomously on a table</div>
+          </div>
+        </div>
+        <div class="hero-panel">
+          <div class="hero-panel-icon i">I</div>
+          <div>
+            <div class="hp-title">Innovation Project</div>
+            <div class="hp-sub">Identify a real problem and design a creative solution to share with the world</div>
+          </div>
+        </div>
+        <div class="hero-panel">
+          <div class="hero-panel-icon cv">CV</div>
+          <div>
+            <div class="hp-title">Core Values</div>
+            <div class="hp-sub">Show judges how your team works together, learns together, and has fun</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- What is FLL -->
+    <div class="bright-box blue" style="margin-top:.5rem;">
+      <h3>What is FIRST LEGO League (FLL)?</h3>
+      <p>FLL is a robotics competition for students in roughly grades 4 through 8. Every season has a theme, like food, energy, or transportation. Your team works on three things: building a robot that completes missions on a game table, researching a real-world problem connected to the theme, and showing good teamwork throughout the season. At competitions, judges score your team separately on all three.</p>
+    </div>
+
+    <!-- Three areas -->
+    <div class="intro-cards">
+      <div class="intro-card blue" onclick="show('robot',navBtns[1])" style="cursor:pointer;">
+        <div class="ic-label">Area 01</div>
+        <h3>Robot Game</h3>
+        <p>Your robot gets 2.5 minutes on the game table, fully on its own. Once it starts, you can't touch it. You score points by completing missions, not by finishing fastest.</p>
+        <div class="ic-accent blue" style="margin-top:1rem;">Learn robot design →</div>
+      </div>
+      <div class="intro-card teal" onclick="show('project',navBtns[2])" style="cursor:pointer;">
+        <div class="ic-label">Area 02</div>
+        <h3>Innovation Project</h3>
+        <p>Your team picks a real problem connected to the season's theme, designs a solution, talks to real experts, and shares what you found with people outside FLL.</p>
+        <div class="ic-accent teal" style="margin-top:1rem;">Learn the project →</div>
+      </div>
+      <div class="intro-card purple" onclick="show('values',navBtns[3])" style="cursor:pointer;">
+        <div class="ic-label">Area 03</div>
+        <h3>Core Values</h3>
+        <p>A separate judging session where judges watch how your team works together. They want to see real teamwork and problem-solving, not a scripted performance.</p>
+        <div class="ic-accent" style="margin-top:1rem;color:var(--purple);">Learn core values →</div>
+      </div>
+    </div>
+
+    <!-- Season Timeline -->
+    <h3 style="color:var(--text);margin-bottom:1.25rem;font-size:.95rem;text-transform:uppercase;letter-spacing:.08em;">What a typical season looks like</h3>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-dot blue"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div>
+          <div class="tl-month">August — Season Launch</div>
+          <h3>The new challenge is revealed</h3>
+          <p>FIRST releases the season theme and robot game rules. You'll find out what's on the game table and what kind of problem your project should focus on. Start a team journal right away.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-dot teal"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div>
+          <div class="tl-month">August–September</div>
+          <h3>Build, code, and pick your project topic</h3>
+          <p>Start building your robot and testing early missions. At the same time, pick a specific problem to research for your project. Both happen at once, so don't wait on one until the other is done.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-dot gold"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div>
+          <div class="tl-month">October–November</div>
+          <h3>Refine and reach out</h3>
+          <p>Work on your robot's consistency, contact experts for your project, and start practicing your judging presentations for all three areas. Most qualifier competitions happen in November or December.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-dot green"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div>
+          <div class="tl-month">November–January</div>
+          <h3>Compete</h3>
+          <p>First comes a qualifier event. If you advance, there are regional, state, and potentially world championship events. The judging process is the same everywhere; the competition just gets bigger.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Key things to know -->
+    <h3 style="color:var(--text);margin-bottom:1rem;">Things every new team should know</h3>
+    <div class="faq">
+      <div class="faq-item">
+        <h3>You don't need to be perfect. You need to be consistent.</h3>
+        <p>Three missions that work every single run will outscore ten missions that fail half the time. Judges also care about how you worked through problems, not just how polished the final result looks.</p>
+      </div>
+      <div class="faq-item">
+        <h3>All three areas are judged equally. Don't ignore any of them.</h3>
+        <p>A lot of first-year teams put almost all their time into the robot and rush everything else at the end. Teams that score well keep all three areas moving throughout the whole season.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Documentation is as important as the work itself.</h3>
+        <p>Judges can only score what they can actually see. A great robot with no photos or notes is worth less than a simpler one with a clear journal and photos from each step. Start on day one.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Gracious Professionalism is not optional. It's scored.</h3>
+        <p>FLL has a concept called Gracious Professionalism. It means competing hard while being genuinely kind to other teams, judges, and volunteers. Judges watch how your team acts all day, not just inside the judging room.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Asking for help is fine. It actually helps your score.</h3>
+        <p>Reaching out to experts, talking to other teams, and learning from mentors all count as evidence in judging. FLL wants teams to look for knowledge outside their own group.</p>
+      </div>
+    </div>
+
+    <!-- Quick start -->
+    <div class="bright-box teal">
+      <h3>Your first week checklist</h3>
+      <ul class="checklist" style="margin-top:.75rem;">
+        <li><span class="ck teal">✓</span>Get a copy of the official season rules and read the robot game section together as a team</li>
+        <li><span class="ck teal">✓</span>Start a shared team journal and write down what happens at every meeting from here on</li>
+        <li><span class="ck teal">✓</span>Assign informal roles: someone on the robot, someone on the project, someone on presentations</li>
+        <li><span class="ck teal">✓</span>Read the Innovation Project section of the season guide to understand this year's problem theme</li>
+        <li><span class="ck teal">✓</span>Set up a folder, digital or physical, to save photos, notes, and printed materials</li>
+        <li><span class="ck teal">✓</span>Talk about what fun looks like for your team and plan at least one non-work activity this season</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════ ROBOT GAME ═══════ -->
+<section id="robot">
+  <div class="section-banner">
+    <div class="section-eyebrow eyebrow-blue">Area 01</div>
+    <h2>The Robot Game</h2>
+    <p>Your robot gets 2.5 minutes per run to complete as many missions as it can, completely on its own. Most competitions give you three runs and count your best two. Points come from finishing missions, not from how fast you finish.</p>
+  </div>
+
+  <div class="content">
+
+    <!-- What is the robot game -->
+    <div class="bright-box blue" style="margin-bottom:1.5rem;">
+      <h3>How the robot game works</h3>
+      <p>The game table is a 4 by 8 foot mat with mission models built from LEGO pieces. Before each run, you place your robot at a launch pad, press start, and step back. You can't touch it again until it comes back to base. After the run a referee counts your score. Between runs you make changes in the pit area, then go again. Every team at every competition uses the same table.</p>
+    </div>
+
+    <!-- Core principle -->
+    <div style="margin-bottom:1.75rem;">
+      <h3 style="color:var(--text);margin-bottom:1rem;">The most important thing to understand about robot design</h3>
+      <div class="compare">
+        <div class="compare-col bad">
+          <div class="cmp-label">Big robot — the common mistake</div>
+          <ul>
+            <li>Gets stuck in tight table spaces</li>
+            <li>Heavy and slow, hard to control precisely</li>
+            <li>Unbalanced weight causes inconsistent turns</li>
+            <li>More things to break during a run</li>
+            <li>Different results every time</li>
+          </ul>
+        </div>
+        <div class="compare-col good">
+          <div class="cmp-label">Small, compact robot — what works</div>
+          <ul>
+            <li>Fits anywhere on the table</li>
+            <li>Light and fast — navigates precisely</li>
+            <li>Stable and predictable run after run</li>
+            <li>Fewer moving parts = fewer failures</li>
+            <li>Same result nearly every time</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout" style="margin:0;">
+        <div class="cl-label">Key lesson from experienced teams</div>
+        <p>Small, compact, and lightweight robots are almost always more consistent. A lot of teams spend multiple seasons figuring this out. Start small from the beginning.</p>
+      </div>
+    </div>
+
+    <!-- Getting started steps -->
+    <h3 style="color:var(--text);margin-bottom:1rem;">Where to start — your first 4 weeks</h3>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num-circle blue">1</div>
+        <div>
+          <h3>Read the game guide and identify 3–5 "easy" missions</h3>
+          <p>Every season's game has missions that range from simple to complex. Start by identifying the ones that seem most achievable and build your strategy around those. You can always add harder missions later.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num-circle blue">2</div>
+        <div>
+          <h3>Build your robot as small as possible</h3>
+          <p>Aim for a compact, sturdy base about the size of a large paperback book. Don't add mission-specific attachments yet. Just get the robot driving straight and turning accurately before anything else.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num-circle blue">3</div>
+        <div>
+          <h3>Write code for one mission and test it 10 times in a row</h3>
+          <p>Don't try to code everything at once. Pick one mission, write the code, and run it ten times. Count how many times it succeeds. If it's below 7 out of 10, fix the problem before moving to the next mission.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num-circle blue">4</div>
+        <div>
+          <h3>Add missions one at a time, always checking consistency</h3>
+          <p>Every time you add a new mission sequence, re-test your earlier missions too. Adding new code can sometimes break what was already working. Catching this early saves you from big surprises at competition.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tips by level -->
+    <div class="level-band start">
+      <span class="lvl-badge">Getting started</span>
+      <span class="lvl-title">Focus on these first</span>
+      <span class="lvl-who">First-year teams</span>
+    </div>
+    <div class="level-body">
+      <div class="card-grid">
+        <div class="info-card">
+          <h3>Target 3 missions, not 10</h3>
+          <p>Three missions you complete every single run will beat ten missions you attempt inconsistently. Your first goal is reliability, not maximum points.</p>
+        </div>
+        <div class="info-card">
+          <h3>Take notes after every practice run</h3>
+          <p>Keep a notebook or shared doc. After each run, write down what worked, what failed, and what you're changing next. Judges will want to see this journal.</p>
+        </div>
+        <div class="info-card">
+          <h3>Keep attachments simple and light</h3>
+          <p>For your first season, focus on using your robot's built-in motors and sensors before adding complex attachments. Simple solutions that work beat clever solutions that break.</p>
+        </div>
+        <div class="info-card">
+          <h3>Know your expected score before you compete</h3>
+          <p>Calculate exactly how many points your 3–5 missions are worth. Walk into competition with that number memorized. Knowing your strategy shows judges you're organized.</p>
+        </div>
+      </div>
+      <div class="callout teal" style="margin-bottom:0;">
+        <div class="cl-label">First competition goal</div>
+        <p>Finish at least one mission in every single run. That's your first goal. A team that scores 20 points in all three runs shows more than a team that nails one run and fails the other two.</p>
+      </div>
+    </div>
+
+    <div class="level-band level">
+      <span class="lvl-badge">Next level</span>
+      <span class="lvl-title">When you're ready to push further</span>
+      <span class="lvl-who">Returning or advancing teams</span>
+    </div>
+    <div class="level-body">
+      <div class="card-grid">
+        <div class="info-card">
+          <h3>Set written design goals before building</h3>
+          <p>Decide your robot's maximum size, weight, and target consistency before you start building. Writing those goals down first helps your team make faster, better decisions.</p>
+          <div class="ic-accent blue">Example: body under 5.5″ × 5″</div>
+        </div>
+        <div class="info-card">
+          <h3>Document every robot version</h3>
+          <p>When you redesign or rebuild, record the old version first: photo, what it was, its pros, its cons. Multiple documented versions across a season shows judges real engineering process.</p>
+        </div>
+        <div class="info-card">
+          <h3>Build mission-specific attachments</h3>
+          <p>One attachment per mission is more reliable than a multi-function arm. Keep them lightweight. Heavy attachments slow your robot and throw off its turning accuracy.</p>
+        </div>
+        <div class="info-card">
+          <h3>Plan a full run strategy on paper</h3>
+          <p>Map out which missions you'll attempt in each run, their point values, and a backup plan if a mission fails mid-run. Paper strategy before game day prevents panicking at the table.</p>
+        </div>
+        <div class="info-card">
+          <h3>Track consistency percentage per mission</h3>
+          <p>If you're finishing a mission less than 70% of the time, fix it or drop it. A mission you can't complete reliably will cost you more than it's worth.</p>
+        </div>
+        <div class="info-card">
+          <h3>Research advanced coding techniques</h3>
+          <p>Once your robot is solid at the basics, look into gyro-based turns, color sensor line-following, and PID control. These help a lot with accuracy as competition gets more serious.</p>
+          <div class="ic-accent teal">PID = much more consistent navigation</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Judging tips -->
+    <div class="bright-box teal">
+      <h3>What judges look for in Robot Design</h3>
+      <ul class="checklist" style="margin-top:.75rem;">
+        <li><span class="ck teal">✓</span>Can every team member explain the robot's design choices, not just the person who built it?</li>
+        <li><span class="ck teal">✓</span>Do you have photos or a journal documenting how the robot evolved over the season?</li>
+        <li><span class="ck teal">✓</span>Can you explain why you chose the missions you did and what your expected point total is?</li>
+        <li><span class="ck teal">✓</span>When something went wrong (it always does), can you explain the problem and how you fixed it?</li>
+        <li><span class="ck teal">✓</span>Does your code have any interesting or clever techniques worth explaining to judges?</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════ INNOVATION PROJECT ═══════ -->
+<section id="project">
+  <div class="section-banner">
+    <div class="section-eyebrow eyebrow-teal">Area 02</div>
+    <h2>Innovation Project</h2>
+    <p>Every FLL season has a theme. Your team needs to find a real problem connected to that theme, come up with a solution, talk to real experts, and share what you found with people outside FLL. Judges look at how deep your research went, how creative your solution is, and how many people you reached.</p>
+  </div>
+
+  <div class="content">
+
+    <!-- What is the project -->
+    <div class="bright-box teal" style="margin-bottom:1.5rem;">
+      <h3>What makes a good Innovation Project?</h3>
+      <p>A good project starts with a specific real problem backed by real data. Not just "pollution is bad," but something like: "According to the EPA, 40% of rivers in the US are too polluted to swim in." From there, your team comes up with a creative solution, builds or tests something, talks to real experts, and shares what you learned. Your project doesn't have to be a finished product. A well-researched idea with a rough prototype and useful expert feedback can score just as well.</p>
+    </div>
+
+    <!-- Project phases -->
+    <h3 style="color:var(--text);margin-bottom:1rem;">The four phases of every Innovation Project</h3>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num-circle teal">1</div>
+        <div>
+          <h3>Identify a specific problem with real data</h3>
+          <p>Don't start too broad. "Food waste is a problem" is too vague. "According to the USDA, 30 to 40% of the US food supply is wasted every year, costing consumers $161 billion" is a real problem statement. Find a number from a credible source like a government agency, major nonprofit, or university.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num-circle teal">2</div>
+        <div>
+          <h3>Design and build a solution</h3>
+          <p>Your solution can be an app, a device, a service, or any creative idea. It doesn't have to fully work. A rough prototype that shows the concept is enough at most competition levels. Take photos of every step, even when things fail or look messy. That documentation is exactly what judges want to see.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num-circle teal">3</div>
+        <div>
+          <h3>Contact real experts and use their feedback</h3>
+          <p>Reach out to people who know about your problem or could help with your solution. Email works fine, and most people are happy to talk to student teams. For your first season, aim to contact at least one expert. When you do, show how what they told you actually changed something in your project.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num-circle teal">4</div>
+        <div>
+          <h3>Share your project beyond your team</h3>
+          <p>Share your project with people outside FLL. A class presentation, a community event, a local nonprofit, or a government official all count. The broader the reach, the better. Even a simple website anyone can visit counts.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tips by level -->
+    <div class="level-band start">
+      <span class="lvl-badge">Getting started</span>
+      <span class="lvl-title">First-year project essentials</span>
+      <span class="lvl-who">First-year teams</span>
+    </div>
+    <div class="level-body">
+      <div class="card-grid">
+        <div class="info-card">
+          <h3>Find one credible statistic about your problem</h3>
+          <p>A number from the CDC, USDA, EPA, WHO, or a major university study is enough to anchor your problem statement. One strong number beats a paragraph of vague claims.</p>
+        </div>
+        <div class="info-card">
+          <h3>Build something physical, even if rough</h3>
+          <p>A rough model you can demonstrate is a lot more memorable than slides. It doesn't have to work perfectly. Just show that you built something.</p>
+        </div>
+        <div class="info-card">
+          <h3>Contact one expert before competition</h3>
+          <p>Email someone who works in the area of your problem. Tell them you're a student team and ask a few specific questions. Even one real response makes a noticeable difference.</p>
+        </div>
+        <div class="info-card">
+          <h3>Present to at least one outside audience</h3>
+          <p>A class presentation, a demo for family and neighbors, or even a short video posted online counts. You need evidence that you shared your project beyond your own team.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="level-band level">
+      <span class="lvl-badge">Next level</span>
+      <span class="lvl-title">Going deeper with research and outreach</span>
+      <span class="lvl-who">Returning or advancing teams</span>
+    </div>
+    <div class="level-body">
+      <div class="card-grid">
+        <div class="info-card">
+          <h3>Contact three or more experts</h3>
+          <p>Reach someone who has the problem, someone with technical expertise, and someone who could actually implement or fund your solution. Different perspectives from different sectors matter.</p>
+        </div>
+        <div class="info-card">
+          <h3>Show how feedback changed your design</h3>
+          <p>Tell judges: "An expert told us X, so we changed Y." Documented iteration based on expert input is worth much more than listing experts you contacted but didn't act on.</p>
+        </div>
+        <div class="info-card">
+          <h3>Log problems and solutions during development</h3>
+          <p>When your prototype breaks or your plan changes, write it down: what failed, what you tried, what worked. This log becomes your evidence of a real engineering process.</p>
+        </div>
+        <div class="info-card">
+          <h3>Create a project website or QR code</h3>
+          <p>A simple project website makes sharing infinitely easier. You can send the link to every expert you contact, include a QR code in your portfolio, and demo it at competition.</p>
+        </div>
+        <div class="info-card">
+          <h3>Reach decision-makers, not just general contacts</h3>
+          <p>Presenting to a city council member, a nonprofit director, or a school principal hits differently than emailing a general inbox. People who can actually do something with your idea are the contacts judges notice.</p>
+        </div>
+        <div class="info-card">
+          <h3>Test with real users from your target group</h3>
+          <p>If your solution is for elderly people, have elderly people actually try it. Critical feedback from real users is some of the best evidence you can bring to a judging session.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Expert contact tips -->
+    <div class="bright-box blue">
+      <h3>How to contact an expert (and actually get a response)</h3>
+      <p style="margin-bottom:.75rem;">Most experts are happy to help if you keep your ask short and clear. Keep your email under 150 words. Introduce your team and grade level, describe your problem in one sentence, and ask two or three specific questions. Don't ask them to solve your project for you; ask for their knowledge. If you don't hear back in a week, one follow-up is fine and often works.</p>
+      <ul class="checklist">
+        <li><span class="ck blue">✓</span>Who they are: a professor, nonprofit employee, government worker, local business owner, anyone with real knowledge of your problem</li>
+        <li><span class="ck blue">✓</span>Why you're asking: "We're a student FLL team researching [problem] and we'd love to hear from an expert in [their field]"</li>
+        <li><span class="ck blue">✓</span>What you're asking: two or three specific questions — not "can you help us with our project"</li>
+        <li><span class="ck blue">✓</span>Record their response and note exactly how it influenced your project</li>
+      </ul>
+    </div>
+
+    <!-- Judging tips -->
+    <div class="tip-card" style="margin-top:1rem;">
+      <h3>What judges look for in the Innovation Project</h3>
+      <p style="margin-bottom:.75rem;">Judges are checking four things: Is the problem real and backed by data? Is the solution creative and workable? Did you actually talk to experts and change something based on what they said? And did you share this with real people outside your team? If you can answer all four with specific examples and documentation, you'll score well even if your prototype isn't perfect.</p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════ CORE VALUES ═══════ -->
+<section id="values">
+  <div class="section-banner">
+    <div class="section-eyebrow eyebrow-purple">Area 03</div>
+    <h2>Core Values</h2>
+    <p>Core Values is a separate judging session, usually 10 to 15 minutes, where judges watch your whole team interact. They're not just listening to your answers. They're watching who speaks, how you treat each other, and whether the way you work together seems real.</p>
+  </div>
+
+  <div class="content">
+
+    <!-- What is the session -->
+    <div class="bright-box" style="background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.25);margin-bottom:1.5rem;">
+      <h3>What happens in the Core Values judging session?</h3>
+      <p>Judges will ask your team questions about the season: what you learned, how you made decisions, what challenges you ran into, how you handled disagreements. Sometimes they'll give your team a short activity to do together and watch how you work through it. They're not looking for a perfect rehearsed presentation. They want to see a real team doing real things.</p>
+    </div>
+
+    <!-- Six Values -->
+    <h3 style="color:var(--text);margin-bottom:1rem;">The six Core Values — what they actually mean</h3>
+    <div class="values-grid">
+      <div class="val-card">
+        <div class="vl blue">Discovery</div>
+        <h3>Show what you actually learned this season</h3>
+        <p>Not just "we learned a lot." Something specific. A comparison you did, a technique you figured out, a mistake you had to correct. The more concrete, the better.</p>
+      </div>
+      <div class="val-card">
+        <div class="vl teal">Innovation</div>
+        <h3>Show creative thinking in action</h3>
+        <p>Did you try something new? Did you solve a problem in a way nobody expected? Walk judges through how you got there. They care about the thinking, not just the answer.</p>
+      </div>
+      <div class="val-card">
+        <div class="vl gold">Impact</div>
+        <h3>Show that your work reached real people</h3>
+        <p>What real difference did your team make this season? This covers your Innovation Project, but also any mentoring, teaching, or outreach your team did on its own.</p>
+      </div>
+      <div class="val-card">
+        <div class="vl green">Inclusion</div>
+        <h3>Make every member feel genuinely valued</h3>
+        <p>Every person on your team should have a real contribution, not just a title. Write your own definition of what inclusion means for your specific team.</p>
+      </div>
+      <div class="val-card">
+        <div class="vl purple">Teamwork</div>
+        <h3>Work together, don't just divide tasks</h3>
+        <p>Show that decisions were made together, that members helped each other, and that when you needed knowledge you didn't have, you went and got it. Asking for help is a strength in FLL.</p>
+      </div>
+      <div class="val-card">
+        <div class="vl bronze">Fun</div>
+        <h3>Actually enjoy your season. And document it.</h3>
+        <p>Fun is actually scored. You need specific evidence, not just a claim that your team gets along. Name a tradition, a moment, or an activity from this season that was genuinely fun.</p>
+      </div>
+    </div>
+
+    <!-- Gracious Professionalism -->
+    <div class="callout purple" style="margin-bottom:1.75rem;">
+      <div class="cl-label">Gracious Professionalism — the most important FLL concept</div>
+      <p>Compete hard. Be kind. That's the whole idea. Gracious Professionalism means treating competitors, judges, and volunteers with real respect, even when things go wrong. Cheer when other teams score. Share tips you didn't have to share. Never celebrate another team's failure. Judges watch this all day, not just during your judging session.</p>
+    </div>
+
+    <!-- Tips by level -->
+    <div class="level-band start">
+      <span class="lvl-badge">Getting started</span>
+      <span class="lvl-title">Core Values basics for first-year teams</span>
+      <span class="lvl-who">First-year teams</span>
+    </div>
+    <div class="level-body">
+      <div class="card-grid">
+        <div class="info-card">
+          <h3>Every member should be able to speak</h3>
+          <p>Judges ask individuals questions, not just the team as a whole. Make sure everyone is ready to explain their role and at least one thing they did this season. Nobody should be caught off guard.</p>
+        </div>
+        <div class="info-card">
+          <h3>Give everyone a clear role</h3>
+          <p>Builder, programmer, project lead, presenter, note-taker. Even informal roles matter. When everyone has something to own, the whole team benefits and nobody is stuck with nothing to say.</p>
+        </div>
+        <div class="info-card">
+          <h3>Write down at least one "Discovery"</h3>
+          <p>What's one specific thing your team learned this season that surprised you? Something tied to your robot, your project, or even how you work together. Give judges something real and specific to ask about.</p>
+        </div>
+        <div class="info-card">
+          <h3>Help another team at competition</h3>
+          <p>If you see another team struggling with anything, help them. This is Gracious Professionalism in action. Do it because it's the right thing to do, and write it down for your portfolio.</p>
+        </div>
+      </div>
+      <div class="callout" style="margin-bottom:0;">
+        <div class="cl-label">First session tip</div>
+        <p>Practice answering this as a team: "Tell us about a challenge you faced this season and how you handled it." Have a real, specific story ready. Make sure more than one person takes part in telling it.</p>
+      </div>
+    </div>
+
+    <div class="level-band level">
+      <span class="lvl-badge">Next level</span>
+      <span class="lvl-title">Going deeper with Core Values documentation</span>
+      <span class="lvl-who">Returning or advancing teams</span>
+    </div>
+    <div class="level-body">
+      <div class="card-grid">
+        <div class="info-card">
+          <h3>Document your conflict resolution process</h3>
+          <p>When your team disagrees, how do you settle it? A vote? The mentor decides? Strongest argument wins? Write it down, and be ready to name a specific time it came up this season.</p>
+        </div>
+        <div class="info-card">
+          <h3>Write your team's Inclusion statement</h3>
+          <p>What does Inclusion actually mean to your team, given your backgrounds and how you work together? Write it in your own words. One paragraph is enough. Don't copy it from the rulebook.</p>
+        </div>
+        <div class="info-card">
+          <h3>Mentor or teach someone outside your team</h3>
+          <p>Even one session helping a newer team or younger students builds evidence for both Impact and Teamwork. Doing it more than once is a lot stronger than a single visit.</p>
+        </div>
+        <div class="info-card">
+          <h3>Plan some documented Fun activities</h3>
+          <p>Regular game nights, a competition-day tradition, a specific thing only your team does. Documented, scheduled fun beats a vague claim that your team gets along.</p>
+        </div>
+        <div class="info-card">
+          <h3>Show how your values show up in all three areas</h3>
+          <p>Did your Teamwork show up in how you built the robot? Did your Discovery connect to the project? At higher competition levels, judges look for teams where the Core Values show up everywhere, not just in the Core Values session.</p>
+        </div>
+        <div class="info-card">
+          <h3>Give each member a spotlight in your portfolio</h3>
+          <p>Write one paragraph per member: who they are, how long they've been on the team, and what they specifically did this season. Judges should know everyone's name and contribution before the session even starts.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary checklist -->
+    <div class="bright-box" style="background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.25);">
+      <h3>Core Values preparation checklist</h3>
+      <ul class="checklist" style="margin-top:.75rem;">
+        <li><span class="ck purple">✓</span>Every team member can describe their role and one specific contribution they made</li>
+        <li><span class="ck purple">✓</span>Your team has a documented answer to "how do you resolve disagreements?"</li>
+        <li><span class="ck purple">✓</span>You can name one specific Discovery from this season with evidence</li>
+        <li><span class="ck purple">✓</span>Your team did at least one activity that demonstrates Impact beyond your team</li>
+        <li><span class="ck purple">✓</span>You have evidence that Fun was part of your actual season, not just something you're claiming</li>
+        <li><span class="ck purple">✓</span>Every member knows what Gracious Professionalism means and can describe a time they practiced it</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ── SEASON PLANNER ── -->
+<section id="planner">
+  <div class="section-banner">
+    <div class="section-eyebrow eyebrow-green">Season Tool</div>
+    <h2>Meeting Planner</h2>
+    <p>Enter your schedule and get a meeting-by-meeting curriculum for your entire season, covering Robot Game, Innovation Project, and Core Values.</p>
+  </div>
+  <div class="content">
+
+    <div class="planner-card">
+      <div class="planner-form">
+
+        <div class="planner-field">
+          <label class="planner-label">How many times a week does your team meet?</label>
+          <div class="popt-row" id="opt-perweek">
+            <button class="popt active" data-val="1" onclick="setPOpt(this,'perweek')">1×</button>
+            <button class="popt" data-val="2" onclick="setPOpt(this,'perweek')">2×</button>
+            <button class="popt" data-val="3" onclick="setPOpt(this,'perweek')">3×</button>
+            <button class="popt" data-val="4" onclick="setPOpt(this,'perweek')">4×</button>
+            <button class="popt" data-val="5" onclick="setPOpt(this,'perweek')">5×</button>
+          </div>
+        </div>
+
+        <div class="planner-field">
+          <label class="planner-label">Weeks until your first competition: <span id="wks-display" class="planner-pill">12 weeks</span></label>
+          <input type="range" class="planner-range" id="planner-weeks" min="4" max="24" value="12"
+            oninput="document.getElementById('wks-display').textContent=this.value+' weeks'">
+          <div class="planner-range-ends"><span>4 wks</span><span>24 wks</span></div>
+        </div>
+
+        <div class="planner-field">
+          <label class="planner-label">How long is each meeting?</label>
+          <div class="popt-row" id="opt-hours">
+            <button class="popt" data-val="1" onclick="setPOpt(this,'hours')">1 hr</button>
+            <button class="popt active" data-val="1.5" onclick="setPOpt(this,'hours')">1.5 hrs</button>
+            <button class="popt" data-val="2" onclick="setPOpt(this,'hours')">2 hrs</button>
+            <button class="popt" data-val="2.5" onclick="setPOpt(this,'hours')">2.5 hrs</button>
+            <button class="popt" data-val="3" onclick="setPOpt(this,'hours')">3+ hrs</button>
+          </div>
+        </div>
+
+        <div class="planner-field">
+          <label class="planner-label">How many students are on your team?</label>
+          <div class="popt-row" id="opt-teamsize">
+            <button class="popt" data-val="2" onclick="setPOpt(this,'teamsize');updateTeamCards()">2</button>
+            <button class="popt" data-val="3" onclick="setPOpt(this,'teamsize');updateTeamCards()">3</button>
+            <button class="popt active" data-val="4" onclick="setPOpt(this,'teamsize');updateTeamCards()">4</button>
+            <button class="popt" data-val="5" onclick="setPOpt(this,'teamsize');updateTeamCards()">5</button>
+            <button class="popt" data-val="6" onclick="setPOpt(this,'teamsize');updateTeamCards()">6</button>
+            <button class="popt" data-val="7" onclick="setPOpt(this,'teamsize');updateTeamCards()">7</button>
+            <button class="popt" data-val="8" onclick="setPOpt(this,'teamsize');updateTeamCards()">8</button>
+            <button class="popt" data-val="9" onclick="setPOpt(this,'teamsize');updateTeamCards()">9</button>
+            <button class="popt" data-val="10" onclick="setPOpt(this,'teamsize');updateTeamCards()">10</button>
+          </div>
+        </div>
+
+        <div class="planner-field">
+          <div class="toggle-row">
+            <div>
+              <label class="planner-label" style="margin-bottom:0">Add individual student info</label>
+              <p class="planner-sublabel" style="margin-top:.25rem">Tell us each student's experience level and what skills they want to build. Your curriculum will suggest who leads what each meeting.</p>
+            </div>
+            <label class="toggle-switch" title="Toggle student details">
+              <input type="checkbox" id="members-toggle" onchange="toggleMembers()">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div id="members-section" style="display:none">
+            <div class="member-cards-grid" id="member-cards"></div>
+          </div>
+        </div>
+
+        <div class="planner-field">
+          <label class="planner-label">How do you want to split your time?</label>
+          <p class="planner-sublabel">Drag each slider to set how much focus each area gets in your meetings. Your curriculum will reflect these priorities.</p>
+          <div class="priority-grid">
+            <div class="priority-card robot-card">
+              <div class="priority-area-name"><span class="pri-dot pri-dot-robot"></span>Robot Game</div>
+              <input type="range" class="priority-range robot-range" id="pri-robot" min="1" max="10" value="5" oninput="updatePriorities()">
+              <div class="priority-pct robot-pct" id="pct-robot">33%</div>
+              <div class="priority-pct-label">of meeting time</div>
+            </div>
+            <div class="priority-card project-card">
+              <div class="priority-area-name"><span class="pri-dot pri-dot-project"></span>Innovation Project</div>
+              <input type="range" class="priority-range project-range" id="pri-project" min="1" max="10" value="5" oninput="updatePriorities()">
+              <div class="priority-pct project-pct" id="pct-project">33%</div>
+              <div class="priority-pct-label">of meeting time</div>
+            </div>
+            <div class="priority-card cv-card">
+              <div class="priority-area-name"><span class="pri-dot pri-dot-cv"></span>Core Values</div>
+              <input type="range" class="priority-range cv-range" id="pri-cv" min="1" max="10" value="5" oninput="updatePriorities()">
+              <div class="priority-pct cv-pct" id="pct-cv">34%</div>
+              <div class="priority-pct-label">of meeting time</div>
+            </div>
+          </div>
+          <div id="priority-warning" style="display:none"></div>
+        </div>
+
+        <div class="planner-field">
+          <label class="planner-label">Any specific goals for this season?</label>
+          <div class="goal-chips">
+            <button class="goal-chip" onclick="toggleGoal(this,'qualify')">Qualify for championship</button>
+            <button class="goal-chip" onclick="toggleGoal(this,'robot-award')">Win Robot Design award</button>
+            <button class="goal-chip" onclick="toggleGoal(this,'project-award')">Win Innovation Project award</button>
+            <button class="goal-chip" onclick="toggleGoal(this,'cv-award')">Win Core Values award</button>
+            <button class="goal-chip" onclick="toggleGoal(this,'first-season')">First season ever</button>
+          </div>
+        </div>
+
+        <button class="planner-btn" onclick="generateCurriculum()">Generate my curriculum</button>
+
+      </div>
+    </div>
+
+    <div id="curr-output" style="display:none"></div>
+
+  </div>
+</section>
+
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p>FLL Getting Started Guide, built from the work of experienced FLL teams.</p>
+  <p style="margin-top:.4rem;">FIRST® and FIRST® LEGO® League are registered trademarks of FIRST. This guide is for educational purposes only.</p>
+</footer>
+
+<script>
+  const navBtns = Array.from(document.querySelectorAll('.nav-links button'));
+
+  function show(id, btn) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    navBtns.forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.querySelector('.btn-primary').addEventListener('click', () => show('robot', navBtns[1]));
+  document.querySelector('.btn-teal').addEventListener('click', () => show('project', navBtns[2]));
+
+  /* ── SEASON PLANNER ── */
+
+  const plannerState = { perweek: 1, hours: 1.5, teamsize: 4 };
+  const teamGoals = new Set();
+
+  // ── MEMBER DATA ──
+  const SKILLS_DEF = [
+    { id:'programming', label:'Programming' },
+    { id:'building',    label:'Robot building' },
+    { id:'research',    label:'Research' },
+    { id:'prototyping', label:'Prototyping' },
+    { id:'presenting',  label:'Presenting' },
+    { id:'writing',     label:'Writing / docs' },
+    { id:'leadership',  label:'Team lead' },
+    { id:'creative',    label:'Creative thinking' },
+  ];
+  const EXP_AREAS_DEF = [
+    { key:'robot',   label:'Robot' },
+    { key:'project', label:'Project' },
+    { key:'cv',      label:'Core Values' },
+  ];
+  const SKILL_TO_AREA = {
+    programming:'robot', building:'robot',
+    research:'project', prototyping:'project', presenting:'project', creative:'project',
+    writing:'cv', leadership:'cv',
+  };
+  const memberData = [];
+
+  function makeMember() { return { name:'', exp:{robot:'new',project:'new',cv:'new'}, skills:new Set() }; }
+
+  function ensureMemberData(n) {
+    while (memberData.length < n) memberData.push(makeMember());
+  }
+
+  function toggleMembers() {
+    const on = document.getElementById('members-toggle').checked;
+    document.getElementById('members-section').style.display = on ? 'block' : 'none';
+    if (on) { ensureMemberData(plannerState.teamsize); renderMemberCards(); }
+  }
+
+  function updateTeamCards() {
+    plannerState.teamsize = parseInt(document.querySelector('#opt-teamsize .popt.active').dataset.val);
+    if (document.getElementById('members-toggle').checked) {
+      ensureMemberData(plannerState.teamsize);
+      renderMemberCards();
+    }
+  }
+
+  function renderMemberCards() {
+    const n = plannerState.teamsize;
+    const grid = document.getElementById('member-cards');
+    grid.innerHTML = '';
+    for (let i = 0; i < n; i++) {
+      const d = memberData[i];
+
+      const expRows = EXP_AREAS_DEF.map((a, ai) => {
+        const btns = ['new','some','exp'].map((lvl, li) => {
+          const lbl = ['New','Some','Expert'][li];
+          const cls = d.exp[a.key] === lvl ? ' active-' + lvl : '';
+          return '<button class="exp-btn' + cls + '" data-mi="' + i + '" data-ai="' + ai + '" data-li="' + li + '" onclick="setExp(this)">' + lbl + '</button>';
+        }).join('');
+        return '<div class="exp-area-row"><div class="exp-area-lbl">' + a.label + '</div><div class="exp-btns">' + btns + '</div></div>';
+      }).join('');
+
+      const chips = SKILLS_DEF.map((s, si) => {
+        const cls = d.skills.has(s.id) ? ' active' : '';
+        return '<button class="skill-chip' + cls + '" data-mi="' + i + '" data-si="' + si + '" onclick="toggleSkill(this)">' + s.label + '</button>';
+      }).join('');
+
+      const nameVal = d.name.replace(/"/g, '&quot;');
+      grid.innerHTML +=
+        '<div class="member-card">'
+        + '<div class="member-card-head">'
+        + '<div class="member-num">' + (i + 1) + '</div>'
+        + '<input class="member-name-input" type="text" placeholder="Student ' + (i + 1) + '" value="' + nameVal + '" data-mi="' + i + '" oninput="memberData[this.dataset.mi].name=this.value">'
+        + '</div>'
+        + '<div class="member-card-body">'
+        + '<div class="member-section-lbl">Experience</div>'
+        + '<div class="member-exp-row">' + expRows + '</div>'
+        + '<div class="member-section-lbl">Skills to build</div>'
+        + '<div class="member-skills-row">' + chips + '</div>'
+        + '</div></div>';
+    }
+  }
+
+  function setExp(btn) {
+    const mi  = parseInt(btn.dataset.mi);
+    const ai  = parseInt(btn.dataset.ai);
+    const li  = parseInt(btn.dataset.li);
+    const area  = EXP_AREAS_DEF[ai].key;
+    const level = ['new','some','exp'][li];
+    memberData[mi].exp[area] = level;
+    btn.closest('.exp-btns').querySelectorAll('.exp-btn').forEach(b => { b.className = 'exp-btn'; });
+    btn.classList.add('active-' + level);
+  }
+
+  function toggleSkill(btn) {
+    const mi = parseInt(btn.dataset.mi);
+    const si = parseInt(btn.dataset.si);
+    const skill = SKILLS_DEF[si].id;
+    const d = memberData[mi];
+    if (d.skills.has(skill)) { d.skills.delete(skill); btn.classList.remove('active'); }
+    else                     { d.skills.add(skill);    btn.classList.add('active'); }
+  }
+
+    function getMemberName(i) {
+    return (memberData[i] && memberData[i].name) ? memberData[i].name : 'Student '+(i+1);
+  }
+
+  function buildTeamSnapshot() {
+    const n = plannerState.teamsize;
+    let pills = '';
+    for (let i=0; i<n; i++) {
+      const d = memberData[i];
+      if (!d) continue;
+      const name = getMemberName(i);
+      const skillLabels = [...d.skills].map(s => { const def=SKILLS_DEF.find(sk=>sk.id===s); return def?def.label:s; }).join(', ');
+      const expParts = Object.entries(d.exp)
+        .filter(([,v]) => v==='exp')
+        .map(([k]) => ({robot:'Robot',project:'Project',cv:'Core Values'}[k]));
+      const expStr = expParts.length ? 'Experienced: '+expParts.join(', ') : '';
+      const subtitle = [skillLabels, expStr].filter(Boolean).join(' · ') || 'No details yet';
+      pills += '<div class="curr-member-pill"><div class="curr-member-pill-name">'+name+'</div><div class="curr-member-pill-roles">'+subtitle+'</div></div>';
+    }
+    return '<div class="curr-team-snapshot"><div class="curr-team-title">Your team ('+n+' students)</div><div class="curr-team-members">'+pills+'</div></div>';
+  }
+
+  function buildStudentAssignments(tasks) {
+    const n = plannerState.teamsize;
+    if (!n) return '';
+
+    // Always ensure member data exists so we can assign generic slots if toggle is off
+    ensureMemberData(n);
+    const membersDetailed = document.getElementById('members-toggle').checked;
+
+    // Skill -> area affinity
+    const AREA_SKILLS = {
+      robot:   ['programming','building'],
+      project: ['research','prototyping','presenting','creative'],
+      cv:      ['writing','leadership'],
+    };
+    const AREA_LABEL  = { robot:'Robot', project:'Project', cv:'Core Values' };
+    const AREA_COLOR  = { robot:'var(--blue)', project:'var(--teal)', cv:'var(--purple)' };
+    const ROLE_SUFFIX = { robot:'lead', project:'lead', cv:'lead' };
+
+    // Score: how well does student i fit area?
+    function studentAreaScore(i, area) {
+      const d = memberData[i];
+      if (!d) return 0;
+      let s = 0;
+      AREA_SKILLS[area].forEach(sk => { if (d.skills.has(sk)) s += 3; });
+      if (d.exp[area] === 'exp')  s += 2;
+      if (d.exp[area] === 'some') s += 1;
+      return s;
+    }
+
+    // One slot per student: { area, role, taskText }
+    const slots = Array.from({length: n}, () => null);
+
+    // Build a list of (taskIndex, area, shortText) ordered core-first
+    const taskList = tasks.map((t, ti) => ({
+      ti, area: t.area,
+      short: t.text.length > 65 ? t.text.slice(0, 62).replace(/\W+$/, '') + '…' : t.text,
+    }));
+
+    const assignedStudents = new Set();
+
+    // Pass 1: assign one best-fit student per task (greedy)
+    taskList.forEach(({ area, short }, ti) => {
+      let best = -1, bestScore = -1;
+      for (let i = 0; i < n; i++) {
+        if (assignedStudents.has(i)) continue;
+        const sc = studentAreaScore(i, area);
+        if (sc > bestScore) { bestScore = sc; best = i; }
+      }
+      if (best !== -1) {
+        assignedStudents.add(best);
+        const alreadyLead = slots[best] !== null;
+        slots[best] = {
+          area, color: AREA_COLOR[area],
+          role: AREA_LABEL[area] + ' ' + (alreadyLead ? 'assist' : ROLE_SUFFIX[area]),
+          tasks: [short],
+        };
+      }
+    });
+
+    // Pass 2: overflow tasks (more tasks than students) — append to existing slots
+    if (tasks.length > n) {
+      let overflow = tasks.slice(n);
+      overflow.forEach(t => {
+        // Give to the student in the same area, or least-loaded student
+        let target = -1;
+        for (let i = 0; i < n; i++) {
+          if (slots[i] && slots[i].area === t.area) { target = i; break; }
+        }
+        if (target === -1) target = 0;
+        const short = t.text.length > 65 ? t.text.slice(0, 62).replace(/\W+$/, '') + '…' : t.text;
+        if (slots[target]) slots[target].tasks.push(short);
+      });
+    }
+
+    // Pass 3: unassigned students get support roles
+    for (let i = 0; i < n; i++) {
+      if (slots[i]) continue;
+      const d = memberData[i];
+      if (d && d.skills.has('writing')) {
+        slots[i] = { area:'cv', color:'var(--purple)', role:'Documentation',
+          tasks:['Write the journal entry for today and photograph any physical work.'] };
+      } else if (d && d.skills.has('leadership')) {
+        slots[i] = { area:'cv', color:'var(--purple)', role:'Coordinator',
+          tasks:['Keep the meeting moving. Make sure everyone knows their task.'] };
+      } else {
+        // Find biggest-task area to support
+        const areaCounts = {};
+        tasks.forEach(t => { areaCounts[t.area] = (areaCounts[t.area]||0)+1; });
+        const topArea = Object.entries(areaCounts).sort((a,b)=>b[1]-a[1])[0]?.[0] || 'robot';
+        slots[i] = { area:topArea, color:AREA_COLOR[topArea], role:AREA_LABEL[topArea]+' support',
+          tasks:['Assist with ' + AREA_LABEL[topArea].toLowerCase() + ' tasks and document progress.'] };
+      }
+    }
+
+    // Render
+    const rows = slots.map((slot, i) => {
+      if (!slot) return '';
+      const name = getMemberName(i);
+      const bgColor = slot.area === 'robot'
+        ? 'rgba(59,158,255,.13)' : slot.area === 'project'
+        ? 'rgba(0,212,180,.11)' : 'rgba(167,139,250,.12)';
+      const taskText = slot.tasks.slice(0, 2).join(' / ');
+      return '<div class="student-row">'
+        + '<span class="student-name" title="' + name + '">' + name + '</span>'
+        + '<span class="student-role-badge" style="background:' + bgColor + ';color:' + slot.color + '">' + slot.role + '</span>'
+        + '<span class="student-task-text">' + taskText + '</span>'
+        + '</div>';
+    }).join('');
+
+    const headNote = membersDetailed ? 'Who does what' : 'Suggested split (add student details above for skill-based assignments)';
+
+    return '<div class="student-breakdown">'
+      + '<div class="student-breakdown-head">' + headNote + '</div>'
+      + rows
+      + '</div>';
+  }
+
+
+  function setPOpt(btn, field) {
+    document.querySelectorAll('#opt-'+field+' .popt').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    plannerState[field] = parseFloat(btn.dataset.val);
+  }
+
+  function toggleGoal(btn, goal) {
+    if (teamGoals.has(goal)) {
+      teamGoals.delete(goal);
+      btn.classList.remove('active');
+    } else {
+      teamGoals.add(goal);
+      btn.classList.add('active');
+      // Nudge the matching slider when an award goal is selected
+      if (goal === 'robot-award')   { const s=document.getElementById('pri-robot');   s.value=Math.min(10,parseInt(s.value)+2); }
+      if (goal === 'project-award') { const s=document.getElementById('pri-project'); s.value=Math.min(10,parseInt(s.value)+2); }
+      if (goal === 'cv-award')      { const s=document.getElementById('pri-cv');      s.value=Math.min(10,parseInt(s.value)+2); }
+      updatePriorities();
+    }
+  }
+
+  function getPriorityWeights() {
+    let r = parseInt(document.getElementById('pri-robot').value);
+    let p = parseInt(document.getElementById('pri-project').value);
+    let c = parseInt(document.getElementById('pri-cv').value);
+    const total = r + p + c;
+    return { robot: r/total, project: p/total, cv: c/total };
+  }
+
+  function updatePriorities() {
+    const w = getPriorityWeights();
+    const rPct = Math.round(w.robot*100);
+    const pPct = Math.round(w.project*100);
+    const cPct = 100 - rPct - pPct;
+    document.getElementById('pct-robot').textContent   = rPct + '%';
+    document.getElementById('pct-project').textContent = pPct + '%';
+    document.getElementById('pct-cv').textContent      = cPct + '%';
+
+    const warnEl = document.getElementById('priority-warning');
+    const areas = [
+      { name:'Robot Game',         pct: w.robot },
+      { name:'Innovation Project', pct: w.project },
+      { name:'Core Values',        pct: w.cv },
+    ];
+    const veryLow  = areas.filter(a => a.pct < 0.14);
+    const tooLow   = areas.filter(a => a.pct < 0.20);
+    const dominant = areas.filter(a => a.pct > 0.65);
+
+    if (veryLow.length >= 2) {
+      warnEl.style.display = 'block';
+      warnEl.className = 'priority-warn priority-warn-red';
+      const names = veryLow.map(a=>a.name).join(' and ');
+      warnEl.innerHTML = `<strong>This will hurt your overall score.</strong> ${names} are getting almost no time. FLL judges all three areas separately — a team with a great robot but no project or core values work is rarely competitive. You can specialize, but completely skipping an area is risky.`;
+    } else if (veryLow.length === 1) {
+      warnEl.style.display = 'block';
+      warnEl.className = 'priority-warn priority-warn-red';
+      warnEl.innerHTML = `<strong>Heads up:</strong> ${veryLow[0].name} is getting very little time. Judges score all three areas independently, so a weak showing there affects your overall result even if the other two are strong.`;
+    } else if (dominant.length === 1) {
+      warnEl.style.display = 'block';
+      warnEl.className = 'priority-warn priority-warn-yellow';
+      warnEl.innerHTML = `<strong>Worth knowing:</strong> ${dominant[0].name} is taking up most of your time. This can work if you stay intentional about hitting the basics in the other two areas. Make sure you still get at least one expert contact, some robot consistency, and documented Core Values.`;
+    } else if (tooLow.length === 1) {
+      warnEl.style.display = 'block';
+      warnEl.className = 'priority-warn priority-warn-yellow';
+      warnEl.innerHTML = `<strong>Light coverage:</strong> ${tooLow[0].name} is scheduled lightly. That's fine if it's intentional — just make sure your team still covers the basics for that area before competition.`;
+    } else {
+      warnEl.style.display = 'none';
+    }
+  }
+
+  // Task blueprints: each has a phase, title, priority, and tasks split by tier
+  // tier: 'core' = always shown; 'std' = 1.5h+ meetings; 'ext' = 2.5h+ meetings
+  const BLUEPRINTS = [
+    // ── FOUNDATION ──
+    { phase:'foundation', title:'Season kickoff', priority:1, tasks:[
+      { text:'Read the game guide as a team. Mark every mission easy, medium, or hard.', area:'robot', mins:20, tier:'core' },
+      { text:'Assign roles: robot lead, project lead, note-taker, presenter. Write them in your journal.', area:'cv', mins:10, tier:'core' },
+      { text:'Start your team journal. Write today\'s date, who\'s here, and everyone\'s role.', area:'cv', mins:10, tier:'core' },
+      { text:'Brainstorm 5+ specific problems related to this year\'s theme. Don\'t filter yet.', area:'project', mins:20, tier:'std' },
+      { text:'Set team norms: when you disagree, how will you decide? Write it down.', area:'cv', mins:10, tier:'std' },
+      { text:'Watch a recorded FLL match from a past season so everyone knows what competition looks like.', area:'robot', mins:15, tier:'ext' },
+      { text:'Map the game table on paper and label every mission zone.', area:'robot', mins:15, tier:'ext' },
+    ]},
+    { phase:'foundation', title:'Understand the game', priority:1, tasks:[
+      { text:'Go through each mission, write its point value, and circle your top 5 easiest. This is your starting strategy.', area:'robot', mins:25, tier:'core' },
+      { text:'Write the 5 chosen missions and expected total score in your journal.', area:'robot', mins:10, tier:'core' },
+      { text:'Look at this year\'s Innovation Project theme. Pick your top 2 topic ideas to research next meeting.', area:'project', mins:15, tier:'std' },
+      { text:'Assign one topic to each member. They\'ll bring back 2 facts at the next meeting.', area:'project', mins:10, tier:'std' },
+      { text:'Discuss what "Inclusion" means for your specific team. Write one sentence about it.', area:'cv', mins:15, tier:'ext' },
+    ]},
+    { phase:'foundation', title:'Pick your project topic', priority:1, tasks:[
+      { text:'Each member shares what they researched. 90 seconds per person, no interrupting.', area:'project', mins:15, tier:'core' },
+      { text:'Vote on your final project topic. Pick the problem with the clearest real-world evidence.', area:'project', mins:10, tier:'core' },
+      { text:'Write a one-sentence problem statement: "According to [source], [number] people are affected by [problem]."', area:'project', mins:10, tier:'core' },
+      { text:'Continue building robot base. Goal: it should drive straight without drifting.', area:'robot', mins:20, tier:'std' },
+      { text:'Brainstorm 5 different possible solutions to your problem. No filtering.', area:'project', mins:20, tier:'std' },
+      { text:'Test that robot drives 3 feet straight without drifting. Fix it until it does.', area:'robot', mins:20, tier:'ext' },
+    ]},
+    { phase:'foundation', title:'Robot base and roles check', priority:2, tasks:[
+      { text:'Finish building your robot base. Compact builds (paperback book size) work best.', area:'robot', mins:25, tier:'core' },
+      { text:'Document Robot Version 1: take a photo, write pros and cons in your journal.', area:'robot', mins:10, tier:'core' },
+      { text:'Vote on your top solution idea from last session.', area:'project', mins:10, tier:'core' },
+      { text:'Draft a list of materials your solution prototype would need.', area:'project', mins:15, tier:'std' },
+      { text:'Plan a team bonding activity for later this season. Put it on the calendar.', area:'cv', mins:10, tier:'std' },
+      { text:'Write individual member spotlights: each person writes 2 sentences about who they are and their role.', area:'cv', mins:20, tier:'ext' },
+    ]},
+    { phase:'foundation', title:'Season kickoff wrap-up', priority:3, tasks:[
+      { text:'Review your mission strategy: recalculate expected score based on what you know now.', area:'robot', mins:15, tier:'core' },
+      { text:'Watch one more match video focusing only on robot strategy and run order.', area:'robot', mins:15, tier:'core' },
+      { text:'Discuss: what does a good project look like? Look at examples from previous winners online.', area:'project', mins:15, tier:'std' },
+      { text:'Set team agreements: phone policy, how to run meetings, how to handle conflict.', area:'cv', mins:15, tier:'std' },
+    ]},
+
+    // ── BUILD ──
+    { phase:'build', title:'Code Mission 1', priority:1, tasks:[
+      { text:'Write code for your first mission. Run it 10 times and record how many succeed.', area:'robot', mins:30, tier:'core' },
+      { text:'Log the results: what went wrong, what to fix. If under 7/10, fix it before moving on.', area:'robot', mins:10, tier:'core' },
+      { text:'Find one potential expert to contact for your project. Find their email.', area:'project', mins:15, tier:'std' },
+      { text:'Draft an email to that expert: introduce your team, describe the problem, ask 2 specific questions.', area:'project', mins:15, tier:'std' },
+      { text:'Start building your first rough prototype. Even if it\'s just materials laid out, start.', area:'project', mins:25, tier:'ext' },
+      { text:'Take photos of the prototype at this stage for your journal.', area:'project', mins:5, tier:'ext' },
+    ]},
+    { phase:'build', title:'Test and log Mission 1', priority:1, tasks:[
+      { text:'Run Mission 1 ten times back-to-back. Record the exact result each time.', area:'robot', mins:25, tier:'core' },
+      { text:'If below 70%, make one specific change and test 5 more times. Don\'t add Mission 2 yet.', area:'robot', mins:15, tier:'core' },
+      { text:'Send your expert outreach email (or write and send one now if you haven\'t).', area:'project', mins:15, tier:'std' },
+      { text:'Work on prototype: build something physical, even if it\'s rough.', area:'project', mins:25, tier:'std' },
+      { text:'Practice explaining your project problem out loud. Everyone should be able to do it in 60 seconds.', area:'cv', mins:15, tier:'ext' },
+      { text:'Write a Discovery entry in your journal: what has your team learned so far?', area:'cv', mins:10, tier:'ext' },
+    ]},
+    { phase:'build', title:'Code Mission 2', priority:1, tasks:[
+      { text:'Write code for Mission 2. Run it 5 times and record success rate.', area:'robot', mins:25, tier:'core' },
+      { text:'Re-run Mission 1 to confirm you didn\'t break it. Log both mission rates.', area:'robot', mins:15, tier:'core' },
+      { text:'Research who your solution would help. What existing solutions already exist?', area:'project', mins:20, tier:'std' },
+      { text:'Write 3 things your solution does that existing options don\'t.', area:'project', mins:15, tier:'std' },
+      { text:'Continue building your prototype and photograph this version.', area:'project', mins:25, tier:'ext' },
+      { text:'Team bonding: do one fun activity and write a journal entry documenting it.', area:'cv', mins:20, tier:'ext' },
+    ]},
+    { phase:'build', title:'Expert outreach', priority:1, tasks:[
+      { text:'Write and send at least one expert outreach email today.', area:'project', mins:20, tier:'core' },
+      { text:'Identify two more potential contacts: one person who has the problem, one who could help solve it.', area:'project', mins:15, tier:'core' },
+      { text:'Run all current missions back-to-back. Check for interference and log results.', area:'robot', mins:15, tier:'std' },
+      { text:'Write your best statistic about the problem and a one-paragraph problem summary.', area:'project', mins:15, tier:'std' },
+      { text:'Practice your problem statement as a team. Everyone should be able to say it in 30 seconds.', area:'cv', mins:15, tier:'ext' },
+      { text:'Start a project one-pager or simple website with your problem statement and solution idea.', area:'project', mins:20, tier:'ext' },
+    ]},
+    { phase:'build', title:'Prototype development', priority:1, tasks:[
+      { text:'Work on your prototype. Goal: demonstrate the core function by end of session.', area:'project', mins:30, tier:'core' },
+      { text:'List what works, what doesn\'t, and what you\'d change next. Write it in your journal.', area:'project', mins:10, tier:'core' },
+      { text:'Quick robot check: run each mission once and note pass or fail.', area:'robot', mins:10, tier:'core' },
+      { text:'Write a problems-and-solutions log entry about one challenge you hit and how you worked around it.', area:'project', mins:15, tier:'std' },
+      { text:'Code and test Mission 3 on the robot.', area:'robot', mins:25, tier:'std' },
+      { text:'Write your team\'s conflict resolution process: when you disagree, how do you decide?', area:'cv', mins:15, tier:'ext' },
+    ]},
+    { phase:'build', title:'Robot Version 2', priority:2, tasks:[
+      { text:'Review Robot V1 photos and notes. List 3 things you want to improve.', area:'robot', mins:10, tier:'core' },
+      { text:'Make at least one improvement and test Mission 1 again to confirm it\'s better.', area:'robot', mins:25, tier:'core' },
+      { text:'If expert responded: read and discuss. Note what you\'ll change. If not: send a follow-up.', area:'project', mins:20, tier:'std' },
+      { text:'Document prototype: photo, what\'s different from V1, what you\'re still trying to fix.', area:'project', mins:15, tier:'std' },
+      { text:'Team check-in: is everyone contributing? Is the workload balanced? Discuss it openly.', area:'cv', mins:15, tier:'ext' },
+    ]},
+    { phase:'build', title:'Mission consistency check', priority:2, tasks:[
+      { text:'Run every current mission 10 times each. Record exact success rates.', area:'robot', mins:30, tier:'core' },
+      { text:'Anything under 60%: mark it as "on hold" and fix it next session.', area:'robot', mins:10, tier:'core' },
+      { text:'Plan your next mission based on point value and how close it is to what your robot already does.', area:'robot', mins:10, tier:'core' },
+      { text:'Continue prototype — try to get it to a point where you can demo the core function.', area:'project', mins:25, tier:'std' },
+      { text:'Write a brief timeline of your project: key dates, decisions made, who did what.', area:'project', mins:15, tier:'std' },
+      { text:'Write one Fun entry in your journal: something that made the team laugh or enjoy a meeting.', area:'cv', mins:10, tier:'ext' },
+    ]},
+    { phase:'build', title:'First outside share', priority:2, tasks:[
+      { text:'Present your project problem and solution to someone outside the team today. Ask them 3 questions.', area:'project', mins:20, tier:'core' },
+      { text:'Write down what they said. Any confusion? Any new ideas? Log it.', area:'project', mins:10, tier:'core' },
+      { text:'Run your current missions and record results in your journal.', area:'robot', mins:20, tier:'core' },
+      { text:'Refine your one-pager or project summary based on the feedback.', area:'project', mins:20, tier:'std' },
+      { text:'List 3 changes you could make to your solution based on what you heard today.', area:'project', mins:10, tier:'std' },
+      { text:'Write your Inclusion statement draft: what does inclusion mean for your specific team?', area:'cv', mins:20, tier:'ext' },
+    ]},
+    { phase:'build', title:'Add more missions', priority:3, tasks:[
+      { text:'Code and test your next mission. Run it 10 times and log results.', area:'robot', mins:30, tier:'core' },
+      { text:'Recalculate your total expected score with all current missions.', area:'robot', mins:10, tier:'core' },
+      { text:'Write your current run strategy on paper: what order, why that order?', area:'robot', mins:15, tier:'std' },
+      { text:'Continue iterating on the prototype with any changes from outside feedback.', area:'project', mins:20, tier:'std' },
+      { text:'Each member writes 2 sentences for their individual spotlight in the portfolio.', area:'cv', mins:15, tier:'ext' },
+    ]},
+
+    // ── DEVELOP ──
+    { phase:'develop', title:'Prototype iteration', priority:1, tasks:[
+      { text:'Review all expert feedback received and list 3 specific changes to make to your prototype.', area:'project', mins:15, tier:'core' },
+      { text:'Make at least one of those changes today. Test it. Document what happened.', area:'project', mins:25, tier:'core' },
+      { text:'Quick robot run: all missions once, record pass or fail.', area:'robot', mins:10, tier:'core' },
+      { text:'Contact a second expert: target someone with a different background from the first.', area:'project', mins:20, tier:'std' },
+      { text:'Run all missions 5 times each. Calculate and record success rates.', area:'robot', mins:20, tier:'std' },
+      { text:'Practice this answer as a team: "Tell us about a challenge you faced and how you handled it."', area:'cv', mins:15, tier:'ext' },
+    ]},
+    { phase:'develop', title:'Add Mission 3 or 4', priority:1, tasks:[
+      { text:'Code and test your next mission. Run it 10 times and log results.', area:'robot', mins:30, tier:'core' },
+      { text:'Re-test all previous missions to confirm nothing broke. Record in journal.', area:'robot', mins:15, tier:'core' },
+      { text:'Calculate your new total expected score and write it down.', area:'robot', mins:5, tier:'core' },
+      { text:'Write your current run strategy: every mission, which run you attempt it in, and why.', area:'robot', mins:15, tier:'std' },
+      { text:'Update the prototype with any changes from recent feedback or testing.', area:'project', mins:20, tier:'std' },
+      { text:'Share your project with one more outside audience. Schedule it if not today.', area:'project', mins:15, tier:'ext' },
+    ]},
+    { phase:'develop', title:'Second expert contact', priority:1, tasks:[
+      { text:'Send a second expert email today. Make it different: different background, different angle.', area:'project', mins:20, tier:'core' },
+      { text:'Find one organization (not just a person) connected to your problem and contact them too.', area:'project', mins:15, tier:'core' },
+      { text:'Work on robot: one mission in focus, test 10 times, log results.', area:'robot', mins:20, tier:'core' },
+      { text:'Practice your full project explanation: problem, solution, who you\'ve talked to, who you\'ve shared with. 3 minutes.', area:'project', mins:20, tier:'std' },
+      { text:'Run back-to-back full runs. How consistent is your total score from run to run?', area:'robot', mins:20, tier:'std' },
+      { text:'Team bonding: do one fun activity and write a journal entry about it.', area:'cv', mins:20, tier:'ext' },
+    ]},
+    { phase:'develop', title:'Run strategy on paper', priority:1, tasks:[
+      { text:'Write your full run strategy: every mission, its point value, which run it goes in.', area:'robot', mins:20, tier:'core' },
+      { text:'Calculate total expected score. Know this number. Every team member should know it.', area:'robot', mins:10, tier:'core' },
+      { text:'Identify your 3 riskiest missions. What\'s your backup if one fails mid-run?', area:'robot', mins:15, tier:'core' },
+      { text:'Review prototype: does anything need changing based on feedback so far?', area:'project', mins:15, tier:'std' },
+      { text:'Document prototype as it stands: photo, what version this is, what changed.', area:'project', mins:10, tier:'std' },
+      { text:'Practice Core Values Q&A: "What\'s one thing your team learned this season?" Everyone gives a specific answer.', area:'cv', mins:15, tier:'ext' },
+    ]},
+    { phase:'develop', title:'Presentation practice', priority:1, tasks:[
+      { text:'Each person explains the robot design to someone who wasn\'t in the room when it was built. 2 minutes each.', area:'robot', mins:15, tier:'core' },
+      { text:'Practice your project explanation: 90 seconds, no notes. Then discuss: what was clear, what wasn\'t?', area:'project', mins:15, tier:'core' },
+      { text:'Practice: "How does your team make decisions when you disagree?" Everyone answers.', area:'cv', mins:15, tier:'core' },
+      { text:'Write your Inclusion statement: what does inclusion mean for your specific team?', area:'cv', mins:20, tier:'std' },
+      { text:'Run all missions back-to-back and record total score.', area:'robot', mins:15, tier:'std' },
+      { text:'Contact a third expert: target a decision-maker (official, director, principal).', area:'project', mins:15, tier:'ext' },
+    ]},
+    { phase:'develop', title:'Portfolio check-in', priority:2, tasks:[
+      { text:'Check your journal: is every meeting documented? Fill any gaps now.', area:'cv', mins:15, tier:'core' },
+      { text:'List every expert you\'ve contacted with one sentence on what they contributed to your thinking.', area:'project', mins:15, tier:'core' },
+      { text:'Run all missions and record success rates for this phase.', area:'robot', mins:15, tier:'core' },
+      { text:'Review member spotlights: does everyone have something written? Finish incomplete ones.', area:'cv', mins:15, tier:'std' },
+      { text:'Review your Discovery statement: is it specific? Does it have evidence?', area:'cv', mins:15, tier:'std' },
+    ]},
+    { phase:'develop', title:'Consistency push', priority:2, tasks:[
+      { text:'Run every mission 10 times. Record exact success rates. Anything under 70%: fix it.', area:'robot', mins:35, tier:'core' },
+      { text:'Make one targeted fix per failing mission. Test again.', area:'robot', mins:15, tier:'core' },
+      { text:'Update your expected score calculation based on improved rates.', area:'robot', mins:5, tier:'core' },
+      { text:'If prototype isn\'t demo-ready yet, set a hard deadline: which session will it be done?', area:'project', mins:10, tier:'std' },
+      { text:'Work on prototype: get it to a point where you can show what it does.', area:'project', mins:25, tier:'std' },
+    ]},
+
+    // ── REFINE ──
+    { phase:'refine', title:'Full run simulation', priority:1, tasks:[
+      { text:'Run all missions back-to-back twice. Simulate two real competition runs.', area:'robot', mins:25, tier:'core' },
+      { text:'Time yourself: are you finishing within 2.5 minutes? If not, cut or simplify one mission.', area:'robot', mins:10, tier:'core' },
+      { text:'Write what you\'d change between Run 1 and Run 2. Make one adjustment and run again.', area:'robot', mins:10, tier:'core' },
+      { text:'Practice the Innovation Project presentation. 3-4 minutes, no notes.', area:'project', mins:20, tier:'std' },
+      { text:'Give feedback on the presentation: what was clear, what was vague, what was missing?', area:'project', mins:10, tier:'std' },
+      { text:'Practice Core Values Q&A: "What\'s something your team struggled with and how did you handle it?"', area:'cv', mins:15, tier:'ext' },
+    ]},
+    { phase:'refine', title:'Mock judging: Robot Design', priority:1, tasks:[
+      { text:'One person acts as judge: "Walk me through how your robot was designed and changed over the season."', area:'robot', mins:10, tier:'core' },
+      { text:'"What part of the robot did you personally work on?" — everyone answers.', area:'robot', mins:10, tier:'core' },
+      { text:'"Your robot fails mid-run. What do you do?" Discuss your actual answer.', area:'robot', mins:10, tier:'core' },
+      { text:'Debrief: which answers were strong? Which need work?', area:'robot', mins:10, tier:'core' },
+      { text:'Fix any robot issues surfaced in the mock session.', area:'robot', mins:20, tier:'std' },
+      { text:'Run all missions and record pre-competition success rates.', area:'robot', mins:15, tier:'std' },
+    ]},
+    { phase:'refine', title:'Mock judging: Innovation Project', priority:1, tasks:[
+      { text:'Run full project presentation for someone outside the team. Let them ask questions.', area:'project', mins:15, tier:'core' },
+      { text:'Write down every question they asked. Prepare answers to any you fumbled.', area:'project', mins:15, tier:'core' },
+      { text:'Ask them: "Does the problem feel real? Does the solution make sense?" Record their answers.', area:'project', mins:10, tier:'core' },
+      { text:'Quick robot run: all missions, record results.', area:'robot', mins:10, tier:'core' },
+      { text:'Refine the presentation based on feedback. Make sure every member can answer: "Why does your project matter?"', area:'project', mins:20, tier:'std' },
+      { text:'Mock Core Values session: full 10 minutes with questions and a short team activity.', area:'cv', mins:15, tier:'ext' },
+    ]},
+    { phase:'refine', title:'Mock judging: Core Values', priority:1, tasks:[
+      { text:'Run a full Core Values mock: questions for 10 minutes. Everyone must speak at least twice.', area:'cv', mins:15, tier:'core' },
+      { text:'Practice questions: "How do you decide? What did you learn? Who helped you outside the team? What was fun?"', area:'cv', mins:10, tier:'core' },
+      { text:'Debrief: who spoke well? Who needs more practice? Which questions need better answers?', area:'cv', mins:10, tier:'core' },
+      { text:'Fix one robot issue from this week.', area:'robot', mins:15, tier:'core' },
+      { text:'Run all missions. Write out your final run strategy — every run, every mission.', area:'robot', mins:20, tier:'std' },
+      { text:'Check every required portfolio item: journal, expert log, spotlights, discovery, conflict resolution, inclusion.', area:'cv', mins:15, tier:'std' },
+    ]},
+    { phase:'refine', title:'Polish and finalize', priority:2, tasks:[
+      { text:'Final robot runs: 3 full back-to-back runs with total score recorded each time.', area:'robot', mins:25, tier:'core' },
+      { text:'Prototype check: can you demo it in under 2 minutes? Practice once.', area:'project', mins:15, tier:'core' },
+      { text:'Journal check: is every meeting from the season documented?', area:'cv', mins:10, tier:'core' },
+      { text:'Fill any journal gaps with brief notes on undocumented meetings.', area:'cv', mins:15, tier:'std' },
+      { text:'Each member rehearses: "What did I personally contribute this season?" Everyone has a specific answer.', area:'cv', mins:15, tier:'std' },
+    ]},
+    { phase:'refine', title:'Final prep run', priority:2, tasks:[
+      { text:'Run your competition strategy exactly as planned. No changes, just execute it.', area:'robot', mins:20, tier:'core' },
+      { text:'Write your final expected score. Know it cold.', area:'robot', mins:5, tier:'core' },
+      { text:'Make one packing list: everything you need to bring to competition.', area:'robot', mins:10, tier:'core' },
+      { text:'Discuss Gracious Professionalism: what does it look like at competition toward other teams?', area:'cv', mins:10, tier:'core' },
+      { text:'Practice project demo one more time: confident, not perfect.', area:'project', mins:15, tier:'std' },
+      { text:'Go through every Core Values question from mock sessions. Make sure everyone has an answer.', area:'cv', mins:20, tier:'ext' },
+    ]},
+
+    // PREP
+    { phase:'prep', title:'Competition week: full rehearsal', priority:1, tasks:[
+      { text:'Light robot practice: run all missions once. No major changes this week.', area:'robot', mins:15, tier:'core' },
+      { text:'Quick project presentation run-through. No feedback — just run it clean.', area:'project', mins:10, tier:'core' },
+      { text:'Quick Core Values Q&A: each person answers one question.', area:'cv', mins:10, tier:'core' },
+      { text:'Pack your competition bag: robot, laptop, extension cord, portfolio, prototype.', area:'robot', mins:15, tier:'core' },
+      { text:'Full dress rehearsal: all three judging areas back-to-back.', area:'robot', mins:30, tier:'std' },
+      { text:'Talk through: what happens if the robot fails mid-run? What is the backup plan?', area:'robot', mins:10, tier:'std' },
+    ]},
+    { phase:'prep', title:'Day-before check', priority:1, tasks:[
+      { text:'Run your top 2 missions once each. Do not change anything.', area:'robot', mins:15, tier:'core' },
+      { text:'Confirm journal, expert log, and spotlights are all complete.', area:'cv', mins:10, tier:'core' },
+      { text:'Go over competition day logistics: arrival time, where to set up, who carries what.', area:'robot', mins:10, tier:'core' },
+      { text:'Team conversation: how will you treat other teams at competition?', area:'cv', mins:10, tier:'core' },
+      { text:'Every member answers: "What did I personally contribute this season?" Practice it once.', area:'cv', mins:15, tier:'std' },
+      { text:'Final project review: can you demo the prototype? Is the presentation ready?', area:'project', mins:15, tier:'std' },
+    ]},
+    { phase:'prep', title:'Final team session', priority:2, tasks:[
+      { text:'Run each mission once. Confirm your run order is still the right call.', area:'robot', mins:15, tier:'core' },
+      { text:'Each person shares one thing they are proud of from this season.', area:'cv', mins:15, tier:'core' },
+      { text:'Go over the packing list one last time. Confirm who brings what.', area:'robot', mins:10, tier:'core' },
+      { text:'Write a final journal entry: what are you going into competition with?', area:'cv', mins:10, tier:'std' },
+    ]},
+  ];
+
+  const PHASE_ORDER  = ['foundation','build','develop','refine','prep'];
+  const PHASE_LABELS = { foundation:'Foundation', build:'Build & Research', develop:'Develop', refine:'Refine', prep:'Competition Prep' };
+  const PHASE_COLORS = {
+    foundation: { chip:'background:rgba(59,158,255,.15);color:var(--blue);border:1px solid rgba(59,158,255,.3)' },
+    build:      { chip:'background:rgba(0,212,180,.12);color:var(--teal);border:1px solid rgba(0,212,180,.3)' },
+    develop:    { chip:'background:rgba(167,139,250,.13);color:var(--purple);border:1px solid rgba(167,139,250,.3)' },
+    refine:     { chip:'background:rgba(240,192,64,.12);color:var(--gold);border:1px solid rgba(240,192,64,.3)' },
+    prep:       { chip:'background:rgba(52,211,153,.12);color:var(--green);border:1px solid rgba(52,211,153,.3)' },
+  };
+  const AREA_LABEL = { robot:'Robot', project:'Project', cv:'Core Values' };
+
+  function generateCurriculum() {
+    const perWeek = plannerState.perweek;
+    const weeks   = parseInt(document.getElementById('planner-weeks').value);
+    const hours   = plannerState.hours;
+    const total   = perWeek * weeks;
+    const weights = getPriorityWeights();
+
+    const raw = { foundation:.15, build:.35, develop:.25, refine:.15, prep:.10 };
+    let alloc = {}, used = 0;
+    PHASE_ORDER.forEach((p,i) => {
+      if (i < PHASE_ORDER.length-1) { alloc[p]=Math.max(1,Math.round(total*raw[p])); used+=alloc[p]; }
+      else { alloc[p]=Math.max(1,total-used); }
+    });
+
+    const schedule = [];
+    PHASE_ORDER.forEach(phase => {
+      const pBps = BLUEPRINTS.filter(b=>b.phase===phase).sort((a,b)=>a.priority-b.priority);
+      for (let i=0;i<alloc[phase];i++) { schedule.push({ phase, bp:pBps[i%pBps.length] }); }
+    });
+    schedule.forEach((m,idx) => {
+      m.weekNum=(Math.floor(idx/perWeek)+1); m.meetingNum=idx+1;
+    });
+
+    const out = document.getElementById('curr-output');
+    out.style.display='block';
+    const totalHours = Math.round(total*hours*10)/10;
+    let html = '';
+
+    if (total<8) {
+      html += '<div class="curr-short-season"><strong>Note:</strong> With '+total+' meetings you have a tight season. Focus on robot consistency, one expert contact, and a clear problem statement.</div>';
+    }
+
+    if (document.getElementById('members-toggle').checked) { html += buildTeamSnapshot(); }
+
+    const goalNotes = [];
+    if (teamGoals.has('qualify'))       goalNotes.push('Qualifying focus: extra mock judging sessions are built into the Refine phase.');
+    if (teamGoals.has('robot-award'))   goalNotes.push('Robot Design award: your curriculum weights more time toward robot consistency, version documentation, and design explanation practice.');
+    if (teamGoals.has('project-award')) goalNotes.push('Innovation Project award: more time allocated to expert outreach, prototype iteration, and presentation practice.');
+    if (teamGoals.has('cv-award'))      goalNotes.push('Core Values award: your curriculum emphasizes documentation, discovery, and team reflection activities.');
+    if (teamGoals.has('first-season'))  goalNotes.push('First season: each meeting includes a beginner tip explaining what you are working toward.');
+    const rPct=Math.round(weights.robot*100), pPct=Math.round(weights.project*100), cPct=100-rPct-pPct;
+    if (Math.abs(rPct-33)>3||Math.abs(pPct-33)>3) {
+      goalNotes.push('Time split: Robot '+rPct+'% / Project '+pPct+'% / Core Values '+cPct+'% — agenda items reflect this across each meeting.');
+    }
+    // Mentor mode toggle bar
+    html += '<div class="curr-mentor-bar" onclick="document.getElementById(\'mentor-toggle-cb\').click()">'
+      + '<label class="toggle-switch" style="flex-shrink:0" onclick="event.stopPropagation()">'
+      + '<input type="checkbox" id="mentor-toggle-cb" onchange="toggleMentorMode()"' + (mentorModeOn ? ' checked' : '') + '>'
+      + '<span class="toggle-slider"></span></label>'
+      + '<div><div class="curr-mentor-bar-label">Mentor Mode</div>'
+      + '<div class="curr-mentor-bar-sub">Shows how to open each session, what to teach, how to coach each student, and what to watch for</div>'
+      + '</div></div>';
+
+    goalNotes.forEach(note => { html+='<div class="curr-goal-note"><div class="curr-goal-dot"></div><span>'+note+'</span></div>'; });
+
+    html += '<div class="curr-stats">'
+      +'<div class="curr-stat"><div class="curr-stat-num">'+total+'</div><div class="curr-stat-lbl">Total meetings</div></div>'
+      +'<div class="curr-stat"><div class="curr-stat-num">'+weeks+'</div><div class="curr-stat-lbl">Weeks</div></div>'
+      +'<div class="curr-stat"><div class="curr-stat-num">'+totalHours+'</div><div class="curr-stat-lbl">Total hours</div></div>'
+      +'</div>';
+
+    html += '<div class="curr-phases">';
+    PHASE_ORDER.forEach(p => {
+      html += '<div class="curr-phase-chip" style="'+PHASE_COLORS[p].chip+'">'+PHASE_LABELS[p]+': '+alloc[p]+' meeting'+(alloc[p]>1?'s':'')+'</div>';
+    });
+    html += '</div>';
+
+    const byWeek = {};
+    schedule.forEach(m => { if(!byWeek[m.weekNum]) byWeek[m.weekNum]=[]; byWeek[m.weekNum].push(m); });
+    Object.keys(byWeek).forEach(wk => {
+      html += '<div class="curr-week-group"><div class="curr-week-head">Week '+wk+'</div>';
+      byWeek[wk].forEach(m => { html += buildMeetingCard(m, hours, weights); });
+      html += '</div>';
+    });
+
+    currentSchedule = schedule;
+    currentScheduleOpts = { perWeek, weeks, hours, weights };
+    meetingProgress = {};
+    loadProgress();
+
+    const tabs = '<div class="view-tabs">'
+      + '<button class="view-tab active" id="tab-curriculum" onclick="switchView(\'curriculum\')">&#128203; Curriculum</button>'
+      + '<button class="view-tab" id="tab-tracker" onclick="switchView(\'tracker\')">&#128197; Season Tracker</button>'
+      + '<button class="export-tab" onclick="exportPDF()">&#11015; Export PDF</button>'
+      + '</div>';
+
+    out.innerHTML = tabs
+      + '<div id="curriculum-view">' + html + '</div>'
+      + '<div id="tracker-view" style="display:none">' + buildTrackerHTML() + '</div>';
+
+    // Apply any loaded progress to UI
+    Object.keys(meetingProgress).forEach(num => {
+      applyMeetingStatusUI(parseInt(num));
+      refreshGanttBlock(parseInt(num));
+    });
+    updateProgressDisplay();
+
+    out.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+
+  function buildMeetingCard(m, hours, weights) {
+    const bp=m.bp, phase=m.phase, pc=PHASE_COLORS[phase];
+    const totalMins=Math.round(hours*60-5);
+    const budgets={ robot:Math.round(totalMins*weights.robot), project:Math.round(totalMins*weights.project), cv:Math.round(totalMins*weights.cv) };
+    const tierOrder={core:0,std:1,ext:2};
+    const tasks=[];
+    ['robot','project','cv'].forEach(area => {
+      let used=0;
+      const areaTasks=bp.tasks.filter(t=>t.area===area).sort((a,b)=>tierOrder[a.tier]-tierOrder[b.tier]);
+      for (const t of areaTasks) {
+        if (t.tier==='core') { tasks.push(t); used+=t.mins; }
+        else if (used+t.mins<=budgets[area]) { tasks.push(t); used+=t.mins; }
+      }
+    });
+
+    const areas=[...new Set(tasks.map(t=>t.area))];
+    let areaTags=areas.map(a=>'<span class="curr-tag curr-tag-'+a+'">'+AREA_LABEL[a]+'</span>').join('');
+    areaTags+=' <span class="curr-tag curr-tag-phase" style="'+pc.chip+'">'+PHASE_LABELS[phase]+'</span>';
+
+    const taskRows=tasks.map(t=>
+      '<li class="curr-task"><div class="curr-task-dot curr-task-dot-'+t.area+'"></div><span>'+t.text+'</span><span class="curr-task-time">'+t.mins+' min</span></li>'
+    ).join('');
+
+    const usedMins=tasks.reduce((s,t)=>s+t.mins,0);
+    const bufferMins=Math.round(hours*60)-usedMins;
+    const bufferNote=bufferMins>0?'<div class="curr-note">+'+bufferMins+' min buffer — use for extra practice runs, journal catch-up, or questions.</div>':'';
+    const roleNote=buildStudentAssignments(tasks);
+
+    const fsTips={
+      foundation:'New to FLL? Your only job this phase is to understand what you are being judged on and get organized. Do not worry about doing things perfectly yet.',
+      build:'At this stage you are building and testing. Things will break — that is normal. Log everything because judges love seeing that you learned from mistakes.',
+      develop:'Now you are adding depth. If anything feels overwhelming, pick the one thing that helps the most and focus there.',
+      refine:'This phase is about practicing what you already have, not adding new things. Resist the urge to make big changes this close to competition.',
+      prep:'You are ready. Trust what you have built. The biggest thing now is practicing delivery with confidence.',
+    };
+    const mentorHtml=buildMentorGuide(bp, tasks, phase);
+    const fsNote=teamGoals.has('first-season')&&fsTips[phase]
+      ?'<div class="curr-note" style="border-left-color:var(--green);background:rgba(52,211,153,.07)"><strong style="color:var(--green)">First season:</strong> '+fsTips[phase]+'</div>'
+      :'';
+
+    return '<div class="curr-meeting" id="cm-'+m.meetingNum+'">'
+      +'<div class="curr-meeting-head" onclick="toggleMeeting('+m.meetingNum+')">'
+      +'<div class="curr-meeting-num">'+m.meetingNum+'</div>'
+      +'<div class="curr-meeting-title">'+bp.title+'</div>'
+      +'<div class="curr-area-tags">'+areaTags+'</div>'
+      +'<div class="curr-chevron">&#9658;</div>'
+      +'</div>'
+      +'<div class="curr-meeting-body">'
+      +'<ul class="curr-task-list">'+taskRows+'</ul>'
+      +bufferNote+roleNote+fsNote+mentorHtml
+      +'</div></div>';
+  }
+
+
+  // ── MENTOR MODE ──
+  let mentorModeOn = false;
+  let currentSchedule = [];
+  let currentScheduleOpts = {};
+  let meetingProgress = {};
+  let currentView = 'curriculum';
+
+  function toggleMentorMode() {
+    const cb = document.getElementById('mentor-toggle-cb');
+    mentorModeOn = cb.checked;
+    document.querySelectorAll('.mentor-section').forEach(el => {
+      el.style.display = mentorModeOn ? 'block' : 'none';
+    });
+  }
+
+  const MENTOR_PHASE = {
+    foundation: {
+      open: "Your goal this phase is not to build anything — it is to make sure every student understands what they are working toward. Start each session by asking what they already know, not by explaining. Let them surface gaps themselves.",
+      emphasize: [
+        "Roles before building: every student should have a clear responsibility before anyone touches the robot or opens a research tab",
+        "The journal is a habit, not a task. Model it in front of them: write something together at the end of each session, every session",
+        "Do not correct too fast. When a student makes a wrong call, ask a question before redirecting — they will remember the lesson better",
+      ],
+      watchFor: [
+        "One student dominating decisions — say explicitly: 'What does everyone else think before we decide?'",
+        "Teams rushing to build before they understand the game — they will rebuild it wrong later",
+        "Journal being skipped in the first two sessions — it compounds and is very hard to catch up on",
+      ],
+      close: "End every session with a round-robin: 'What is one thing you remember from today?' One answer per person. It takes 3 minutes and dramatically improves retention.",
+    },
+    build: {
+      open: "Students are creating now. Your role shifts from explaining to asking. Before they start any task, ask 'what is your plan?' — not 'here is what you should do.' Let them reason first.",
+      emphasize: [
+        "Test after every small change, not after finishing everything. Push for small loops: code a little, test, log, adjust",
+        "Failure is information. When something breaks, ask 'what did we learn?' before anyone touches the fix",
+        "Documentation belongs in the moment, not at the end. Have them log each test result as it happens — not as a summary after",
+      ],
+      watchFor: [
+        "Students who get stuck and go quiet instead of asking for help — check in proactively, do not wait for them to raise their hand",
+        "The team gravitating to what is easy instead of what needs the most work — redirect with 'what is the thing you most want to avoid working on right now?'",
+        "Experienced students doing everything while beginners watch — assign sub-tasks so everyone is hands-on, even if it is slower",
+      ],
+      close: "Before leaving: each student writes one specific thing in the journal. Not a session summary — one observation about what they built or tested today.",
+    },
+    develop: {
+      open: "This is where most teams plateau. They have a working robot and a rough prototype but have not gone deeper on either. Your job is to raise the bar. Name it clearly: 'good enough to have built it is not good enough to present it.'",
+      emphasize: [
+        "Consistency over new features — a robot that succeeds 9 out of 10 times beats one that has twice as many missions at 5 out of 10",
+        "Expert feedback on the project changes everything. Help students prepare real questions before reaching out — not 'do you have advice?' but 'we found X, does that match what you see?'",
+        "Judging prep starts now. Have students explain their work to you without prompting. Listen for what they skip.",
+      ],
+      watchFor: [
+        "Teams adding new robot missions instead of improving existing ones — this is almost always the wrong call at this stage",
+        "Expert outreach emails that are too vague — review them before they go out, not after",
+        "Core Values being treated as a checklist ('we have three values documented') instead of genuine reflection",
+      ],
+      close: "Ask: 'If a judge asked you to explain your project in 90 seconds right now, what would you say?' Have each student try it. Listen for gaps.",
+    },
+    refine: {
+      open: "Resist the urge to add anything new. Refinement means making what exists better — faster, cleaner, more consistent. Say 'no new features' and hold the line. Confidence comes from repetition, not variety.",
+      emphasize: [
+        "Mock judging is the single most effective prep tool available. Do it more than once, with different people acting as judges",
+        "Every student must be able to explain all three areas, not just their own contribution",
+        "Judges remember specificity. 'We contacted Dr. Smith at the county health department' scores higher than 'we contacted an expert.' Make sure they know their own facts cold.",
+      ],
+      watchFor: [
+        "Teams changing robot strategy this close to competition — almost never worth the risk, redirect to consistency practice",
+        "Students who only know their own piece and go blank when asked about the rest",
+        "Presentations that sound rehearsed but break down under follow-up questions — if they cannot answer questions, they do not understand it yet",
+      ],
+      close: "After every mock judging session, ask: 'What question caught you most off guard?' Write those down. Practice those specific questions next session.",
+    },
+    prep: {
+      open: "Your job now is to manage nerves, not add material. Students who are anxious want to rehearse — let them. Remind them they know more than they think they do. Your confidence in them is contagious.",
+      emphasize: [
+        "Logistics matter — a team that arrives disorganized wastes mental energy before the first judging session even starts",
+        "Gracious Professionalism toward other teams should be specific and concrete, not just 'be nice.' What does it actually look like?",
+        "Acknowledge what each student built this season. Find one specific thing per person to recognize before competition day.",
+      ],
+      watchFor: [
+        "Last-minute robot changes — the risk almost never outweighs the reward this close to competition",
+        "Students who have memorized a script instead of understanding the material — judges follow up on anything that sounds rehearsed",
+        "Anxiety leading to over-preparation of one area at the expense of the other two",
+      ],
+      close: "Final session: skip the drills. Have each student say one thing they are proud of from this season. Then tell them what you are proud of. That is the right way to finish.",
+    },
+  };
+
+  const EXP_COACHING = {
+    robot: {
+      new:  "Give this student one small, specific task — not 'help with the robot' but 'run this one mission five times and write down what happens each time.' Concrete beats open-ended for beginners. Stay nearby for the first few attempts.",
+      some: "Let this student make one decision without input from you. Ask 'what do you think we should try?' then wait. Their instincts are better than they believe.",
+      exp:  "Push this student to narrate their choices out loud. 'Why did you set the speed to 70 instead of 80?' builds the articulation they will need with judges — and teaches the whole team.",
+    },
+    project: {
+      new:  "Start with what they already know about the problem. Ask 'have you ever seen this happen in real life?' before pointing them to research. Connecting to lived experience first builds motivation and better interview instincts.",
+      some: "Have this student lead the expert outreach — they should write the email, not just sign it. Review it together, but let the voice be theirs.",
+      exp:  "Challenge this student to explain the problem in a way that would make sense to someone who has never heard of FLL. That is the perspective every judge brings.",
+    },
+    cv: {
+      new:  "New students often do not speak up in groups. Give them a specific question to answer in today's debrief — told to them privately first. Preparation reduces anxiety significantly.",
+      some: "Ask this student to observe the team dynamic today and share one observation at the end of the session. 'Noticing how we work' is a leadership skill worth developing explicitly.",
+      exp:  "Experienced students in Core Values often coast through familiar territory. Give them a harder question: 'What is something we could do better as a team that nobody has mentioned yet?'",
+    },
+  };
+
+  const SKILL_COACHING = {
+    programming:  "Let this student type — do not take the keyboard. Even when it is slower, they learn by doing, not watching. Ask 'what do you expect to happen?' before each test run.",
+    building:     "Ask this student to explain their build choices as they make them. 'Why did you attach it there?' builds both skill and real portfolio material for the design presentation.",
+    research:     "Guide toward credible sources without doing it for them. Ask 'where would an official organization talk about this problem?' before suggesting anything specific.",
+    prototyping:  "If they hesitate or over-plan, say: 'let us just build a rough version and see what we learn.' Iteration beats planning for early prototype development.",
+    presenting:   "Have this student practice to you alone first, before the group. Public rehearsal can shut down students who are still building confidence.",
+    writing:      "Short and specific beats long and vague. 'We tested 8 times and got 5' is a better journal entry than a paragraph summary. Remind them of this when you see them writing.",
+    leadership:   "Give a concrete facilitation task: 'You are in charge of making sure every person speaks during today's debrief.' Specific responsibility is more useful than abstract encouragement.",
+    creative:     "When this student suggests something unusual, do not evaluate it immediately. Say 'interesting — how would that work?' A few seconds of exploration costs nothing and builds lasting confidence.",
+  };
+
+  function buildMentorGuide(bp, tasks, phase) {
+    const guide = MENTOR_PHASE[phase] || {};
+    const areas = [...new Set(tasks.map(t => t.area))];
+    const n = plannerState.teamsize;
+    const membersOn = document.getElementById('members-toggle').checked;
+
+    let html = '<div class="mentor-section" style="display:' + (mentorModeOn ? 'block' : 'none') + '">';
+    html += '<div class="mentor-section-head"><span>&#9670;</span>&nbsp;Mentor Guide</div>';
+    html += '<div class="mentor-body">';
+
+    // Open
+    if (guide.open) {
+      html += '<div class="mentor-block"><div class="mentor-block-label">Opening this session</div>'
+        + '<div class="mentor-quote">' + guide.open + '</div></div>';
+    }
+
+    // Emphasize
+    if (guide.emphasize && guide.emphasize.length) {
+      html += '<div class="mentor-block"><div class="mentor-block-label">What to emphasize</div><ul class="mentor-list">'
+        + guide.emphasize.map(p => '<li><span class="ml-icon" style="color:var(--purple)">&#9658;</span>' + p + '</li>').join('')
+        + '</ul></div>';
+    }
+
+    // Per-student coaching (only when toggle on and members exist)
+    if (membersOn && n > 0) {
+      ensureMemberData(n);
+      const rows = [];
+      for (let i = 0; i < n; i++) {
+        const d = memberData[i];
+        if (!d) continue;
+        const name = getMemberName(i);
+        const tips = [];
+
+        // Experience-based tips for areas in this meeting
+        areas.forEach(area => {
+          const lvl = d.exp[area];
+          if (EXP_COACHING[area] && EXP_COACHING[area][lvl]) {
+            tips.push(EXP_COACHING[area][lvl]);
+          }
+        });
+
+        // One skill tip (most relevant)
+        for (const sk of d.skills) {
+          if (SKILL_COACHING[sk]) { tips.push(SKILL_COACHING[sk]); break; }
+        }
+
+        if (tips.length) {
+          rows.push('<div class="mentor-student-item"><strong>' + name + ':</strong> ' + tips[0] + '</div>');
+        }
+      }
+      if (rows.length) {
+        html += '<div class="mentor-block"><div class="mentor-block-label">Student coaching</div>'
+          + '<div class="mentor-student-list">' + rows.join('') + '</div></div>';
+      }
+    }
+
+    // Watch for
+    if (guide.watchFor && guide.watchFor.length) {
+      html += '<div class="mentor-block"><div class="mentor-block-label">Watch for</div><ul class="mentor-list">'
+        + guide.watchFor.map(p => '<li><span class="ml-icon" style="color:var(--bronze)">&#9888;</span>' + p + '</li>').join('')
+        + '</ul></div>';
+    }
+
+    // Close
+    if (guide.close) {
+      html += '<div class="mentor-block"><div class="mentor-block-label">Last 5 minutes</div>'
+        + '<div class="mentor-quote">' + guide.close + '</div></div>';
+    }
+
+    html += '</div></div>';
+    return html;
+  }
+
+
+  // ── TRACKER & GANTT ──
+
+  function switchView(view) {
+    currentView = view;
+    const cv = document.getElementById('curriculum-view');
+    const tv = document.getElementById('tracker-view');
+    if (cv) cv.style.display = view === 'curriculum' ? 'block' : 'none';
+    if (tv) tv.style.display = view === 'tracker' ? 'block' : 'none';
+    document.getElementById('tab-curriculum') && document.getElementById('tab-curriculum').classList.toggle('active', view === 'curriculum');
+    document.getElementById('tab-tracker') && document.getElementById('tab-tracker').classList.toggle('active', view === 'tracker');
+  }
+
+  function setMeetingStatus(num) {
+    const cycle = ['not-started', 'in-progress', 'done'];
+    const cur = meetingProgress[num] || 'not-started';
+    meetingProgress[num] = cycle[(cycle.indexOf(cur) + 1) % cycle.length];
+    applyMeetingStatusUI(num);
+    refreshGanttBlock(num);
+    updateProgressDisplay();
+    markUnsaved();
+  }
+
+  function applyMeetingStatusUI(num) {
+    const status = meetingProgress[num] || 'not-started';
+    const row = document.getElementById('tr-row-' + num);
+    const btn = document.getElementById('tr-btn-' + num);
+    if (!row || !btn) return;
+    const icons  = { 'not-started':'○', 'in-progress':'◐', 'done':'✓' };
+    const labels = { 'not-started':'Not started', 'in-progress':'In progress', 'done':'Done!' };
+    const rowCls = { 'not-started':'', 'in-progress':'s-prog', 'done':'s-done' };
+    const btnCls = { 'not-started':'s-btn-not', 'in-progress':'s-btn-prog', 'done':'s-btn-done' };
+    row.className = 'tracker-meeting-row ' + rowCls[status];
+    btn.className = 'status-btn ' + btnCls[status];
+    btn.innerHTML = '<span>' + icons[status] + '</span><span>' + labels[status] + '</span>';
+    btn.classList.add('pop-anim');
+    btn.addEventListener('animationend', () => btn.classList.remove('pop-anim'), { once: true });
+  }
+
+  function refreshGanttBlock(num) {
+    const el = document.getElementById('gb-' + num);
+    if (!el) return;
+    const status = meetingProgress[num] || 'not-started';
+    el.className = 'gantt-block ' + (status === 'done' ? 'g-done' : status === 'in-progress' ? 'g-prog' : 'g-todo');
+  }
+
+  function markWeekDone(wk) {
+    currentSchedule.filter(m => m.weekNum == wk).forEach(m => {
+      meetingProgress[m.meetingNum] = 'done';
+      applyMeetingStatusUI(m.meetingNum);
+      refreshGanttBlock(m.meetingNum);
+    });
+    updateProgressDisplay();
+    markUnsaved();
+  }
+
+  function updateProgressDisplay() {
+    const total = currentSchedule.length;
+    if (!total) return;
+    const done  = currentSchedule.filter(m => meetingProgress[m.meetingNum] === 'done').length;
+    const inProg = currentSchedule.filter(m => meetingProgress[m.meetingNum] === 'in-progress').length;
+    const pct = Math.round(done / total * 100);
+
+    const pctEl  = document.getElementById('tr-pct');
+    const fillEl = document.getElementById('tr-fill');
+    const subEl  = document.getElementById('tr-sub');
+    if (pctEl)  pctEl.textContent = pct + '%';
+    if (fillEl) fillEl.style.width = pct + '%';
+    if (subEl)  subEl.textContent = done + ' of ' + total + ' meetings complete' + (inProg ? ' · ' + inProg + ' in progress' : '');
+
+    const PHASE_ORDER = ['foundation','build','develop','refine','prep'];
+    PHASE_ORDER.forEach(phase => {
+      const ms  = currentSchedule.filter(m => m.phase === phase);
+      const cnt = ms.filter(m => meetingProgress[m.meetingNum] === 'done').length;
+      const el  = document.getElementById('ppc-' + phase);
+      if (el) {
+        el.textContent = cnt + '/' + ms.length;
+        if (cnt === ms.length && ms.length > 0) el.closest('.phase-prog-chip').classList.add('phase-complete');
+        else el.closest('.phase-prog-chip').classList.remove('phase-complete');
+      }
+    });
+
+    if (pct === 100) {
+      const cb = document.getElementById('celebrate-banner');
+      if (cb) cb.classList.add('show');
+    }
+  }
+
+  function saveProgress() {
+    const data = { version:1, savedAt:new Date().toISOString(), meetings:meetingProgress };
+    try { localStorage.setItem('fll_season_progress', JSON.stringify(data)); } catch(e) {}
+    const btn = document.getElementById('tr-save-btn');
+    const lbl = document.getElementById('tr-saved-lbl');
+    if (btn) { btn.textContent = '✓ Saved!'; btn.classList.add('saved-flash'); setTimeout(() => { btn.textContent = '💾 Save Progress'; btn.classList.remove('saved-flash'); }, 1800); }
+    if (lbl) { const t = new Date(); lbl.textContent = 'Saved at ' + t.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}); lbl.style.color = 'var(--green)'; setTimeout(() => { lbl.style.color = ''; }, 2500); }
+  }
+
+  function loadProgress() {
+    try {
+      const raw = localStorage.getItem('fll_season_progress');
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      if (data && data.meetings) {
+        meetingProgress = {};
+        Object.entries(data.meetings).forEach(([k,v]) => { meetingProgress[parseInt(k)] = v; });
+        const lbl = document.getElementById('tr-saved-lbl');
+        if (lbl && data.savedAt) {
+          const d = new Date(data.savedAt);
+          lbl.textContent = 'Last saved ' + d.toLocaleDateString();
+        }
+      }
+    } catch(e) {}
+  }
+
+  function markUnsaved() {
+    const lbl = document.getElementById('tr-saved-lbl');
+    if (lbl) { lbl.textContent = 'Unsaved changes'; lbl.style.color = 'var(--bronze)'; }
+  }
+
+  function buildTrackerHTML() {
+    const schedule = currentSchedule;
+    const opts     = currentScheduleOpts;
+    const PHASE_ORDER  = ['foundation','build','develop','refine','prep'];
+    const PHASE_LABELS = { foundation:'Foundation', build:'Build & Research', develop:'Develop', refine:'Refine', prep:'Comp Prep' };
+    const PHASE_CHIP_CSS = {
+      foundation: 'background:rgba(59,158,255,.15);color:var(--blue)',
+      build:      'background:rgba(0,212,180,.12);color:var(--teal)',
+      develop:    'background:rgba(167,139,250,.13);color:var(--purple)',
+      refine:     'background:rgba(240,192,64,.12);color:var(--gold)',
+      prep:       'background:rgba(52,211,153,.12);color:var(--green)',
+    };
+    const TAG_CSS = {
+      robot:   'background:rgba(59,158,255,.15);color:var(--blue)',
+      project: 'background:rgba(0,212,180,.12);color:var(--teal)',
+      cv:      'background:rgba(167,139,250,.13);color:var(--purple)',
+    };
+    const AREA_LABEL = { robot:'Robot', project:'Project', cv:'Core Values' };
+
+    let h = '';
+
+    // Celebration banner
+    h += '<div class="celebration-banner" id="celebrate-banner">🎉 Season complete! You did it! 🏆</div>';
+
+    // Progress header
+    h += '<div class="tracker-header">'
+      + '<div class="tracker-progress-section">'
+      + '<div class="tracker-pct-row"><div class="tracker-pct-num" id="tr-pct">0%</div><div class="tracker-pct-label">&nbsp;complete</div></div>'
+      + '<div class="tracker-bar-wrap"><div class="tracker-bar"><div class="tracker-bar-fill" id="tr-fill"></div></div></div>'
+      + '<div class="tracker-sub-label" id="tr-sub">0 of ' + schedule.length + ' meetings complete</div>'
+      + '</div>'
+      + '<div class="tracker-save-col">'
+      + '<button class="save-btn" id="tr-save-btn" onclick="saveProgress()">&#128190; Save Progress</button>'
+      + '<div class="last-saved-txt" id="tr-saved-lbl">Not saved yet</div>'
+      + '</div>'
+      + '</div>';
+
+    // Phase chips
+    h += '<div class="phase-prog-row">';
+    PHASE_ORDER.forEach(phase => {
+      const ms = schedule.filter(m => m.phase === phase);
+      if (!ms.length) return;
+      h += '<div class="phase-prog-chip" style="' + (PHASE_CHIP_CSS[phase]||'') + '">'
+        + '<div class="phase-prog-name">' + PHASE_LABELS[phase] + '</div>'
+        + '<div class="phase-prog-count" id="ppc-' + phase + '">0/' + ms.length + '</div>'
+        + '</div>';
+    });
+    h += '</div>';
+
+    // Gantt
+    h += buildGanttHTML(schedule, opts, PHASE_ORDER, PHASE_LABELS, PHASE_CHIP_CSS);
+
+    // Week-by-week meeting list
+    const byWeek = {};
+    schedule.forEach(m => { if (!byWeek[m.weekNum]) byWeek[m.weekNum] = []; byWeek[m.weekNum].push(m); });
+
+    h += '<div class="tracker-list">';
+    Object.keys(byWeek).sort((a,b)=>+a-+b).forEach(wk => {
+      const ms = byWeek[wk];
+      h += '<div class="tracker-week-group">'
+        + '<div class="tracker-week-head"><span>Week ' + wk + '</span>'
+        + '<button class="mark-week-btn" onclick="markWeekDone(' + wk + ')">Mark week done</button>'
+        + '</div>';
+
+      ms.forEach(m => {
+        const status = meetingProgress[m.meetingNum] || 'not-started';
+        const rowCls = status === 'in-progress' ? 's-prog' : status === 'done' ? 's-done' : '';
+        const btnCls = status === 'in-progress' ? 's-btn-prog' : status === 'done' ? 's-btn-done' : 's-btn-not';
+        const icons  = { 'not-started':'○', 'in-progress':'◐', 'done':'✓' };
+        const labels = { 'not-started':'Not started', 'in-progress':'In progress', 'done':'Done!' };
+        const areas  = [...new Set(m.bp.tasks.filter(t=>t.tier==='core').map(t=>t.area))];
+        const tags   = areas.map(a => '<span class="t-tag" style="' + (TAG_CSS[a]||'') + '">' + AREA_LABEL[a] + '</span>').join('');
+
+        h += '<div class="tracker-meeting-row ' + rowCls + '" id="tr-row-' + m.meetingNum + '">'
+          + '<div class="tracker-meeting-num">' + m.meetingNum + '</div>'
+          + '<div class="tracker-meeting-info">'
+          + '<div class="tracker-meeting-title">' + m.bp.title + '</div>'
+          + '<div class="tracker-meeting-tags">' + tags + '</div>'
+          + '</div>'
+          + '<button class="status-btn ' + btnCls + '" id="tr-btn-' + m.meetingNum + '" onclick="setMeetingStatus(' + m.meetingNum + ')">'
+          + '<span>' + icons[status] + '</span><span>' + labels[status] + '</span>'
+          + '</button>'
+          + '</div>';
+      });
+      h += '</div>';
+    });
+    h += '</div>'; // tracker-list
+
+    return h;
+  }
+
+  function buildGanttHTML(schedule, opts, PHASE_ORDER, PHASE_LABELS, PHASE_CHIP_CSS) {
+    const weeks = opts.weeks || 12;
+    const wCap  = Math.min(weeks, 24); // cap display at 24 columns
+
+    let h = '<div class="gantt-wrap">';
+    h += '<div class="gantt-head-row">'
+      + '<div class="gantt-title-txt">Season Timeline — click any block to update status</div>'
+      + '<div class="gantt-legend">'
+      + '<div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:var(--border)"></div>Not started</div>'
+      + '<div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:rgba(59,158,255,.3)"></div>In progress</div>'
+      + '<div class="gantt-legend-item"><div class="gantt-legend-dot" style="background:rgba(52,211,153,.3)"></div>Done</div>'
+      + '</div></div>';
+
+    h += '<table class="gantt-table"><thead><tr>';
+    h += '<th class="gantt-phase-lbl" style="min-width:90px"></th>';
+    for (let w = 1; w <= wCap; w++) {
+      h += '<th class="gantt-wk-lbl">Wk' + w + '</th>';
+    }
+    h += '</tr></thead><tbody>';
+
+    PHASE_ORDER.forEach(phase => {
+      const ms = schedule.filter(m => m.phase === phase);
+      if (!ms.length) return;
+      const c = (PHASE_CHIP_CSS[phase] || '').replace(/background:[^;]+;/, '').replace('background:', '').split(';')[0];
+      const col = c.includes('color:') ? c.split('color:')[1].trim() : 'var(--text-muted)';
+      h += '<tr><td class="gantt-phase-lbl" style="color:' + col + '">' + PHASE_LABELS[phase] + '</td>';
+      for (let w = 1; w <= wCap; w++) {
+        const weekMs = ms.filter(m => m.weekNum === w);
+        h += '<td class="gantt-cell">';
+        weekMs.forEach(m => {
+          const status = meetingProgress[m.meetingNum] || 'not-started';
+          const cls = status === 'done' ? 'g-done' : status === 'in-progress' ? 'g-prog' : 'g-todo';
+          h += '<div class="gantt-block ' + cls + '" id="gb-' + m.meetingNum + '" title="Mtg ' + m.meetingNum + ': ' + m.bp.title + '" onclick="setMeetingStatus(' + m.meetingNum + ')">' + m.meetingNum + '</div>';
+        });
+        h += '</td>';
+      }
+      h += '</tr>';
+    });
+
+    h += '</tbody></table></div>';
+    return h;
+  }
+
+  function exportPDF() {
+    if (!currentSchedule.length) { alert('Generate a curriculum first!'); return; }
+    const opts = currentScheduleOpts;
+    const PHASE_LABELS = { foundation:'Foundation', build:'Build & Research', develop:'Develop', refine:'Refine', prep:'Competition Prep' };
+    const PHASE_ORDER  = ['foundation','build','develop','refine','prep'];
+    const AREA_LABEL   = { robot:'Robot Game', project:'Innovation Project', cv:'Core Values' };
+    const alloc = {};
+    PHASE_ORDER.forEach(p => { alloc[p] = currentSchedule.filter(m => m.phase === p).length; });
+    const byWeek = {};
+    currentSchedule.forEach(m => { if (!byWeek[m.weekNum]) byWeek[m.weekNum]=[]; byWeek[m.weekNum].push(m); });
+
+    let body = '<h2 style="margin-top:0">Season Overview</h2>';
+    body += '<table><tr><th>Phase</th><th>Meetings</th><th>Focus</th></tr>';
+    const phaseDesc = { foundation:'Orientation, roles, game rules, project topic', build:'Robot coding, expert outreach, prototype building', develop:'Add missions, iterate prototype, presentations', refine:'Mock judging, consistency, portfolio review', prep:'Full rehearsal, logistics, competition day' };
+    PHASE_ORDER.forEach(p => { if (alloc[p]) body += '<tr><td>' + PHASE_LABELS[p] + '</td><td>' + alloc[p] + '</td><td>' + phaseDesc[p] + '</td></tr>'; });
+    body += '</table>';
+
+    body += '<h2>Meeting Schedule</h2>';
+    Object.keys(byWeek).sort((a,b)=>+a-+b).forEach(wk => {
+      body += '<div class="wk"><h3>Week ' + wk + '</h3>';
+      byWeek[wk].forEach(m => {
+        const coreTasks = m.bp.tasks.filter(t => t.tier === 'core');
+        const status = meetingProgress[m.meetingNum] || 'not-started';
+        const statusLabel = { 'not-started':'', 'in-progress':' [IN PROGRESS]', 'done':' [DONE]' }[status] || '';
+        body += '<div class="mtg"><div class="mtg-head"><b>Meeting ' + m.meetingNum + ': ' + m.bp.title + '</b>' + statusLabel + ' <span class="phase-lbl">(' + PHASE_LABELS[m.phase] + ')</span></div><ul>';
+        coreTasks.forEach(t => { body += '<li><b>[' + AREA_LABEL[t.area] + ']</b> ' + t.text + ' <span class="mins">(' + t.mins + ' min)</span></li>'; });
+        body += '</ul>';
+        if (document.getElementById('members-toggle') && document.getElementById('members-toggle').checked) {
+          const n = plannerState.teamsize;
+          const assigns = [];
+          for (let i = 0; i < n; i++) {
+            const task = coreTasks[i % coreTasks.length];
+            if (task) assigns.push('<b>' + getMemberName(i) + '</b>: ' + task.text.slice(0, 55) + (task.text.length > 55 ? '...' : ''));
+          }
+          if (assigns.length) body += '<div class="assigns">' + assigns.join('<br>') + '</div>';
+        }
+        body += '</div>';
+      });
+      body += '</div>';
+    });
+
+    const css = 'body{font-family:Arial,sans-serif;max-width:820px;margin:0 auto;padding:24px;color:#222;font-size:13px}'
+      + 'h1{font-size:20px;border-bottom:3px solid #3b9eff;padding-bottom:8px;margin-bottom:16px}'
+      + 'h2{font-size:15px;margin:20px 0 8px;color:#333;border-left:3px solid #3b9eff;padding-left:8px}'
+      + 'h3{font-size:13px;color:#555;margin:12px 0 4px;font-weight:700}'
+      + 'table{border-collapse:collapse;width:100%;margin-bottom:16px}'
+      + 'th,td{border:1px solid #ddd;padding:5px 9px;text-align:left;font-size:12px}'
+      + 'th{background:#f4f4f4;font-weight:700}'
+      + '.wk{margin-bottom:12px}'
+      + '.mtg{border:1px solid #e0e0e0;border-radius:6px;padding:9px 12px;margin-bottom:8px;page-break-inside:avoid}'
+      + '.mtg-head{font-size:13px;margin-bottom:5px}'
+      + '.phase-lbl{color:#777;font-weight:normal;font-size:11px}'
+      + 'ul{margin:4px 0;padding-left:16px}'
+      + 'li{margin-bottom:3px;font-size:12px;color:#444}'
+      + '.mins{color:#999}'
+      + '.assigns{margin-top:6px;padding:5px 8px;background:#f9f9f9;border-radius:4px;font-size:11px;color:#555}'
+      + '@media print{body{padding:0}.mtg{break-inside:avoid}}';
+
+    const title = 'FLL Season Plan — ' + opts.weeks + ' weeks, ' + currentSchedule.length + ' meetings';
+    const win = window.open('', '_blank');
+    win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + title + '</title><style>' + css + '</style></head><body><h1>' + title + '</h1>' + body + '</body></html>');
+    win.document.close();
+    setTimeout(() => win.print(), 600);
+  }
+
+  function toggleMeeting(num) {
+    document.getElementById('cm-'+num).classList.toggle('open');
+  }
+</script>
+
+<!-- FOOTER -->
+<footer>
+  <p>FLL Getting Started Guide, built from the work of experienced FLL teams.</p>
+  <p style="margin-top:.4rem;">FIRST&#174; and FIRST&#174; LEGO&#174; League are registered trademarks of FIRST. This guide is for educational purposes only.</p>
+</footer>
+</body>
+</html>
