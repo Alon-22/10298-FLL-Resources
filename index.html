@@ -1572,6 +1572,12 @@
       <button class="translate-opt" id="tr-he" onclick="translateTo('he','עברית',this)"><span class="tr-flag">&#127470;&#127473;</span>עברית<span class="tr-native">Hebrew</span></button>
       <button class="translate-opt" id="tr-ar" onclick="translateTo('ar','العربية',this)"><span class="tr-flag">&#127462;&#127466;</span>العربية<span class="tr-native">Arabic</span></button>
       <button class="translate-opt" id="tr-kk" onclick="translateTo('kk','Қазақша',this)"><span class="tr-flag">&#127472;&#127487;</span>Қазақша<span class="tr-native">Kazakh</span></button>
+      <button class="translate-opt" id="tr-ro" onclick="translateTo('ro','Română',this)"><span class="tr-flag">&#127479;&#127476;</span>Română<span class="tr-native">Romanian</span></button>
+      <button class="translate-opt" id="tr-fr" onclick="translateTo('fr','Français',this)"><span class="tr-flag">&#127467;&#127479;</span>Français<span class="tr-native">French</span></button>
+      <button class="translate-opt" id="tr-de" onclick="translateTo('de','Deutsch',this)"><span class="tr-flag">&#127465;&#127466;</span>Deutsch<span class="tr-native">German</span></button>
+      <button class="translate-opt" id="tr-it" onclick="translateTo('it','Italiano',this)"><span class="tr-flag">&#127470;&#127481;</span>Italiano<span class="tr-native">Italian</span></button>
+      <button class="translate-opt" id="tr-el" onclick="translateTo('el','Ελληνικά',this)"><span class="tr-flag">&#127468;&#127479;</span>Ελληνικά<span class="tr-native">Greek</span></button>
+      <button class="translate-opt" id="tr-pt-BR" onclick="translateTo('pt-BR','Português',this)"><span class="tr-flag">&#127463;&#127479;</span>Português<span class="tr-native">Portuguese (Brazil)</span></button>
       <button class="translate-opt" id="tr-zh-CN" onclick="translateTo('zh-CN','普通话',this)"><span class="tr-flag">&#127464;&#127475;</span>普通话<span class="tr-native">Mandarin (Simplified)</span></button>
       <button class="translate-opt" id="tr-zh-TW" onclick="translateTo('zh-TW','廣東話',this)"><span class="tr-flag">&#127469;&#127472;</span>廣東話<span class="tr-native">Cantonese (Traditional)</span></button>
     </div>
@@ -1924,6 +1930,46 @@
 
   <div class="content">
 
+    <!-- Mission Path Planner map -->
+    <div class="mmap-section">
+      <h3>Mission Path Planner</h3>
+      <p>Map your robot's route for each run. Draw directly on the field, then export or print to show judges your strategy.</p>
+
+      <div class="mmap-run-bar" id="mmapRuns"></div>
+
+      <div class="mmap-toolbar">
+        <div class="mmap-tgroup">
+          <button class="mmap-tool active" onclick="mmSetTool('pen',this)">✏ Draw</button>
+          <button class="mmap-tool" onclick="mmSetTool('line',this)">╱ Line</button>
+          <button class="mmap-tool" onclick="mmSetTool('arrow',this)">→ Arrow</button>
+          <button class="mmap-tool" onclick="mmSetTool('eraser',this)">⌫ Erase</button>
+        </div>
+        <div class="mmap-tgroup">
+          <button class="mmap-sz" onclick="mmSetSize(3,this)">·</button>
+          <button class="mmap-sz active" onclick="mmSetSize(6,this)">•</button>
+          <button class="mmap-sz" onclick="mmSetSize(11,this)">●</button>
+        </div>
+        <div class="mmap-tgroup">
+          <button class="mmap-btn" onclick="mmUndo()">↩ Undo</button>
+          <button class="mmap-btn" onclick="mmClear()">✕ Clear run</button>
+        </div>
+        <div class="mmap-tgroup">
+          <button class="mmap-btn mmap-export" onclick="mmExport('current')">↓ Export run</button>
+          <button class="mmap-btn mmap-export" onclick="mmExport('all')">↓ All runs</button>
+          <button class="mmap-btn" onclick="mmPrint()">⎙ Print</button>
+        </div>
+      </div>
+
+      <div class="mmap-canvas-wrap" id="mmapWrap">
+        <canvas id="mmapField"></canvas>
+        <canvas id="mmapDraw"></canvas>
+      </div>
+
+      <div class="mmap-legend" id="mmapLegend"></div>
+      <p class="mmap-hint">Numbered circles = generic mission areas. Each run gets its own color. Export as PNG to show judges on a tablet.</p>
+    </div>
+
+
     <!-- What is the robot game -->
     <div class="bright-box blue" style="margin-bottom:1.5rem;">
       <h3>How the robot game works</h3>
@@ -1995,45 +2041,6 @@
           <p>If you're finishing a mission less than 70% of the time, fix it or drop it. A mission you can't complete reliably will cost you more than it's worth.</p>
         </div>
       </div>
-    </div>
-
-    <!-- Mission Path Planner map -->
-    <div class="mmap-section">
-      <h3>Mission Path Planner</h3>
-      <p>Map your robot's route for each run. Draw directly on the field, then export or print to show judges your strategy.</p>
-
-      <div class="mmap-run-bar" id="mmapRuns"></div>
-
-      <div class="mmap-toolbar">
-        <div class="mmap-tgroup">
-          <button class="mmap-tool active" onclick="mmSetTool('pen',this)">✏ Draw</button>
-          <button class="mmap-tool" onclick="mmSetTool('line',this)">╱ Line</button>
-          <button class="mmap-tool" onclick="mmSetTool('arrow',this)">→ Arrow</button>
-          <button class="mmap-tool" onclick="mmSetTool('eraser',this)">⌫ Erase</button>
-        </div>
-        <div class="mmap-tgroup">
-          <button class="mmap-sz" onclick="mmSetSize(3,this)">·</button>
-          <button class="mmap-sz active" onclick="mmSetSize(6,this)">•</button>
-          <button class="mmap-sz" onclick="mmSetSize(11,this)">●</button>
-        </div>
-        <div class="mmap-tgroup">
-          <button class="mmap-btn" onclick="mmUndo()">↩ Undo</button>
-          <button class="mmap-btn" onclick="mmClear()">✕ Clear run</button>
-        </div>
-        <div class="mmap-tgroup">
-          <button class="mmap-btn mmap-export" onclick="mmExport('current')">↓ Export run</button>
-          <button class="mmap-btn mmap-export" onclick="mmExport('all')">↓ All runs</button>
-          <button class="mmap-btn" onclick="mmPrint()">⎙ Print</button>
-        </div>
-      </div>
-
-      <div class="mmap-canvas-wrap" id="mmapWrap">
-        <canvas id="mmapField"></canvas>
-        <canvas id="mmapDraw"></canvas>
-      </div>
-
-      <div class="mmap-legend" id="mmapLegend"></div>
-      <p class="mmap-hint">Numbered circles = generic mission areas. Each run gets its own color. Export as PNG to show judges on a tablet.</p>
     </div>
 
   </div>
