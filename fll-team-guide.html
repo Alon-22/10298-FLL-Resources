@@ -3089,43 +3089,48 @@
 
     const assignedStudents = new Set();
 
-    // Pass 1: assign one best-fit student per task (greedy)
-    // Rotate starting index each meeting so index-0 never always wins ties
+    // Pass 1 (student-first): each student picks the task/area they most need.
+    // This ensures small teams (n < 3) still rotate across all areas.
     const _meetingOffset = studentAreaCounts && studentAreaCounts[0]
       ? (studentAreaCounts[0].robot + studentAreaCounts[0].project + studentAreaCounts[0].cv)
       : 0;
-    taskList.forEach(({ area, text }, ti) => {
-      let best = -1, bestScore = -Infinity;
-      for (let di = 0; di < n; di++) {
-        const i = (di + _meetingOffset + ti) % n;
-        if (assignedStudents.has(i)) continue;
-        const sc = studentAreaScore(i, area);
-        if (sc > bestScore) { bestScore = sc; best = i; }
+    const _availIdx = taskList.map((_, ti) => ti);  // indices of unclaimed tasks
+    for (let si = 0; si < n; si++) {
+      if (_availIdx.length === 0) break;
+      const i = (si + _meetingOffset) % n;           // rotating student order
+      let bestTIdx = -1, bestTScore = -Infinity;
+      for (const ti of _availIdx) {
+        const sc = studentAreaScore(i, taskList[ti].area);
+        if (sc > bestTScore) { bestTScore = sc; bestTIdx = ti; }
       }
-      if (best !== -1) {
-        assignedStudents.add(best);
-        const alreadyLead = slots[best] !== null;
-        slots[best] = {
-          area, color: AREA_COLOR[area],
-          role: AREA_LABEL[area] + ' ' + (alreadyLead ? 'assist' : ROLE_SUFFIX[area]),
-          tasks: [text],
+      if (bestTIdx >= 0) {
+        const t = taskList[bestTIdx];
+        _availIdx.splice(_availIdx.indexOf(bestTIdx), 1);
+        assignedStudents.add(i);
+        slots[i] = {
+          area: t.area, color: AREA_COLOR[t.area],
+          role: AREA_LABEL[t.area] + ' ' + ROLE_SUFFIX[t.area],
+          tasks: [t.text],
         };
       }
-    });
-
-    // Pass 2: overflow tasks (more tasks than students), append to existing slots
-    if (tasks.length > n) {
-      let overflow = tasks.slice(n);
-      overflow.forEach(t => {
-        // Give to the student in the same area, or least-loaded student
-        let target = -1;
-        for (let i = 0; i < n; i++) {
-          if (slots[i] && slots[i].area === t.area) { target = i; break; }
-        }
-        if (target === -1) target = 0;
-        if (slots[target]) slots[target].tasks.push(t.text);
-      });
     }
+
+    // Pass 2: overflow tasks (unclaimed after Pass 1) appended to existing slots
+    _availIdx.forEach(ti => {
+      const t = taskList[ti];
+      // Prefer the slot already in this area, then fewest tasks
+      let target = -1;
+      for (let i = 0; i < n; i++) {
+        if (slots[i] && slots[i].area === t.area) { target = i; break; }
+      }
+      if (target === -1) {
+        target = 0;
+        for (let i = 1; i < n; i++) {
+          if ((slots[i]?.tasks?.length ?? 0) < (slots[target]?.tasks?.length ?? 0)) target = i;
+        }
+      }
+      if (slots[target]) slots[target].tasks.push(t.text);
+    });
 
     // Pass 3: unassigned students — balanced distribution across all areas
     const DEFAULT_TASKS = {
