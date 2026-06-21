@@ -2741,9 +2741,8 @@
             <button class="popt" data-val="8" onclick="setPOpt(this,'teamsize');updateTeamCards()">8</button>
             <button class="popt" data-val="9" onclick="setPOpt(this,'teamsize');updateTeamCards()">9</button>
             <button class="popt" data-val="10" onclick="setPOpt(this,'teamsize');updateTeamCards()">10</button>
-            <button class="popt" data-val="9" onclick="setPOpt(this,'teamsize');updateTeamCards()">9</button>
-            <button class="popt" data-val="10" onclick="setPOpt(this,'teamsize');updateTeamCards()">10</button>
-          </div>
+    
+      </div>
         </div>
 
         <div class="planner-field">
@@ -3130,10 +3129,17 @@
     for (let i = 0; i < n; i++) {
       if (slots[i]) continue;
       // Pick the area this student has done the least (force rotation exposure)
-      let leastArea = 'robot';
+      const _areas3 = ['robot','project','cv'];
+      let leastArea = _areas3[i % 3]; // default round-robin ensures all areas covered
       if (studentAreaCounts && studentAreaCounts[i]) {
         const counts = studentAreaCounts[i];
-        leastArea = ['robot','project','cv'].sort((a,b) => (counts[a]||0) - (counts[b]||0))[0];
+        // Sort by count; tiebreak by (areaIndex + studentIndex) % 3 so every student
+        // gets a different area when all counts are equal (prevents student 0 = robot forever)
+        leastArea = [..._areas3].sort((a, b) => {
+          const diff = (counts[a]||0) - (counts[b]||0);
+          if (diff !== 0) return diff;
+          return ((_areas3.indexOf(a) + i) % 3) - ((_areas3.indexOf(b) + i) % 3);
+        })[0];
       }
       slots[i] = { area: leastArea, color: AREA_COLOR[leastArea],
         role: AREA_LABEL[leastArea] + ' support',
@@ -3205,12 +3211,12 @@
       const headNote = membersDetailed ? 'Who does what' : 'Suggested split (add student details above for personalized assignments)';
       let attNote = '';
       if (hasVariableAttendance) {
-        const spotNames = spotStudents.map(s => typeof s === 'string' ? s : s.name);
+        const spotNames = spotStudents.map(s => getMemberName(s));
         const likelyNames2 = likelyStudents.map(i => getMemberName(i));
         const parts = [];
         if (spotStudents.length) {
-          const regOcc = spotStudents.filter(s => typeof s === 'string' || !s.expert).map(s => typeof s === 'string' ? s : s.name);
-          const expOcc = spotStudents.filter(s => s.expert).map(s => s.name);
+          const regOcc = spotStudents.map(s => getMemberName(s));
+          const expOcc = [];
           if (expOcc.length) parts.push('<strong style="color:var(--gold)">' + expOcc.join(', ') + '</strong> — occasional <em style="color:var(--gold)">expert</em> (workstream upgrade when present)');
           if (regOcc.length) parts.push('<strong style="color:var(--gold)">' + regOcc.join(', ') + '</strong> — occasional');
         }
@@ -3272,7 +3278,7 @@
         : '';
       const allTasks = leadIdx.slot.tasks;
       const taskPreview = allTasks[0] ? allTasks[0].slice(0,80) + (allTasks[0].length > 80 ? '…' : '') : '';
-      const streamId = 'stream-' + wk + '-' + area + '-' + Math.random().toString(36).slice(2,7);
+      const streamId = 'stream-' + area + '-' + Math.random().toString(36).slice(2,9);
       const expertOccNote = (isLead && leadIsOccasional)
         ? '<div style="font-size:.74rem;margin-top:.3rem;color:var(--text-muted);font-style:italic">'
           + 'If here: takes lead. '
