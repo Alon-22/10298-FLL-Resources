@@ -670,6 +670,9 @@
       transition: transform .2s;
       flex-shrink: 0;
     }
+    .curr-amb-ctrl { display:flex; align-items:center; gap:.2rem; flex-shrink:0; padding:.1rem .2rem; }
+    .amb-lvl { background:none; border:1px solid rgba(128,128,128,.18); border-radius:4px; padding:.12rem .42rem; font-size:.67rem; cursor:pointer; color:var(--text-muted); font-family:inherit; line-height:1.4; font-weight:400; transition:background .12s,color .12s,border-color .12s; white-space:nowrap; }
+    .amb-lvl:hover { border-color:rgba(128,128,128,.35); color:var(--text); }
     .curr-meeting.open .curr-chevron { transform: rotate(90deg); }
     .curr-chevron { transform: rotate(90deg); }
     .curr-meeting-body {
@@ -3690,19 +3693,24 @@
     // ── FOUNDATION ──
     { phase:'foundation', title:'Season kickoff', priority:1, tasks:[
       { text:'Read the game guide as a team. Go through every mission. Mark each one: attempt (we can do this reliably), risky (possible but needs work), or cut (too hard or not worth the points). Write down your reasoning for each cut.', area:'robot', mins:20, tier:'core' },
-      { text:'Assign roles: robot lead, project lead, note-taker, presenter. Write them in your journal.', area:'cv', mins:10, tier:'core' },
-      { text:'Start your team journal. Write today\'s date, who\'s here, and everyone\'s role.', area:'cv', mins:10, tier:'core' },
       { text:'Brainstorm 5+ specific problems related to this year\'s theme. Don\'t filter yet.', area:'project', mins:20, tier:'std' },
-      { text:'Set team norms: when you disagree, how will you decide? Write it down.', area:'cv', mins:10, tier:'std' },
       { text:'Watch a recorded FLL match from a past season so everyone knows what competition looks like.', area:'robot', mins:15, tier:'ext' },
       { text:'Map the game table on paper. Label your in-scope mission zones and mark out-of-scope ones so the team knows where to focus.', area:'robot', mins:15, tier:'ext' },
+      { text:'Teamwork — Assign roles: robot lead, project lead, note-taker, and presenter. Each person says one sentence about why they chose that role. Write it in the journal.', area:'cv', mins:10, tier:'core' },
+      { text:'Inclusion — Go around the table: each person names one strength they bring to the team and one thing they want to learn this season. Write every answer down. No one skips.', area:'cv', mins:10, tier:'core' },
+      { text:'Fun — Name your team and invent a simple team handshake or chant. Write it in the journal.', area:'cv', mins:10, tier:'std' },
+      { text:'Teamwork — Divide the game guide into sections: each student reads and becomes the expert on 2-3 missions. You teach each other.', area:'robot', mins:10, tier:'core' },
+      { text:'Discovery — Read this year\'s theme overview. Each person writes down their most surprising fact and shares it with the group.', area:'project', mins:10, tier:'core' }
     ]},
     { phase:'foundation', title:'Understand the game', priority:1, tasks:[
       { text:'Go through each mission, write its point value, and mark it attempt or cut. Aim to attempt as many as your team can execute reliably. Document why you cut the ones you did. This is your starting strategy.', area:'robot', mins:25, tier:'core' },
       { text:'Write the 5 chosen missions and expected total score in your journal.', area:'robot', mins:10, tier:'core' },
       { text:'Look at this year\'s Innovation Project theme. Pick your top 2 topic ideas to research next meeting.', area:'project', mins:15, tier:'std' },
       { text:'Assign one topic to each member. They\'ll bring back 2 facts at the next meeting.', area:'project', mins:10, tier:'std' },
-      { text:'Discuss what "Inclusion" means for your specific team. Write one sentence about it.', area:'cv', mins:15, tier:'ext' },
+      { text:'Discovery — Each person picks one mission they find most surprising or interesting and explains it to the group. What did you not expect about this year\'s game?', area:'cv', mins:10, tier:'core' },
+      { text:'Innovation — Brainstorm three completely different ways to approach the hardest mission on the field. No wrong answers. Write them all down, even the ones you will not try.', area:'cv', mins:10, tier:'std' },
+      { text:'Teamwork — Divide the game guide: each student reads and becomes the expert on 3-4 missions. Teach each other what you found.', area:'cv', mins:15, tier:'ext' },
+      { text:'Innovation — Pick the mission you think is worth the most points relative to difficulty. Explain your reasoning to the team.', area:'robot', mins:10, tier:'core' }
     ]},
     { phase:'foundation', title:'Pick your project topic', priority:1, tasks:[
       { text:'Each member shares what they researched. 90 seconds per person, no interrupting.', area:'project', mins:15, tier:'core' },
@@ -3711,21 +3719,32 @@
       { text:'Continue building robot base. Goal: it should drive straight without drifting.', area:'robot', mins:20, tier:'std' },
       { text:'Brainstorm 5 different possible solutions to your problem. No filtering.', area:'project', mins:20, tier:'std' },
       { text:'Test that robot drives 3 feet straight without drifting. Fix it until it does.', area:'robot', mins:20, tier:'ext' },
+      { text:'Impact — For every topic idea on the table, answer: who benefits and by how much? Pick the topic with the most specific, real answer.', area:'cv', mins:10, tier:'core' },
+      { text:'Discovery — What do you NOT know yet about your chosen problem? Each person writes their top question. These become your research goals.', area:'cv', mins:10, tier:'core' },
+      { text:'Inclusion — Everyone gives their honest opinion on the final topic choice before it is locked in. If someone has doubts, they say it now. Disagreement is welcome.', area:'cv', mins:10, tier:'std' },
+      { text:'Impact — For every topic idea, write: who is affected, how many people, and how seriously? Choose the topic with the most specific, real answer.', area:'project', mins:15, tier:'core' },
+      { text:'Inclusion — Before locking in the topic, every member states their opinion. If anyone has doubts, they say it now — disagreement is part of the process.', area:'project', mins:10, tier:'std' }
     ]},
     { phase:'foundation', title:'Robot base and roles check', priority:2, tasks:[
       { text:'Finish building your robot base. Compact builds (paperback book size) work best.', area:'robot', mins:25, tier:'core' },
       { text:'Document Robot Version 1: take a photo, write pros and cons in your journal.', area:'robot', mins:10, tier:'core' },
       { text:'Vote on your top solution idea from last session.', area:'project', mins:10, tier:'core' },
       { text:'Draft a list of materials your solution prototype would need.', area:'project', mins:15, tier:'std' },
-      { text:'Make sure every team member has a turn at the keyboard and at the building table today. Judges will ask everyone what they personally worked on. Establish this rotation from day one.', area:'cv', mins:10, tier:'std' },
-      { text:'Write individual member spotlights: each person writes 2 sentences about who they are and their role.', area:'cv', mins:20, tier:'ext' },
+      { text:'Teamwork — Go around: what did EACH person physically do today? If someone only watched, stop and give them a hands-on task right now.', area:'cv', mins:10, tier:'core' },
+      { text:'Innovation — Pick one build decision you made today and write it in the journal: what alternatives did you consider, and why did you choose this one?', area:'cv', mins:10, tier:'std' },
+      { text:'Inclusion — Check the workload: is anyone feeling left out or underused? Adjust roles openly. It is better to talk about it now.', area:'cv', mins:10, tier:'ext' },
+      { text:'Innovation — Before you start building: sketch the design. After: did it match? What changed and why?', area:'robot', mins:10, tier:'core' }
     ]},
     { phase:'foundation', title:'Season kickoff wrap-up', priority:3, tasks:[
       { text:'Review your mission strategy: recalculate expected score based on what you know now.', area:'robot', mins:15, tier:'core' },
       { text:'Watch one more match video focusing only on robot strategy and run order.', area:'robot', mins:15, tier:'core' },
       { text:'Discuss: what does a good project look like? Look at examples from previous winners online.', area:'project', mins:15, tier:'std' },
-      { text:'Set team agreements: phone policy, how to run meetings, how to handle conflict.', area:'cv', mins:15, tier:'std' },
       { text:'Draft a project responsibility chart: write team member names next to each role (researcher, prototype builder, expert contact, presenter). Judges look for evidence that all members were involved in development.', area:'project', mins:10, tier:'ext' },
+      { text:'Inclusion — Write your team norms together: when you disagree, how do you decide? What happens if someone misses a meeting? Everyone agrees before you leave.', area:'cv', mins:15, tier:'core' },
+      { text:'Fun — Team challenge: everyone writes down their best idea for a team celebration when you complete your first working robot run. Read them out loud.', area:'cv', mins:10, tier:'std' },
+      { text:'Discovery — Each person names one thing they are curious to find out this season, about the robot, the project, or about themselves as a teammate.', area:'cv', mins:10, tier:'ext' },
+      { text:'Teamwork — Assign robot sub-roles for the season: lead builder, lead programmer, chief tester. Rotate mid-season.', area:'robot', mins:10, tier:'std' },
+      { text:'Discovery — Write your initial Research Plan: what do you need to find out, and where will you look?', area:'project', mins:10, tier:'core' }
     ]},
 
     // ── BUILD ──
@@ -3736,14 +3755,19 @@
       { text:'Draft an email to that expert: introduce your team, describe the problem, ask 2 specific questions.', area:'project', mins:15, tier:'std' },
       { text:'Start building your first rough prototype. Even if it\'s just materials laid out, start.', area:'project', mins:25, tier:'ext' },
       { text:'Take photos of the prototype at this stage for your journal.', area:'project', mins:5, tier:'ext' },
+      { text:'Discovery — Write a Surprise Log entry: what did the robot do that you did not predict? Even a bug is a discovery worth logging.', area:'cv', mins:10, tier:'core' },
+      { text:'Innovation — Try one approach you were not sure would work. Did it? Document what you tried, what happened, and what you will try next. This is your iteration log.', area:'cv', mins:10, tier:'std' },
+      { text:'Fun — Celebrate the first successful test run, no matter how small. Name it in the journal with today\'s date.', area:'cv', mins:5, tier:'ext' },
+      { text:'Innovation — Try at least two different approaches before settling on one. Document both in the journal.', area:'robot', mins:10, tier:'core' }
     ]},
     { phase:'build', title:'Test and log Mission 1', priority:1, tasks:[
       { text:'Run Mission 1 ten times back-to-back. Record the exact result each time.', area:'robot', mins:25, tier:'core' },
       { text:'If below 70%, make one specific change and test 5 more times. Don\'t add Mission 2 yet.', area:'robot', mins:15, tier:'core' },
       { text:'Send your expert outreach email (or write and send one now if you haven\'t).', area:'project', mins:15, tier:'std' },
       { text:'Work on prototype: build something physical, even if it\'s rough.', area:'project', mins:25, tier:'std' },
-      { text:'Practice explaining your project problem out loud. Everyone should be able to do it in 60 seconds.', area:'cv', mins:15, tier:'ext' },
-      { text:'Write a Discovery entry in your journal: what has your team learned so far?', area:'cv', mins:10, tier:'ext' },
+      { text:'Teamwork — Assign roles for every test run: one person drives, one watches for failures, one takes notes. Rotate each run so no one does the same job twice in a row.', area:'cv', mins:10, tier:'core' },
+      { text:'Impact — Why this mission? Write one sentence on why completing it matters to your overall strategy. Judges will ask what you prioritized and why.', area:'cv', mins:10, tier:'std' },
+      { text:'Teamwork — Rotate who runs each attempt: one person drives, one watches, one records. No one does the same role twice in a row.', area:'robot', mins:10, tier:'core' }
     ]},
     { phase:'build', title:'Code Mission 2', priority:1, tasks:[
       { text:'Write code for Mission 2. Run it 5 times and record success rate.', area:'robot', mins:25, tier:'core' },
@@ -3751,7 +3775,9 @@
       { text:'Research who your solution would help. What existing solutions already exist?', area:'project', mins:20, tier:'std' },
       { text:'Write 3 things your solution does that existing options don\'t.', area:'project', mins:15, tier:'std' },
       { text:'Continue building your prototype and photograph this version.', area:'project', mins:25, tier:'ext' },
-      { text:'Team bonding: do one fun activity and write a journal entry documenting it.', area:'cv', mins:20, tier:'ext' },
+      { text:'Innovation — Write your Failure Log: for each attempt that did not work, document what you changed and why. This is your innovation story. Judges want to see it.', area:'cv', mins:10, tier:'core' },
+      { text:'Discovery — What skill did someone on the team use today that the rest of the team had not seen before? Write it down as a team capability entry.', area:'cv', mins:10, tier:'std' },
+      { text:'Discovery — What did you learn coding Mission 2 that you wish you knew before Mission 1?', area:'robot', mins:10, tier:'std' }
     ]},
     { phase:'build', title:'Expert outreach', priority:1, tasks:[
       { text:'Write and send at least one expert outreach email today.', area:'project', mins:20, tier:'core' },
@@ -3759,8 +3785,13 @@
       { text:'Run all current missions back-to-back. Check for interference and log results.', area:'robot', mins:15, tier:'std' },
       { text:'Write your best statistic about the problem and a one-paragraph problem summary.', area:'project', mins:15, tier:'std' },
       { text:'Check source variety: judges score higher when research spans multiple types. Aim for at least 3 different types: an article or study, a data set or statistic, a first-person account, an expert, and an organization.', area:'project', mins:10, tier:'std' },
-      { text:'Practice your problem statement as a team. Everyone should be able to say it in 30 seconds.', area:'cv', mins:15, tier:'ext' },
       { text:'Start a project one-pager or simple website with your problem statement and solution idea.', area:'project', mins:20, tier:'ext' },
+      { text:'Impact — Before reaching out: who is your expert and what specific question are you asking? Write the exact question. \'What are your thoughts?\' is too broad.', area:'cv', mins:10, tier:'core' },
+      { text:'Discovery — After your expert contact: write down the single most important thing they told you. Did it change your direction or confirm it?', area:'cv', mins:10, tier:'core' },
+      { text:'Inclusion — Who sent the email or made the call? Rotate this responsibility so it is not always the same person.', area:'cv', mins:5, tier:'std' },
+      { text:'Impact — Before reaching out: write the exact question you are asking the expert. \'What are your thoughts?\' is too broad.', area:'project', mins:10, tier:'core' },
+      { text:'Inclusion — Rotate who sends the email or makes the call. It should not always be the same person.', area:'project', mins:5, tier:'core' },
+      { text:'Discovery — After: write down the single most important thing the expert told you. Did it change your direction or confirm it?', area:'project', mins:10, tier:'core' }
     ]},
     { phase:'build', title:'Prototype development', priority:1, tasks:[
       { text:'Work on your prototype. Goal: demonstrate the core function by end of session.', area:'project', mins:30, tier:'core' },
@@ -3768,14 +3799,20 @@
       { text:'Quick robot check: run each in-scope mission once and note pass or fail.', area:'robot', mins:10, tier:'core' },
       { text:'Write a problems-and-solutions log entry about one challenge you hit and how you worked around it.', area:'project', mins:15, tier:'std' },
       { text:'Code and test Mission 3 on the robot.', area:'robot', mins:25, tier:'std' },
-      { text:'Write your team\'s conflict resolution process: when you disagree, how do you decide?', area:'cv', mins:15, tier:'ext' },
+      { text:'Innovation — Sketch your prototype and label every decision: why this shape, this material, this mechanism? Judges will ask these exact questions.', area:'cv', mins:15, tier:'core' },
+      { text:'Teamwork — Check the build: who designed, who built, who tested, who documented? Make sure different people owned each step. Write down who did what.', area:'cv', mins:10, tier:'std' },
+      { text:'Impact — Read your original problem statement out loud. Does your prototype actually address it? If not, say so now and adjust.', area:'cv', mins:10, tier:'ext' },
+      { text:'Impact — Read your original problem statement out loud. Does your current prototype actually address it? If not, adjust now.', area:'project', mins:10, tier:'core' },
+      { text:'Innovation — Sketch your prototype and label WHY you made each design choice. Judges will ask these exact questions.', area:'project', mins:10, tier:'std' }
     ]},
     { phase:'build', title:'Robot evaluation: do we need a V2?', priority:2, tasks:[
       { text:'Review your robot photos and run logs. Ask honestly: are we losing points because of the build design, or because of code and driver consistency? A redesign only helps if the structure is the problem.', area:'robot', mins:15, tier:'core' },
       { text:'List what is working well on the current robot and what keeps failing. If practice and small fixes could solve the issues, stick with what you have, a mid-season rebuild costs more time than it saves for most first-event teams.', area:'robot', mins:20, tier:'core' },
       { text:'If expert responded: read and discuss. Note what you will change. If not: send a follow-up.', area:'project', mins:20, tier:'std' },
       { text:'Document current robot state: photos, run scores, known issues, and your decision on whether to redesign or refine.', area:'project', mins:10, tier:'std' },
-      { text:'Team check-in: is everyone contributing? Is the workload balanced? Discuss it openly.', area:'cv', mins:15, tier:'ext' },
+      { text:'Innovation — Write your V1 Debrief: what worked, what failed, what you would change if you rebuilt from scratch. This is prime judging material. Be honest.', area:'cv', mins:15, tier:'core' },
+      { text:'Teamwork — Big team decision: rebuild or refine? Everyone states their opinion with one reason. Document the decision and the reasoning, not just the outcome.', area:'cv', mins:10, tier:'std' },
+      { text:'Innovation — List every design decision you would change if you rebuilt from scratch. Be specific about WHY.', area:'robot', mins:15, tier:'core' }
     ]},
     { phase:'build', title:'Mission consistency check', priority:2, tasks:[
       { text:'Run every current mission 10 times each. Record exact success rates.', area:'robot', mins:30, tier:'core' },
@@ -3783,7 +3820,9 @@
       { text:'Plan your next mission based on point value and how close it is to what your robot already does.', area:'robot', mins:10, tier:'core' },
       { text:'Continue prototype, try to get it to a point where you can demo the core function.', area:'project', mins:25, tier:'std' },
       { text:'Write a brief timeline of your project: key dates, decisions made, who did what.', area:'project', mins:15, tier:'std' },
-      { text:'Write one Fun entry in your journal: something that made the team laugh or enjoy a meeting.', area:'cv', mins:10, tier:'ext' },
+      { text:'Teamwork — Log 10 attempts per mission. Every team member participates in running or observing. Who noticed what? Write observations, not just pass or fail.', area:'cv', mins:10, tier:'core' },
+      { text:'Fun — Celebrate the first mission that hits 8 out of 10 successful runs. Write it in the journal. This is a real milestone.', area:'cv', mins:10, tier:'std' },
+      { text:'Fun — Track your best-ever run score on the whiteboard. Beat it today.', area:'robot', mins:10, tier:'std' }
     ]},
     { phase:'build', title:'First outside share', priority:2, tasks:[
       { text:'Present your project problem and solution to someone outside the team today. Ask them 3 questions.', area:'project', mins:20, tier:'core' },
@@ -3791,14 +3830,21 @@
       { text:'Run your current missions and record results in your journal.', area:'robot', mins:20, tier:'core' },
       { text:'Refine your one-pager or project summary based on the feedback.', area:'project', mins:20, tier:'std' },
       { text:'List 3 changes you could make to your solution based on what you heard today.', area:'project', mins:10, tier:'std' },
-      { text:'Write your Inclusion statement draft: what does inclusion mean for your specific team?', area:'cv', mins:20, tier:'ext' },
+      { text:'Impact — Share your project progress with one person outside the team: a parent, teacher, or neighbor. What questions did they ask? Write them down. Outside questions reveal gaps.', area:'cv', mins:10, tier:'core' },
+      { text:'Inclusion — After the share: who spoke and who did not? Debrief it. If some voices were missing, decide who leads the next share.', area:'cv', mins:10, tier:'std' },
+      { text:'Discovery — Did the outside person understand your problem without context? If not, what do you need to explain better?', area:'cv', mins:10, tier:'ext' },
+      { text:'Impact — Share project progress with one person outside the team. Write down every question they asked — outside questions reveal gaps.', area:'project', mins:10, tier:'core' },
+      { text:'Inclusion — After the share: who spoke and who did not? If voices were missing, decide who leads the next share.', area:'project', mins:10, tier:'std' },
+      { text:'Discovery — Did the outside person understand your problem without context? If not, what do you need to explain better?', area:'project', mins:10, tier:'std' }
     ]},
     { phase:'build', title:'Add more missions', priority:3, tasks:[
       { text:'Code and test your next mission. Run it 10 times and log results.', area:'robot', mins:30, tier:'core' },
       { text:'Recalculate your total expected score with all current missions.', area:'robot', mins:10, tier:'core' },
       { text:'Write your current run strategy on paper: what order, why that order?', area:'robot', mins:15, tier:'std' },
       { text:'Continue iterating on the prototype with any changes from outside feedback.', area:'project', mins:20, tier:'std' },
-      { text:'Each member writes 2 sentences for their individual spotlight in the portfolio.', area:'cv', mins:15, tier:'ext' },
+      { text:'Innovation — For each new mission you are adding: what is the single riskiest part of your approach? Write your contingency plan before you build.', area:'cv', mins:10, tier:'core' },
+      { text:'Discovery — What new building or coding technique did your team try for the first time to make this mission work?', area:'cv', mins:10, tier:'std' },
+      { text:'Innovation — For each new mission: sketch your attachment before building. Does the final build match? Document what changed.', area:'robot', mins:10, tier:'std' }
     ]},
 
     // ── DEVELOP ──
@@ -3808,7 +3854,12 @@
       { text:'Quick robot run: every in-scope mission once, record pass or fail.', area:'robot', mins:10, tier:'core' },
       { text:'Contact a second expert: target someone with a different background from the first.', area:'project', mins:20, tier:'std' },
       { text:'Run each in-scope mission 5 times. Calculate and record success rates. Any mission under 70% either gets fixed or gets dropped from scope.', area:'robot', mins:20, tier:'std' },
-      { text:'Practice this answer as a team: "Tell us about a challenge you faced and how you handled it."', area:'cv', mins:15, tier:'ext' },
+      { text:'Innovation — Write your Version History: list every change from V1 to now and the specific reason for each. \'It did not work\' is not a reason. What specifically failed?', area:'cv', mins:15, tier:'core' },
+      { text:'Impact — Check: has your latest prototype moved closer to solving the real problem, or just toward what is easiest to build? Read your impact statement and compare.', area:'cv', mins:10, tier:'std' },
+      { text:'Teamwork — Who has not had a chance to suggest a design change yet this season? Ask them now. Make sure all voices shaped the prototype.', area:'cv', mins:10, tier:'ext' },
+      { text:'Innovation — Write Version History: list every change from V1 and the specific failure that caused it. Vague entries (\'it didn\'t work\') do not count.', area:'robot', mins:15, tier:'core' },
+      { text:'Innovation — List every change from V1 and the specific reason. \'It didn\'t work\' is not a reason — name what specifically failed.', area:'project', mins:15, tier:'core' },
+      { text:'Impact — Check: has your latest version moved closer to solving the real problem, or just toward what is easiest to build?', area:'project', mins:10, tier:'std' }
     ]},
     { phase:'develop', title:'Add Mission 3 or 4', priority:1, tasks:[
       { text:'Code and test your next mission. Run it 10 times and log results.', area:'robot', mins:30, tier:'core' },
@@ -3817,6 +3868,9 @@
       { text:'Write your current run strategy: every mission you are attempting, which run it goes in, and why. Also list missions you cut with one-line explanations.', area:'robot', mins:15, tier:'std' },
       { text:'Update the prototype with any changes from recent feedback or testing.', area:'project', mins:20, tier:'std' },
       { text:'Share your project with a second outside audience that is a different type of group from your first share. If you shared with family, now share with a community member, teacher, or organization. Judges need evidence of multiple different groups.', area:'project', mins:15, tier:'std' },
+      { text:'Teamwork — Assign robot runs based on who is strongest at each mission. Write your planned run order and the rationale. Everyone agrees before it is final.', area:'cv', mins:10, tier:'core' },
+      { text:'Fun — Run a fastest-clean-run challenge within the team. Time each member doing their assigned mission. Celebrate the result.', area:'cv', mins:10, tier:'std' },
+      { text:'Teamwork — Assign robot runs based on who is strongest at each mission. Write the planned order and get everyone\'s agreement.', area:'robot', mins:10, tier:'core' }
     ]},
     { phase:'develop', title:'Second expert contact', priority:1, tasks:[
       { text:'Send a second expert email today. Make it different: different background, different angle.', area:'project', mins:20, tier:'core' },
@@ -3824,7 +3878,11 @@
       { text:'Work on robot: one mission in focus, test 10 times, log results.', area:'robot', mins:20, tier:'core' },
       { text:'Practice your full project explanation: problem, solution, who you\'ve talked to, who you\'ve shared with. 3 minutes.', area:'project', mins:20, tier:'std' },
       { text:'Run back-to-back full runs. How consistent is your total score from run to run?', area:'robot', mins:20, tier:'std' },
-      { text:'Team bonding: do one fun activity and write a journal entry about it.', area:'cv', mins:20, tier:'ext' },
+      { text:'Impact — Second expert debrief: has your solution become more specific since your first contact? Read your original impact statement and update it based on what you learned.', area:'cv', mins:10, tier:'core' },
+      { text:'Discovery — What did your second expert tell you that your first one did not? Document the difference. It shows depth of research.', area:'cv', mins:10, tier:'core' },
+      { text:'Inclusion — If the same person led both expert contacts, plan for a different team member to present the project in judging.', area:'cv', mins:10, tier:'std' },
+      { text:'Discovery — Has your solution become more specific since the first contact? What is the key new thing you learned?', area:'project', mins:10, tier:'core' },
+      { text:'Impact — Update your impact statement based on your two expert contacts. What changed?', area:'project', mins:10, tier:'std' }
     ]},
     { phase:'develop', title:'Run strategy on paper', priority:1, tasks:[
       { text:'Write your full run strategy: every mission you are attempting, its point value, which run it goes in. Add a column for cut missions with one-line explanations.', area:'robot', mins:20, tier:'core' },
@@ -3832,22 +3890,31 @@
       { text:'Identify your 3 riskiest missions. What\'s your backup if one fails mid-run?', area:'robot', mins:15, tier:'core' },
       { text:'Review prototype: does anything need changing based on feedback so far?', area:'project', mins:15, tier:'std' },
       { text:'Document prototype as it stands: photo, what version this is, what changed.', area:'project', mins:10, tier:'std' },
-      { text:'Practice Core Values Q&A: "What\'s one thing your team learned this season?" Everyone gives a specific answer.', area:'cv', mins:15, tier:'ext' },
+      { text:'Teamwork — Write out your full robot run strategy: mission order, risk points, and what happens if a mission fails. Every team member should be able to explain it without looking at the paper.', area:'cv', mins:15, tier:'core' },
+      { text:'Innovation — What is the biggest risk in your run order right now? What is your in-the-moment contingency plan? Write it down.', area:'cv', mins:10, tier:'std' },
+      { text:'Innovation — Identify your highest-risk moment in the run order. Write your contingency plan for when it fails.', area:'robot', mins:10, tier:'core' }
     ]},
     { phase:'develop', title:'Presentation practice', priority:1, tasks:[
       { text:'Each person explains the robot design to someone who was not in the room when it was built: the overall design, each attachment and why it was built that way, and how the code or sensors work. 2 minutes each. Judges ask anyone.', area:'robot', mins:15, tier:'core' },
       { text:'Practice your project explanation: 90 seconds, no notes. Then discuss: what was clear, what wasn\'t?', area:'project', mins:15, tier:'core' },
-      { text:'Practice: "How does your team make decisions when you disagree?" Everyone answers.', area:'cv', mins:15, tier:'core' },
-      { text:'Write your Inclusion statement: what does inclusion mean for your specific team?', area:'cv', mins:20, tier:'std' },
       { text:'Run all in-scope missions back-to-back and record your total scope score.', area:'robot', mins:15, tier:'std' },
       { text:'Contact a third expert: target a decision-maker (official, director, principal).', area:'project', mins:15, tier:'ext' },
+      { text:'Inclusion — Run your full presentation, then debrief: who spoke the most and who spoke the least? Restructure so every member owns a specific section they lead.', area:'cv', mins:15, tier:'core' },
+      { text:'Fun — Add one moment to your presentation that will make the judges genuinely smile: a prop, a visual, an unexpected analogy, or a natural team interaction. Rehearse it.', area:'cv', mins:10, tier:'std' },
+      { text:'Teamwork — Practice passing the talking between members naturally. No awkward handoffs. Time how long each person speaks.', area:'cv', mins:10, tier:'ext' },
+      { text:'Inclusion — Debrief who spoke most and least. Restructure so every member owns a specific section they lead.', area:'project', mins:15, tier:'core' },
+      { text:'Impact — Practice your 90-second pitch: problem, solution, who benefits. Every member times it.', area:'project', mins:10, tier:'std' },
+      { text:'Fun — Add one moment that will make the judges smile: a prop, an analogy, or a genuine team interaction. Rehearse it.', area:'project', mins:10, tier:'ext' }
     ]},
     { phase:'develop', title:'Portfolio check-in', priority:2, tasks:[
-      { text:'Check your journal: is every meeting documented? Fill any gaps now.', area:'cv', mins:15, tier:'core' },
       { text:'List every expert you\'ve contacted with one sentence on what they contributed to your thinking.', area:'project', mins:15, tier:'core' },
       { text:'Run all in-scope missions and record success rates for this phase.', area:'robot', mins:15, tier:'core' },
-      { text:'Review member spotlights: does everyone have something written? Finish incomplete ones.', area:'cv', mins:15, tier:'std' },
-      { text:'Review your Discovery statement: is it specific? Does it have evidence?', area:'cv', mins:15, tier:'std' },
+      { text:'Discovery — Write your Discovery statement: what is the most surprising thing your team found out this season? Not \'we learned a lot\', but what specifically.', area:'cv', mins:15, tier:'core' },
+      { text:'Impact — Write your Impact statement: if your solution were fully adopted, who benefits, by how much, and by when? The more specific, the stronger.', area:'cv', mins:15, tier:'std' },
+      { text:'Innovation — Scan your journal: can you point to 3 specific moments where the team changed direction or tried something new? Label them. If you cannot find them, your journal has a gap.', area:'cv', mins:10, tier:'std' },
+      { text:'Discovery — Write your Discovery statement: the most surprising thing your team found out this season. Be specific.', area:'project', mins:15, tier:'core' },
+      { text:'Impact — Write your Impact statement: if your solution were fully adopted, who benefits, by how much, and by when?', area:'project', mins:15, tier:'core' },
+      { text:'Inclusion — Check: does every team member have a clear individual contribution visible in the portfolio?', area:'project', mins:10, tier:'std' }
     ]},
     { phase:'develop', title:'Consistency push', priority:2, tasks:[
       { text:'Run every in-scope mission 10 times. Record exact success rates. Anything under 70%: fix it or cut it from scope.', area:'robot', mins:35, tier:'core' },
@@ -3855,6 +3922,9 @@
       { text:'Update your expected score calculation based on improved rates.', area:'robot', mins:5, tier:'core' },
       { text:'If prototype isn\'t demo-ready yet, set a hard deadline: which session will it be done?', area:'project', mins:10, tier:'std' },
       { text:'Work on prototype: get it to a point where you can show what it does.', area:'project', mins:25, tier:'std' },
+      { text:'Teamwork — Set team goals at the start of today. At the end, check: did you hit them? What slowed you down? Write the answers, not just the goals.', area:'cv', mins:10, tier:'core' },
+      { text:'Fun — Quick win: name one thing that is genuinely working well right now and say it out loud as a team before moving on.', area:'cv', mins:5, tier:'std' },
+      { text:'Fun — Celebrate the first mission that hits 8 out of 10 clean runs. Name it in the journal with today\'s date.', area:'robot', mins:5, tier:'std' }
     ]},
 
     // ── REFINE ──
@@ -3864,7 +3934,10 @@
       { text:'Write what you\'d change between Run 1 and Run 2. Make one adjustment and run again.', area:'robot', mins:10, tier:'core' },
       { text:'Practice the Innovation Project presentation. 3-4 minutes, no notes.', area:'project', mins:20, tier:'std' },
       { text:'Give feedback on the presentation: what was clear, what was vague, what was missing?', area:'project', mins:10, tier:'std' },
-      { text:'Practice Core Values Q&A: "What\'s something your team struggled with and how did you handle it?"', area:'cv', mins:15, tier:'ext' },
+      { text:'Teamwork — Post-run debrief: what went right, what broke, and what does each person specifically need to work on before competition? Write individual action items.', area:'cv', mins:15, tier:'core' },
+      { text:'Innovation — Identify the one change to strategy, attachment, or code that would make the biggest difference to your score right now. Commit to it.', area:'cv', mins:10, tier:'std' },
+      { text:'Fun — Note what felt good during the run. Judges look for a team that enjoys competing. What will you carry into competition day?', area:'cv', mins:5, tier:'ext' },
+      { text:'Teamwork — Post-run debrief: what did each person specifically do well and what does each person need to improve? Write individual action items.', area:'robot', mins:10, tier:'core' }
     ]},
     { phase:'refine', title:'Mock judging: Robot Design', priority:1, tasks:[
       { text:'One person acts as judge: "Walk me through how your robot was designed and changed over the season."', area:'robot', mins:10, tier:'core' },
@@ -3873,6 +3946,10 @@
       { text:'Debrief: which answers were strong? Which need work?', area:'robot', mins:10, tier:'core' },
       { text:'Fix any robot issues surfaced in the mock session.', area:'robot', mins:20, tier:'std' },
       { text:'Run all missions you are attempting. Record success rates. Anything under 70% either gets fixed this week or gets cut. Do not enter competition with unreliable missions.', area:'robot', mins:15, tier:'std' },
+      { text:'Innovation — Practice explaining your most complex design decision: what did you build, what did you try first, and why did you end up here? Be specific.', area:'cv', mins:15, tier:'core' },
+      { text:'Discovery — What surprised your team most during the robot design process this season? Judges often ask about unexpected discoveries.', area:'cv', mins:10, tier:'std' },
+      { text:'Teamwork — After mock judging: who answered confidently and who hesitated? Assign specific questions to members who need more practice.', area:'cv', mins:10, tier:'ext' },
+      { text:'Innovation — Practice explaining your single hardest build decision: what you tried first, why it failed, and why you chose this design.', area:'robot', mins:15, tier:'core' }
     ]},
     { phase:'refine', title:'Mock judging: Innovation Project', priority:1, tasks:[
       { text:'Run full project presentation for someone outside the team. Let them ask questions.', area:'project', mins:15, tier:'core' },
@@ -3880,61 +3957,77 @@
       { text:'Ask them: "Does the problem feel real? Does the solution make sense?" Record their answers.', area:'project', mins:10, tier:'core' },
       { text:'Quick robot run: all in-scope missions, record results.', area:'robot', mins:10, tier:'core' },
       { text:'Refine the presentation based on feedback. Make sure every member can answer: "Why does your project matter?"', area:'project', mins:20, tier:'std' },
-      { text:'Mock Core Values session: full 10 minutes with questions and a short team activity.', area:'cv', mins:15, tier:'ext' },
+      { text:'Impact — Practice your impact pitch: in 90 seconds, state the problem, your solution, and who benefits. Every member tries it. Time each one.', area:'cv', mins:15, tier:'core' },
+      { text:'Discovery — Practice answering: what did your team find out about this problem that most people do not know? Make it specific and factual.', area:'cv', mins:10, tier:'std' },
+      { text:'Inclusion — After the mock: did every member get to speak? Assign sections so no one is invisible in the actual judging room.', area:'cv', mins:10, tier:'ext' },
+      { text:'Impact — Practice your impact pitch. Every member tries it in 90 seconds without notes.', area:'project', mins:15, tier:'core' },
+      { text:'Inclusion — Assign sections so every member has a speaking role they lead. No one is invisible in the judging room.', area:'project', mins:10, tier:'core' },
+      { text:'Discovery — Practice answering: what did your team find out about this problem that most people don\'t know?', area:'project', mins:10, tier:'std' }
     ]},
     { phase:'refine', title:'Mock judging: Core Values', priority:1, tasks:[
-      { text:'Run a full Core Values mock: questions for 10 minutes. Everyone must speak at least twice.', area:'cv', mins:15, tier:'core' },
-      { text:'Practice questions: "How do you decide? What did you learn? Who helped you outside the team? What was fun?"', area:'cv', mins:10, tier:'core' },
-      { text:'Debrief: who spoke well? Who needs more practice? Which questions need better answers?', area:'cv', mins:10, tier:'core' },
       { text:'Fix one robot issue from this week.', area:'robot', mins:15, tier:'core' },
       { text:'Run all in-scope missions. Write out your final run strategy: every run, every in-scope mission, in order.', area:'robot', mins:20, tier:'std' },
-      { text:'Check every required portfolio item: journal, expert log, spotlights, discovery, conflict resolution, inclusion.', area:'cv', mins:15, tier:'std' },
+      { text:'Teamwork — Run a 2-minute team activity followed by 8 minutes of Core Values questions. Rotate who leads the activity. Debrief: did it feel natural or rehearsed?', area:'cv', mins:15, tier:'core' },
+      { text:'Inclusion — Practice the everybody-speaks rule: each new answer must come from a different team member than the last. No one person carries the session.', area:'cv', mins:10, tier:'core' },
+      { text:'Fun — Include a genuine moment of team joy: a celebration, a shared laugh, or something that shows the judges you actually like each other. Do not fake it. Find the real one.', area:'cv', mins:10, tier:'core' },
+      { text:'Innovation — Prepare a specific story for: tell us about a time your team changed its approach. Name the situation, the change, and the result.', area:'cv', mins:10, tier:'std' }
     ]},
     { phase:'refine', title:'Polish and finalize', priority:2, tasks:[
       { text:'Final robot runs: 3 full back-to-back runs with total score recorded each time.', area:'robot', mins:25, tier:'core' },
       { text:'Prototype check: can you demo it in under 2 minutes? Practice once.', area:'project', mins:15, tier:'core' },
-      { text:'Journal check: is every meeting from the season documented?', area:'cv', mins:10, tier:'core' },
-      { text:'Fill any journal gaps with brief notes on undocumented meetings.', area:'cv', mins:15, tier:'std' },
-      { text:'Each member rehearses: "What did I personally contribute this season?" Everyone has a specific answer.', area:'cv', mins:15, tier:'std' },
+      { text:'Impact — Every member answers in one sentence: what problem did your team work on, and who benefits from your solution? No one passes.', area:'cv', mins:10, tier:'core' },
+      { text:'Inclusion — Portfolio final check: does every member have their individual spotlight? Read them. If any are missing or too short, finish them now.', area:'cv', mins:10, tier:'std' },
+      { text:'Discovery — Write one final Discovery entry: something you know now that you did not know when the season started.', area:'cv', mins:10, tier:'ext' },
+      { text:'Innovation — Walk judges through one moment when your robot failed and you fixed it. Have the physical journal page ready to show them.', area:'robot', mins:10, tier:'std' },
+      { text:'Impact — Every member answers in one sentence: what problem did your team work on and who benefits? No one passes.', area:'project', mins:10, tier:'core' },
+      { text:'Discovery — Write one final Discovery entry: something you know now that you did not know at the start of the season.', area:'project', mins:10, tier:'std' }
     ]},
     { phase:'refine', title:'Final prep run', priority:2, tasks:[
       { text:'Run your competition strategy exactly as planned. No changes, just execute it.', area:'robot', mins:20, tier:'core' },
       { text:'Write your final expected score. Know it cold.', area:'robot', mins:5, tier:'core' },
       { text:'Make one packing list: everything you need to bring to competition.', area:'robot', mins:10, tier:'core' },
-      { text:'Discuss Gracious Professionalism: what does it look like at competition toward other teams?', area:'cv', mins:10, tier:'core' },
       { text:'Practice project demo one more time: confident, not perfect.', area:'project', mins:15, tier:'std' },
-      { text:'Go through every Core Values question from mock sessions. Make sure everyone has an answer.', area:'cv', mins:20, tier:'ext' },
+      { text:'Teamwork — Run a full competition day simulation: robot rounds, project judging, Core Values judging, and transitions. Time everything. Debrief.', area:'cv', mins:15, tier:'core' },
+      { text:'Fun — Close today with something fun: a team chant, a celebration ritual, or something you will do together before every competition round. Make it yours.', area:'cv', mins:10, tier:'std' },
+      { text:'Fun — Run a fastest-clean-mission challenge within the team. Everyone does their assigned mission. Celebrate the result.', area:'robot', mins:10, tier:'std' }
     ]},
 
     // PREP
     { phase:'prep', title:'Tell your season story', priority:1, tasks:[
-      { text:'Every member answers out loud: what did I personally work on this season? No one says just the robot. Be specific. Repeat until the answer is confident and precise.', area:'cv', mins:10, tier:'core' },
       { text:'Robot story practice: start from the first session, hit the key changes, end with where you are now. Judges call this process and lessons learned. Any member should be able to tell it.', area:'robot', mins:10, tier:'core' },
       { text:'Project story practice: the problem, why it matters (your impact stat), what you tried, who you talked to, and what changed because of that feedback. 3 minutes, no notes.', area:'project', mins:10, tier:'core' },
       { text:'Explain every attachment in one sentence each: what it does, why you built it that way. Same for any notable code. Everyone practices, not just the technical leads.', area:'robot', mins:10, tier:'std' },
       { text:'Walk through your expert log together: each contact, their background, what they told you, and what changed in your project because of it. Judges ask about this specifically.', area:'project', mins:10, tier:'std' },
+      { text:'Discovery — Each person names the single biggest thing they discovered this season: about the game, the problem, or about themselves as a teammate.', area:'cv', mins:10, tier:'core' },
+      { text:'Impact — Practice answering so what about your project. If a judge pushes back, what do you say? Make it concrete: data, names, numbers if you have them.', area:'cv', mins:10, tier:'core' },
+      { text:'Fun — Do whatever team ritual you created early in the season. It is a bookend.', area:'cv', mins:5, tier:'std' },
+      { text:'Discovery — Each person shares the biggest thing they discovered this season: about the game, the problem, or themselves.', area:'project', mins:10, tier:'core' },
+      { text:'Impact — Practice: if a judge pushes back on your impact claim, what do you say? Make it concrete — data, names, numbers.', area:'project', mins:10, tier:'core' }
     ]},
     { phase:'prep', title:'Competition week: full rehearsal', priority:1, tasks:[
       { text:'Light robot practice: run all in-scope missions once. No major changes this week.', area:'robot', mins:15, tier:'core' },
       { text:'Quick project presentation run-through. No feedback, just run it clean.', area:'project', mins:10, tier:'core' },
-      { text:'Quick Core Values Q&A: each person answers one question.', area:'cv', mins:10, tier:'core' },
       { text:'Pack your competition bag: robot, laptop, extension cord, portfolio, prototype.', area:'robot', mins:15, tier:'core' },
       { text:'Full dress rehearsal: all three judging areas back-to-back.', area:'robot', mins:30, tier:'std' },
       { text:'Talk through: what happens if the robot fails mid-run? What is the backup plan?', area:'robot', mins:10, tier:'std' },
+      { text:'Teamwork — Final assignment brief: who speaks in each judging room, who runs each robot mission, who manages the table reset. Say it out loud. Everyone confirms.', area:'cv', mins:10, tier:'core' },
+      { text:'Inclusion — Final check-in: is anyone anxious about a specific question or moment? Name it. Practice it together right now. No one goes in unsupported.', area:'cv', mins:10, tier:'core' },
+      { text:'Teamwork — Say the full run assignment out loud — no notes. Each person states their mission and what they do if it fails.', area:'robot', mins:10, tier:'core' }
     ]},
     { phase:'prep', title:'Day-before check', priority:1, tasks:[
       { text:'Run your two highest-confidence in-scope missions once each. Do not change anything.', area:'robot', mins:15, tier:'core' },
-      { text:'Confirm journal, expert log, and spotlights are all complete.', area:'cv', mins:10, tier:'core' },
       { text:'Go over competition day logistics: arrival time, where to set up, who carries what.', area:'robot', mins:10, tier:'core' },
-      { text:'Team conversation: how will you treat other teams at competition?', area:'cv', mins:10, tier:'core' },
-      { text:'Every member answers: "What did I personally contribute this season?" Practice it once.', area:'cv', mins:15, tier:'std' },
       { text:'Final project review: can you demo the prototype? Is the presentation ready?', area:'project', mins:15, tier:'std' },
+      { text:'Fun — Each person says one thing they are genuinely excited about tomorrow. Write them in the journal.', area:'cv', mins:5, tier:'core' },
+      { text:'Teamwork — Final logistics: who arrives when, who brings the robot, who carries the portfolio. Everyone says it back without looking at notes.', area:'cv', mins:10, tier:'core' }
     ]},
     { phase:'prep', title:'Final team session', priority:2, tasks:[
       { text:'Run each in-scope mission once. Confirm your scope and run order are still the right call. If something is consistently failing, now is the time to cut it.', area:'robot', mins:15, tier:'core' },
-      { text:'Each person shares one thing they are proud of from this season.', area:'cv', mins:15, tier:'core' },
       { text:'Go over the packing list one last time. Confirm who brings what.', area:'robot', mins:10, tier:'core' },
-      { text:'Write a final journal entry: what are you going into competition with?', area:'cv', mins:10, tier:'std' },
+      { text:'Fun — Each person names one moment from this season they will remember. Write them all in the journal.', area:'cv', mins:10, tier:'core' },
+      { text:'Impact — Final reflection: what real problem did your team work on this year? What is one thing that is a little better in the world because your team existed?', area:'cv', mins:10, tier:'core' },
+      { text:'Discovery — Each person names one thing they learned about themselves as a learner or teammate this season.', area:'cv', mins:10, tier:'std' },
+      { text:'Impact — What real problem did your team work on this year? Name one thing that is a little better in the world because your team existed.', area:'project', mins:10, tier:'core' }
     ]},
   ];
 
@@ -4079,13 +4172,14 @@
     schedule.forEach(m => { if(!byWeek[m.weekNum]) byWeek[m.weekNum]=[]; byWeek[m.weekNum].push(m); });
     Object.keys(byWeek).forEach(wk => {
       html += '<div class="curr-week-group"><div class="curr-week-head">Week '+wk+'</div>';
-      byWeek[wk].forEach(m => { html += buildMeetingCard(m, hours, weights); });
+      byWeek[wk].forEach(m => { html += buildMeetingCard(m, hours, weights, meetingAmbition[m.meetingNum] || 0); });
       html += '</div>';
     });
 
     currentSchedule = schedule;
     currentScheduleOpts = { perWeek, weeks, hours, weights };
     meetingProgress = {};
+    meetingAmbition = {};
     loadProgress();
 
     const tabs = '<div class="view-tabs">'
@@ -4108,13 +4202,15 @@
     out.scrollIntoView({ behavior:'smooth', block:'start' });
   }
 
-  function buildMeetingCard(m, hours, weights) {
+  function buildMeetingCard(m, hours, weights, ambLevel) {
+    ambLevel = ambLevel || 0;
     const bp=m.bp, phase=m.phase, pc=PHASE_COLORS[phase];
     const totalMins=Math.round(hours*60-5);
     const budgets={ robot:Math.round(totalMins*weights.robot), project:Math.round(totalMins*weights.project), cv:Math.round(totalMins*weights.cv) };
     const tierOrder={core:0,std:1,ext:2};
     const exp = plannerState.experience || 'beginner';
-    const budgetMult = exp === 'experienced' ? 1.4 : exp === 'intermediate' ? 1.15 : 1.0;
+    const _ambMults = [1.0, 1.25, 1.6, 2.2];
+    const budgetMult = (exp === 'experienced' ? 1.4 : exp === 'intermediate' ? 1.15 : 1.0) * _ambMults[ambLevel];
     const tasks=[];
     ['robot','project','cv'].forEach(area => {
       let used=0;
@@ -4219,15 +4315,50 @@
         + '</strong> '+expTipText+'</div>'
       : '';
 
+    // Ambition control buttons
+    const _ambLabels = ['Normal','+ Push','++ Hard','+++ All out'];
+    const _ambActiveBg    = ['rgba(128,128,128,.08)','rgba(59,158,255,.12)','rgba(240,192,64,.12)','rgba(167,139,250,.14)'];
+    const _ambActiveTxt   = ['var(--text)','var(--blue)','var(--gold)','var(--purple,#9b7fd4)'];
+    const _ambActiveBdr   = ['rgba(128,128,128,.3)','rgba(59,158,255,.35)','rgba(240,192,64,.35)','rgba(167,139,250,.45)'];
+    const _ambBtns = _ambLabels.map((lbl, li) => {
+      const active = li === ambLevel;
+      return '<button class="amb-lvl" onclick="event.stopPropagation();setMeetingAmbition('+m.meetingNum+','+li+')" '
+        +'style="'+(active ? 'background:'+_ambActiveBg[li]+';color:'+_ambActiveTxt[li]+';border-color:'+_ambActiveBdr[li]+';font-weight:700' : '')+'">'
+        +lbl+'</button>';
+    }).join('');
+    const _ambCtrl = '<div class="curr-amb-ctrl" onclick="event.stopPropagation()">'
+      +'<span style="font-size:.62rem;color:var(--text-muted);margin-right:.1rem">Boost:</span>'
+      +_ambBtns+'</div>';
+
+    // Ambition banner (shown when ambLevel > 0)
+    const _ambConfig = [null,
+      {color:'var(--blue)',   bg:'rgba(59,158,255,.07)',  border:'rgba(59,158,255,.25)',  label:'+ Push',      note:'Pushing beyond standard scope. Add extra robot runs, go deeper on research, or run a quick mock judging.'},
+      {color:'var(--gold)',   bg:'rgba(240,192,64,.07)',  border:'rgba(240,192,64,.25)',  label:'++ Hard Push', note:'Significant stretch goals — expect to cover 50% more than a normal session. Ideal when you have a full team and high energy.'},
+      {color:'var(--purple,#9b7fd4)', bg:'rgba(167,139,250,.09)', border:'rgba(167,139,250,.3)', label:'+++ All Out', note:'Maximum effort day — aim to complete everything in scope. Great before a competition deadline or after a missed meeting.'},
+      { text:'Fun — Each person names one moment from this season they will remember. Write them all in the journal.', area:'cv', mins:10, tier:'core' },
+      { text:'Impact — Final reflection: what real problem did your team work on this year? What is one thing that is a little better in the world because your team existed?', area:'cv', mins:10, tier:'core' },
+      { text:'Discovery — Each person names one thing they learned about themselves as a learner or teammate this season.', area:'cv', mins:10, tier:'std' }
+    ];
+    let _ambBanner = '';
+    if (ambLevel > 0) {
+      const _ac = _ambConfig[ambLevel];
+      _ambBanner = '<div style="background:'+_ac.bg+';border-left:3px solid '+_ac.border+';border-radius:var(--radius-sm);padding:.45rem .75rem;margin-bottom:.55rem;display:flex;gap:.5rem;align-items:flex-start">'
+        +'<span style="font-size:.85rem">&#128640;</span>'
+        +'<div><div style="font-size:.71rem;font-weight:800;color:'+_ac.color+';letter-spacing:.06em;text-transform:uppercase;margin-bottom:.15rem">Ambitious — '+_ac.label+'</div>'
+        +'<div style="font-size:.77rem;color:var(--text-muted)">'+_ac.note+'</div></div></div>';
+    }
+
     return '<div class="curr-meeting" id="cm-'+m.meetingNum+'">'
       +'<div class="curr-meeting-head" onclick="toggleMeeting('+m.meetingNum+')">'
       +'<div class="curr-meeting-num">'+m.meetingNum+'</div>'
       +'<div class="curr-meeting-title">'+bp.title+'</div>'
       +'<div class="curr-area-tags">'+areaTags+'</div>'
+      +_ambCtrl
       +'<button class="ws-dl-btn" onclick="event.stopPropagation();downloadWorksheets('+m.meetingNum+')">&#128196; Worksheets</button>'
       +'<div class="curr-chevron">&#9660;</div>'
       +'</div>'
       +'<div class="curr-meeting-body">'
+      +_ambBanner
       +'<ul class="curr-task-list">'+taskRows+'</ul>'
       +bufferNote+studentAttNote+roleNote+fsNote+expNote+occasionalNote+mentorHtml
       +'</div></div>';
@@ -4245,12 +4376,34 @@
     if (chevron) chevron.innerHTML = open ? '&#9658;' : '&#9660;';
   }
 
+  function setMeetingAmbition(num, level) {
+    meetingAmbition[num] = level;
+    const m = currentSchedule.find(s => s.meetingNum === num);
+    if (!m) return;
+    const opts = currentScheduleOpts;
+    const newHtml = buildMeetingCard(m, opts.hours, opts.weights, level);
+    const tmp = document.createElement('div');
+    tmp.innerHTML = newHtml;
+    const newCard = tmp.firstElementChild;
+    const old = document.getElementById('cm-' + num);
+    if (old) {
+      // Preserve open/closed state
+      const wasOpen = old.querySelector('.curr-meeting-body')?.style.display !== 'none';
+      old.parentNode.replaceChild(newCard, old);
+      const body = newCard.querySelector('.curr-meeting-body');
+      if (body) body.style.display = wasOpen ? 'block' : 'none';
+      const chevron = newCard.querySelector('.curr-chevron');
+      if (chevron) chevron.innerHTML = wasOpen ? '&#9660;' : '&#9658;';
+    }
+  }
+
 
   // ── MENTOR MODE ──
   let mentorModeOn = false;
   let currentSchedule = [];
   let currentScheduleOpts = {};
   let meetingProgress = {};
+  let meetingAmbition = {};  // per-meeting boost level 0-3
   let currentView = 'curriculum';
   let studentAreaCounts = null; // rotation tracker, reset each generateCurriculum call
 
