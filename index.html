@@ -2900,6 +2900,7 @@
     const base = location.href.replace(/[?#].*/, '');
     history.pushState(null, '', id === 'home' ? base : base + '?tab=' + id);
   }
+  window.show = show;
 
   // Open each section in its own browser tab via URL parameter
   function openTab(section, btn) {
@@ -5763,7 +5764,7 @@
 
   // Init mission map when robot tab is first opened
   (function(){
-    const origShow = window.show;
+    const origShow = show;
     let mmInit = false;
     window.show = function(id, btn){
       origShow(id, btn);
