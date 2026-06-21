@@ -2902,6 +2902,14 @@
   }
   window.show = show;
 
+  // Wire nav links programmatically (more robust than inline onclick)
+  document.querySelectorAll('.nav-links a[data-tab]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      show(a.dataset.tab, a);
+    });
+  });
+
   // Open each section in its own browser tab via URL parameter
   function openTab(section, btn) {
     const base = location.href.replace(/[?#].*/, '');
@@ -2914,11 +2922,15 @@
   (function() {
     const param = new URLSearchParams(location.search).get('tab');
     if (param) {
-      const btn = document.querySelector('[data-tab="' + param + '"]');
-      // Small delay so DOM is ready
-      window.addEventListener('DOMContentLoaded', function() {
+      function doInit() {
+        const btn = document.querySelector('[data-tab="' + param + '"]');
         show(param, btn);
-      });
+      }
+      if (document.readyState === 'loading') {
+        window.addEventListener('DOMContentLoaded', doInit);
+      } else {
+        doInit();
+      }
     }
   })();
 
