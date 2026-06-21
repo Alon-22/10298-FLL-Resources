@@ -671,8 +671,9 @@
       flex-shrink: 0;
     }
     .curr-meeting.open .curr-chevron { transform: rotate(90deg); }
+    .curr-chevron { transform: rotate(90deg); }
     .curr-meeting-body {
-      display: none;
+      display: block;
       padding: 0 1.1rem 1rem;
       border-top: 1px solid var(--border);
     }
@@ -4212,7 +4213,7 @@
       +'<div class="curr-meeting-title">'+bp.title+'</div>'
       +'<div class="curr-area-tags">'+areaTags+'</div>'
       +'<button class="ws-dl-btn" onclick="event.stopPropagation();downloadWorksheets('+m.meetingNum+')">&#128196; Worksheets</button>'
-      +'<div class="curr-chevron">&#9658;</div>'
+      +'<div class="curr-chevron">&#9660;</div>'
       +'</div>'
       +'<div class="curr-meeting-body">'
       +'<ul class="curr-task-list">'+taskRows+'</ul>'
