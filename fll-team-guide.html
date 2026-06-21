@@ -3066,14 +3066,15 @@
         if (d.exp[area] === 'exp')  s += 2;
         if (d.exp[area] === 'some') s += 1;
       }
-      // Rotation: every student touches every area — rotation overrides skill affinity
+      // Rotation: strongly prefer areas the student has done least
+      // Uses how far thisCount deviates from ideal even share (total/3)
+      // Positive = under-done (boost), Negative = over-done (penalty) — scale 50 per unit
       if (studentAreaCounts && studentAreaCounts[i]) {
         const counts = studentAreaCounts[i];
-        const minCount = Math.min(counts.robot, counts.project, counts.cv);
         const thisCount = counts[area] || 0;
-        if (thisCount === 0 && minCount === 0) s += 6;  // all equal — nudge toward variety
-        else if (thisCount === 0) s += 16;               // never done this area — strongly force rotation
-        else s += Math.max(0, (minCount - thisCount + 1)) * 5; // underrepresented gets big boost
+        const total = counts.robot + counts.project + counts.cv;
+        if (total === 0) s += 6;  // first meeting: small nudge toward variety
+        else s += Math.round((total / 3 - thisCount) * 50);
       }
       return s;
     }
@@ -3089,9 +3090,14 @@
     const assignedStudents = new Set();
 
     // Pass 1: assign one best-fit student per task (greedy)
+    // Rotate starting index each meeting so index-0 never always wins ties
+    const _meetingOffset = studentAreaCounts && studentAreaCounts[0]
+      ? (studentAreaCounts[0].robot + studentAreaCounts[0].project + studentAreaCounts[0].cv)
+      : 0;
     taskList.forEach(({ area, text }, ti) => {
-      let best = -1, bestScore = -1;
-      for (let i = 0; i < n; i++) {
+      let best = -1, bestScore = -Infinity;
+      for (let di = 0; di < n; di++) {
+        const i = (di + _meetingOffset + ti) % n;
         if (assignedStudents.has(i)) continue;
         const sc = studentAreaScore(i, area);
         if (sc > bestScore) { bestScore = sc; best = i; }
