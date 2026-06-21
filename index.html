@@ -3120,31 +3120,49 @@
       });
     }
 
-    // Pass 3: unassigned students — assign to their least-experienced area to guarantee full rotation
+    // Pass 3: unassigned students — balanced distribution across all areas
     const DEFAULT_TASKS = {
       robot:   'Observe the robot run, take notes on what fails, and suggest one fix to the robot lead.',
       project: 'Read the project research notes and write one question to explore next meeting.',
       cv:      'Write the journal entry for today. Photograph any physical work or whiteboard notes.',
     };
-    for (let i = 0; i < n; i++) {
-      if (slots[i]) continue;
-      // Pick the area this student has done the least (force rotation exposure)
-      const _areas3 = ['robot','project','cv'];
-      let leastArea = _areas3[i % 3]; // default round-robin ensures all areas covered
+
+    // Count how many students are already assigned to each area this week
+    const _weekCounts = { robot: 0, project: 0, cv: 0 };
+    slots.forEach(s => { if (s) _weekCounts[s.area] = (_weekCounts[s.area] || 0) + 1; });
+
+    // Collect unassigned students, sort most-imbalanced-lifetime first so they get priority pick
+    const _unassigned = [];
+    for (let i = 0; i < n; i++) { if (!slots[i]) _unassigned.push(i); }
+    _unassigned.sort((a, b) => {
+      if (!studentAreaCounts) return 0;
+      const ca = studentAreaCounts[a] || {}, cb2 = studentAreaCounts[b] || {};
+      const spreadA = Math.max(ca.robot||0, ca.project||0, ca.cv||0) - Math.min(ca.robot||0, ca.project||0, ca.cv||0);
+      const spreadB = Math.max(cb2.robot||0, cb2.project||0, cb2.cv||0) - Math.min(cb2.robot||0, cb2.project||0, cb2.cv||0);
+      return spreadB - spreadA; // most imbalanced students choose first
+    });
+
+    const _areas3 = ['robot','project','cv'];
+    _unassigned.forEach(i => {
+      let leastArea = _areas3[i % 3];
       if (studentAreaCounts && studentAreaCounts[i]) {
-        const counts = studentAreaCounts[i];
-        // Sort by count; tiebreak by (areaIndex + studentIndex) % 3 so every student
-        // gets a different area when all counts are equal (prevents student 0 = robot forever)
+        const lifetimeCounts = studentAreaCounts[i];
         leastArea = [..._areas3].sort((a, b) => {
-          const diff = (counts[a]||0) - (counts[b]||0);
-          if (diff !== 0) return diff;
+          // Primary: student's own lifetime balance
+          const lifeDiff = (lifetimeCounts[a]||0) - (lifetimeCounts[b]||0);
+          if (lifeDiff !== 0) return lifeDiff;
+          // Secondary: balance this week's area headcount so no area is flooded
+          const weekDiff = _weekCounts[a] - _weekCounts[b];
+          if (weekDiff !== 0) return weekDiff;
+          // Tertiary: deterministic spread by student index
           return ((_areas3.indexOf(a) + i) % 3) - ((_areas3.indexOf(b) + i) % 3);
         })[0];
       }
+      _weekCounts[leastArea]++;
       slots[i] = { area: leastArea, color: AREA_COLOR[leastArea],
         role: AREA_LABEL[leastArea] + ' support',
         tasks: [DEFAULT_TASKS[leastArea]] };
-    }
+    });
 
     // Update rotation tracker
     if (studentAreaCounts) {
